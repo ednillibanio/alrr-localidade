@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1"
+	xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+
+	<persistence-unit
+		name="alrr-localidade-persistence-ear">
+		<!-- DATA SOURCE -->
+		<jta-data-source>java:jboss/datasources/alrr-sistemas-ds</jta-data-source>
+
+		<class>br.leg.rr.al.localidade.jpa.Bairro</class>
+		<class>br.leg.rr.al.localidade.jpa.Cep</class>
+		<!-- <class>br.leg.rr.al.localidade.jpa.Endereco</class> -->
+		<class>br.leg.rr.al.localidade.jpa.Municipio</class>
+		<class>br.leg.rr.al.localidade.jpa.Localidade</class>
+		<class>br.leg.rr.al.localidade.jpa.Pais</class>
+		<!-- classes que monta a base de endereços do IBGE -->
+		<class>br.leg.rr.al.core.jpa.BaseEntity</class>
+		<!-- <class>br.leg.rr.al.core.jpa.IbgeMesoregiao</class> <class>br.leg.rr.al.core.jpa.IbgeMicroregiao</class> 
+			<class>br.leg.rr.al.core.jpa.IbgeMunicipio</class> <class>br.leg.rr.al.core.jpa.IbgeRegiao</class> 
+			<class>br.leg.rr.al.core.jpa.IbgeUF</class> -->
+		<exclude-unlisted-classes>true</exclude-unlisted-classes>
+		<validation-mode>AUTO</validation-mode>
+
+		<properties>
+			<property name="wildfly.jpa.default-unit" value="true" />
+			<property name="hibernate.default_schema"
+				value="localidade_schema" />
+			<!-- <property
+				name="javax.persistence.schema-generation.database.action"
+				value="drop-and-create" /> -->
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.format_sql" value="true" />
+			<property name="hibernate.connection.useUnicode"
+				value="true" />
+			<property name="hibernate.connection.characterEncoding"
+				value="UTF-8" />
+			<property name="log4j.logger.org.hibernate.SQL"
+				value="debug" />
+			<property name="log4j.logger.org.hibernate.type"
+				value="info" />
+			<property name="log4j.logger.org.hibernate.transaction"
+				value="debug" />
+			<property name="hibernate.search.default.directory_provider"
+				value="filesystem" />
+			<property name="hibernate.search.default.indexBase"
+				value="./lucene/indexes" />
+			<!-- <property name="hibernate.search.analyzer" value="br.leg.rr.al.core.jpa.EntityAnalyzer" 
+				/> -->
+			<!-- CONFIGURAÇÃO DE AUDITORIA. SERÁ USADO PARA A ENTIDADE ATENDIMENTO -->
+
+		</properties>
+	</persistence-unit>
+</persistence>
