@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<faces-config metadata-complete="false" version="2.2"
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+	<navigation-rule>
+		<from-view-id>*</from-view-id>
+		<navigation-case>
+			<from-outcome>pagina-inicial</from-outcome>
+			<to-view-id>/pagina-inicial.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>pg-bairros</from-outcome>
+			<to-view-id>/pages/localidade/pg-bairros.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>pg-municipios</from-outcome>
+			<to-view-id>/pages/localidade/pg-municipios.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>pg-ceps</from-outcome>
+			<to-view-id>/pages/localidade/pg-ceps.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	<application>
+		<action-listener>org.primefaces.application.DialogActionListener</action-listener>
+		<navigation-handler>org.primefaces.application.DialogNavigationHandler</navigation-handler>
+		<view-handler>org.primefaces.application.DialogViewHandler</view-handler>
+		<resource-library-contracts>
+			<contract-mapping>
+				<url-pattern>/*</url-pattern>
+				<contracts>omega</contracts>
+			</contract-mapping>
+		</resource-library-contracts>
+		<locale-config>
+			<default-locale>pt_BR</default-locale>
+		</locale-config>
+		<resource-bundle>
+			<base-name>br.leg.rr.al.core.componentes</base-name>
+			<var>core</var>
+		</resource-bundle>
+	</application>
+	<factory>
+		<exception-handler-factory>org.omnifaces.exceptionhandler.FullAjaxExceptionHandlerFactory</exception-handler-factory>
+	</factory>
+	<lifecycle>
+		<!-- <phase-listener>br.kmdr.util.web.listeners.AutorizacaoListener</phase-listener> 
+			<phase-listener>br.kmdr.util.web.listeners.MultiPageMessagesSupport</phase-listener> -->
+		<phase-listener>org.omnifaces.eventlistener.ResetInputAjaxActionListener</phase-listener>
+	</lifecycle>
+</faces-config>

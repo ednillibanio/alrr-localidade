@@ -1,0 +1,65 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:al="http://xmlns.jcp.org/jsf/composite/components/commons"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ph="http://xmlns.jcp.org/jsf/passthrough">
+
+
+	<!-- RESULTADO DA PESQUISA -->
+	<p:dataTable id="result" widgetVar="result"
+		value="#{bairroController.dataModel}"
+		selection="#{bairroController.entity}" var="bairro" paginator="true"
+		rows="15" rowsPerPageTemplate="9,15,30" selectionMode="single"
+		emptyMessage="Nenhum registro encontrado" reflow="true"
+		draggableColumns="true" paginatorPosition="top"
+		paginatorAlwaysVisible="true">
+
+		<!-- TITULO DATATABLE -->
+		<f:facet name="header">
+			<h:outputLabel value="Resultado" />
+		</f:facet>
+		<!-- CHAMA MENU - BOTAO DIREITO -->
+		<p:ajax event="contextMenu" update="result" />
+
+
+		<!-- NOME -->
+		<p:column id="nome" sortBy="#{bairro.nome}" headerText="Nome">
+			<h:outputText value="#{bairro.nome}" />
+		</p:column> -->
+
+
+			<!-- LOCALIDADE -->
+		<p:column id="localidade" sortBy="#{bairro.localidade.nome}">
+			<f:facet name="header">
+				<h:outputText value="Município" />
+			</f:facet>
+			<h:outputText value="#{bairro.localidade.nome}" />
+		</p:column>
+
+
+		<!-- UF -->
+		<p:column sortBy="#{bairro.localidade.uf}" id="uf" width="10%"
+			headerText="Uf">
+			<h:outputText value="#{bairro.localidade.uf}" />
+		</p:column>
+
+
+	</p:dataTable>
+
+
+	<!-- ContextMenu deve sempre vir depois do datable para funcionar. -->
+	<p:contextMenu for="result">
+
+		<!-- ********* BOTAO EDITAR ********* -->
+		<p:menuitem value="Editar" update="frm-bairro" process="@this"
+			action="#{bairroController.editar()}">
+		</p:menuitem>
+	</p:contextMenu>
+
+
+
+</ui:composition>

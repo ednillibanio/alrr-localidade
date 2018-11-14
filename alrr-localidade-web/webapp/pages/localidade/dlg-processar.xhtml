@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<!--
+/****************************************************************************************
+* ALE-RR Licença																		*
+* Copyright (C) 2018, ALE-RR															*
+* Boa Vista, RR - Brasil																*
+* Todos os direitos reservados.															*
+* 																						*
+* Este programa é propriedade da Assembleia Legislativa do Estado de Roraima e 			*
+* não é permitida a distribuição, alteração ou cópia da mesma sem prévia autoriazação.	*
+*																						*
+*																						*
+*****************************************************************************************
+* Autor:  Ednil Libanio da Costa Junior													*
+* Versão: 1.0.0 																		*
+****************************************************************************************/
+-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:al="http://xmlns.jcp.org/jsf/composite/componentes/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:alcore="http://al.rr.leg.br/facelets/core"
+	xmlns:alcommons="http://al.rr.leg.br/facelets/commons"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:ph="http://xmlns.jcp.org/jsf/passthrough" lang="pt-br">
+
+<p:dialog id="dlgProcessarId" widgetVar="dlgProcessarWV"
+	showEffect="clip" hideEffect="clip" showHeader="true" closable="false"
+	header="Processando Transação" responsive="true" modal="true"
+	resizable="false" appendTo="@(body)" fitViewport="true"
+	styleClass="al-dlg-confirm ui-g-6">
+
+
+	<!-- ####################################### -->
+	<!--   C O N T E Ú D O   D O   D I A L O G   -->
+	<!-- ####################################### -->
+	<o:form id="frm-processar">
+		<div class="ui-g">
+			<span>Importando municípios do IBGE...</span>
+			<div class="ui-g-12">
+				<p:progressBar widgetVar="progressBarWV" ajax="true"
+					value="#{ibgeMunicipioController.progress}"
+					labelTemplate="{value}%" global="false">
+					<p:ajax event="complete"
+						listener="#{ibgeMunicipioController.onComplete}"
+						oncomplete="PF('dlgProcessarWV').hide(); PF('dlgImportarMunicipiosWV').hide();" />
+				</p:progressBar>
+			</div>
+			<div class="ui-g-4" />
+			<div class="ui-g-4">
+				<p:commandButton id="btn-cancelar" widgetVar="btn-cancelar"
+					value="Cancelar" icon="#{core['btn.cancelar.icon']}"
+					styleClass="#{core['btn.cancelar.styleClass']}"
+					onclick="PF('progressBarWV').stop(); PF('btn-sim').enable();"
+					actionListener="#{ibgeMunicipioController.cancelar}" />
+			</div>
+			<div class="ui-g-4" />
+		</div>
+	</o:form>
+</p:dialog>
+</html>

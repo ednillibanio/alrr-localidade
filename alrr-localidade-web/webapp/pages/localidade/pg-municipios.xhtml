@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<!--
+/****************************************************************************************
+* ALE-RR Licença																		*
+* Copyright (C) 2018, ALE-RR															*
+* Boa Vista, RR - Brasil																*
+* Todos os direitos reservados.															*
+* 																						*
+* Este programa é propriedade da Assembleia Legislativa do Estado de Roraima e 			*
+* não é permitida a distribuição, alteração ou cópia da mesma sem prévia autoriazação.	*
+*																						*
+*																						*
+*****************************************************************************************
+* Autor:  Ednil Libanio da Costa Junior													*
+* Versão: 1.0.0 																		*
+****************************************************************************************/
+-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:al="http://xmlns.jcp.org/jsf/composite/componentes/core"
+	xmlns:alcore="http://al.rr.leg.br/facelets/core"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ph="http://xmlns.jcp.org/jsf/passthrough" lang="pt-br">
+<ui:composition template="/pg.xhtml">
+
+	<ui:define name="head">
+		<ui:include src="/head.xhtml" />
+	</ui:define>
+
+	<!-- MENU GERAL DO SISTEMA  -->
+	<!-- <ui:define name="menu">
+		<ui:include src="/menu.xhtml" />
+	</ui:define> -->
+	<ui:define name="sidebar">
+		<ui:include src="/sidebar.xhtml" />
+	</ui:define>
+	<ui:define name="title">
+	Pesquisar Municípios
+	</ui:define>
+
+	<!-- HEADER DO DIV MAIN  -->
+	<ui:define name="header-content">
+		<o:form id="frm-header-content">
+
+		</o:form>
+	</ui:define>
+
+	<!-- FORMULÁRIO DE PESQUISA DE MUNICIPIOS -->
+	<ui:define name="content">
+
+
+		<o:form id="frm-pg-municipios">
+			<div class="card">
+				<al:header-content titulo="Pesquisar Municípios">
+					<ui:include src="manual/municipio-manual.xhtml" />
+				</al:header-content>
+
+				<p:defaultCommand target="btn-pesquisar" />
+				<p:focus context="pnl-filtro" />
+				<!-- utilizando css para procurar os componentes. Maneira mais facil. -->
+				<alcore:ajax-loading trigger="@(.btn-pesquisar)" id="block"
+					block="@(.result)" />
+
+				<p:messages id="msgs" styleClass="msgs">
+					<p:autoUpdate />
+				</p:messages>
+
+
+				<!--  B O T Ã O:   N O V O   M U N I C I P I O   -->
+				<div class="ui-g ui-fluid">
+					<div class="ui-g-12 ui-md-3 ui-lg-3 ui-xl-3">
+						<alcore:botao-novo id="btn-novo-municipio" value="Novo Município"
+							action="#{municipioController.novo()}" update="dlg-municipio"
+							process="@this" />
+					</div>
+					<div class="ui-g-12 ui-md-5 ui-lg-4 ui-xl-4">
+						<alcore:botao-importar id="btn-importar-municipios-ibge"
+							type="button" widgetVar="btn-importar-mun-ibge"
+							value="Importar Municípios IBGE"
+							title="Importar municípios do Ibge"
+							icon="#{core['btn.importar.icon']}"
+							styleClass="#{core['btn.importar.styleClass']}"
+							onclick="PF('dlgImportarMunicipiosWV').show();"
+							update="dlg-importar-municipios-ibge" process="@this" />
+					</div>
+				</div>
+
+
+				<!-- PAINEL: FILTRO DA PESQUISA -->
+				<al:filtro-obrigatorio-informativo />
+				<ui:include src="componentes/pnl-municipio-filtro.xhtml" />
+			</div>
+			<ui:include src="componentes/pnl-municipio-resultado.xhtml" />
+
+			<!-- <ui:include src="confirm-dialog.xhtml" /> -->
+
+		</o:form>
+
+		<!-- DIALOGS -->
+		<ui:include src="dlg-municipio.xhtml" />
+		<ui:include src="dlg-importar-municipios-ibge.xhtml" />
+		<!-- <ui:include src="dlg-processar.xhtml" /> -->
+	</ui:define>
+
+</ui:composition>
+</html>
+

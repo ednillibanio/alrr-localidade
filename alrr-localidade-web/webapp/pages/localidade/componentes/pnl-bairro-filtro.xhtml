@@ -1,0 +1,64 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:al="http://xmlns.jcp.org/jsf/composite/componentes/core"
+	xmlns:o="http://omnifaces.org/ui" template="/pnl-filtro-pesquisa.xhtml">
+
+	<!-- PAINEL DE FILTROS -->
+	<ui:define name="filtros">
+
+		<p:panelGrid columns="6" layout="grid"
+			styleClass="ui-panelgrid-blank ui-fluid" id="pnl-filtro"
+			columnClasses="ui-grid-col-1, ui-grid-col-5, ui-grid-col-1, ui-grid-col-5, ui-grid-col-1, ui-grid-col-3">
+
+			<!-- NOME DO BAIRRO -->
+			<p:outputLabel value="Bairro:" for="bairro" />
+			<p:inputText id="bairro" label="Bairro" />
+
+
+			<!-- NOME DO MUNICIPIO -->
+			<p:outputLabel value="Município:" for="municipio" />
+			<p:inputText id="municipio" label="Município" />
+
+			<!-- UF -->
+			<p:outputLabel value="Uf:" for="uf" />
+			<p:selectOneMenu id="uf" label="Uf"
+				converter="omnifaces.GenericEnumConverter" required="true">
+				<f:selectItem noSelectionOption="true" itemLabel="[Selecione]" />
+				<f:selectItems value="#{commonsEnumFactory.ufs}" var="uf"
+					itemValue="#{uf}" itemLabel="#{uf.label}" />
+			</p:selectOneMenu>
+
+		</p:panelGrid>
+
+	</ui:define>
+	<p:spacer height="10" />
+
+
+
+
+	<!--  B O T Ã O:  P E S Q U I S A R  -->
+	<ui:define name="btn-pesquisar">
+		<p:commandButton id="btn-pesquisar"
+			value="#{core['btn.pesquisar.value']}"
+			styleClass="#{core['btn.pesquisar.styleClass']}"
+			icon="#{core['btn.pesquisar.icon']}"
+			title="#{core['btn.pesquisar.title']}"
+			action="#{bairroController.pesquisar()}" update="@form result">
+		</p:commandButton>
+	</ui:define>
+
+
+	<!--  B O T Ã O:  L I M P A R  -->
+	<ui:define name="btn-limpar">
+		<al:botao-limpar action="#{bairroController.limpar()}" />
+		<!-- <p:commandButton id="btn-limpar" value="#{core['btn.limpar.value']}"
+			styleClass="#{core['btn.limpar.styleClass']}"
+			icon="#{core['btn.limpar.icon']}" title="#{core['btn.limpar.title']}"
+			action="#{bairroController.limpar()}" process="@this" update="@form">
+			<o:ignoreValidationFailed />
+		</p:commandButton> -->
+	</ui:define>
+</ui:composition>

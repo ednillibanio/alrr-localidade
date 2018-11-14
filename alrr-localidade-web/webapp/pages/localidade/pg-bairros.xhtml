@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:al="http://xmlns.jcp.org/jsf/composite/componentes/core"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:shiro="http://shiro.apache.org/tags"
+	xmlns:ph="http://xmlns.jcp.org/jsf/passthrough" lang="pt-br">
+
+<ui:composition template="/default.xhtml">
+
+	<!-- MENU GERAL DO SISTEMA  -->
+	<ui:define name="menu">
+		<ui:include src="/menu.xhtml" />
+	</ui:define>
+
+	<!-- HEADER DO FORMULÁRIO  -->
+	<ui:define name="header-content">
+		<al:header-content titulo="Pesquisar Bairros"
+			info="Esta funcionalidade é responsável por manter os bairros dos municípios." />
+	</ui:define>
+
+	<!-- FORMULÁRIO DE PESQUISA DE FERIADO -->
+	<ui:define name="form-content">
+
+		<o:form id="frm-pg-bairros">
+
+
+			<p:blockUI widgetVar="block-view" trigger="btn-pesquisar"
+				block="frm-pg-bairros">
+			</p:blockUI>
+
+			<div class="ui-g ui-responsive">
+				<div class="ui-md-2 ui-lg-1" />
+				<div class="ui-md-8 ui-lg-10">
+					<p:messages id="msgs" styleClass="msgs" />
+					<!-- BOTAO NOVO BAIRRO -->
+					<shiro:hasPermission name="bairro:incluir">
+						<div class="ui-g ui-fluid">
+							<div class="ui-g-12 ui-md-3 ui-lg-2">
+								<p:commandButton id="btn-novo-bairro" value="Novo Bairro"
+									title="Novo Município" icon="#{core['btn.novo.icon']}"
+									styleClass="#{core['btn.novo.styleClass']}"
+									action="#{bairroController.novo()}" process="@this"
+									update="dlg-bairro" />
+							</div>
+						</div>
+					</shiro:hasPermission>
+
+					<p:spacer height="5" />
+
+
+					<!-- PAINEL: FILTRO DA PESQUISA -->
+					<al:filtro-obrigatorio-informativo />
+					<ui:include src="componentes/pnl-bairro-filtro.xhtml" />
+
+					<!-- PAINEL: RESULTADO DA PESQUISA -->
+					<p:outputPanel rendered="#{bairroController.entities.size()>0}">
+						<p:spacer height="35" />
+						<p:separator />
+
+						<ui:include src="componentes/pnl-bairro-resultado.xhtml" />
+					</p:outputPanel>
+				</div>
+				<div class="ui-md-2 ui-lg-1" />
+			</div>
+		</o:form>
+
+
+		<!--  D I A L O G S  -->
+		<shiro:hasPermission name="bairro:incluir">
+			<ui:include src="dlg-bairro.xhtml" />
+		</shiro:hasPermission>
+		<shiro:hasPermission name="localidade:incluir">
+			<ui:include src="dlg-localidade.xhtml" />
+		</shiro:hasPermission>
+
+
+	</ui:define>
+
+</ui:composition>
+</html>
+

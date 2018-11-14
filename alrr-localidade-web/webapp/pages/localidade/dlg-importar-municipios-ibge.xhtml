@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<!--
+/****************************************************************************************
+* ALE-RR Licença																		*
+* Copyright (C) 2018, ALE-RR															*
+* Boa Vista, RR - Brasil																*
+* Todos os direitos reservados.															*
+* 																						*
+* Este programa é propriedade da Assembleia Legislativa do Estado de Roraima e 			*
+* não é permitida a distribuição, alteração ou cópia da mesma sem prévia autoriazação.	*
+*																						*
+*																						*
+*****************************************************************************************
+* Autor:  Ednil Libanio da Costa Junior													*
+* Versão: 1.0.0 																		*
+****************************************************************************************/
+-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:al="http://xmlns.jcp.org/jsf/composite/componentes/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:alcore="http://al.rr.leg.br/facelets/core"
+	xmlns:alcommons="http://al.rr.leg.br/facelets/commons"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:ph="http://xmlns.jcp.org/jsf/passthrough" lang="pt-br">
+
+<p:dialog id="dlgImportarMunicipiosId"
+	widgetVar="dlgImportarMunicipiosWV" showEffect="clip" hideEffect="clip"
+	closeOnEscape="true" showHeader="true"
+	header="Importar Municípios IBGE" responsive="true" modal="true"
+	resizable="false" closable="true" appendTo="@(body)" fitViewport="true"
+	styleClass="al-dlg-confirm">
+
+
+	<!-- ####################################### -->
+	<!--   C O N T E Ú D O   D O   D I A L O G   -->
+	<!-- ####################################### -->
+	<o:form id="frm-municipios-ibge">
+		<p:growl id="growl" />
+		<div class="ui-g">
+			<div class="ui-g-12 al-dlg-confirm-mensagem">
+				<span>Os municípios serão importados do site do IBGE. <br />
+					Caso exista algum município já cadastrado na base local, ele
+					sofrerá atualizações. <br /> Deseja continuar?
+				</span>
+
+			</div>
+			<div class="ui-g-12">
+				<div class="ui-g ui-fluid">
+					<!-- falta o botão fechar -->
+					<div class="ui-g-6 ui-md-3 ui-lg-2 ui-xl-2">
+						<!-- <alcore:botao-cancelar /> -->
+						<p:commandButton id="btnCancelar" value="Cancelar"
+							widgetVar="cancelar"
+							actionListener="#{ibgeMunicipioController.cancelar}"
+							oncomplete="PF('progressBarWV').cancel(); PF('confirmar').enable();"
+							update="dlgImportarMunicipiosId">
+							<p:confirm header="Confirmation" message="Are you sure?"
+								icon="ui-icon-alert" />
+
+						</p:commandButton>
+
+					</div>
+					<div class="ui-g-6 ui-md-3 ui-lg-2 ui-xl-2">
+						<!-- <alcore:botao-confirmar/> -->
+						<p:commandButton id="confirmar"
+							value="#{core['btn.confirmar.value']}"
+							title="#{core['btn.confirmar.title']}"
+							icon="#{core['btn.confirmar.icon']}"
+							styleClass="#{core['btn.sim.styleClass']}" widgetVar="confirmar"
+							onclick="PF('confirmar').disable();PF('pnlProgressBarWV').toggle(); PF('progressBarWV').start();"
+							async="true">
+							<f:setPropertyActionListener
+								target="#{ibgeMunicipioController.start}" value="true" />
+							<f:actionListener binding="#{ibgeMunicipioController.importar()}" />
+						</p:commandButton>
+					</div>
+				</div>
+			</div>
+			<p:panel id="pnlProgressBarId" closable="true" toggleable="true"
+				widgetVar="pnlProgressBarWV" collapsed="true">
+				<div class="ui-g-12">
+					<span>Importando municípios do IBGE...</span>
+				</div>
+				<div class="ui-g-12">
+
+					<p:progressBar widgetVar="progressBarWV" ajax="true"
+						value="#{ibgeMunicipioController.progress}"
+						labelTemplate="{value}%" global="false">
+						<p:ajax event="complete"
+							listener="#{ibgeMunicipioController.onComplete}" update="growl"
+							oncomplete="PF('progressBarWV').cancel(); PF('dlgImportarMunicipiosWV').hide();" />
+					</p:progressBar>
+				</div>
+			</p:panel>
+
+		</div>
+		<p:confirmDialog severity="alert" responsive="true" escape="true"
+			global="true" rendered="#{ibgeMunicipioController.start}">
+			<p:commandButton value="Não" type="button"
+				styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			<p:commandButton value="Sim" type="button"
+				styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+		</p:confirmDialog>
+
+
+		<!-- <alcore:dialog-processar dlgWidgetVar="dlgProcessarWV"
+			progressBarWidgetVar="progressBarWV"
+			progressText="Importando municípios do IBGE..."
+			progressValue="#{ibgeMunicipioController.progress}"
+			ajaxListener="#{ibgeMunicipioController.onComplete}"
+			oncomplete="PF('progressBarWV').cancel(); PF('dlgProcessarWV').hide(); PF('dlgImportarMunicipiosWV').hide();"
+			cancelarActionListener="#{ibgeMunicipioController.cancelar}"
+			cancelarOncomplete="PF('progressBarWV').cancel();"
+			cancelarOnclick="PF('progressBarWV').stop(); PF('dlgProcessarWV').hide();" /> -->
+	</o:form>
+</p:dialog>
+</html>

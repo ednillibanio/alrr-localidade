@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:al="http://xmlns.jcp.org/jsf/composite/componentes/core"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:shiro="http://shiro.apache.org/tags"
+	xmlns:ph="http://xmlns.jcp.org/jsf/passthrough" lang="pt-br">
+
+<p:dialog id="dlg-bairro" widgetVar="dlg-bairro" showEffect="clip"
+	hideEffect="clip" closeOnEscape="true" showHeader="false"
+	responsive="true" modal="true" resizable="false" closable="false"
+	appendTo="@(body)" styleClass="ui-fluid ui-md-6 ui-lg-6 nopad"
+	fitViewport="true">
+
+	<o:form id="frm-bairro">
+		<p:tooltip />
+		<p:panel header="Bairro" id="pnl-bairro" style="nopad">
+
+			<p:growl id="msgs-bairro" escape="false" closable="true">
+				<p:autoUpdate />
+			</p:growl>
+
+			<p:panelGrid id="grid-bairro" columns="1" columnClasses="column"
+				cellpadding="10" styleClass="ui-panelgrid-blank" layout="grid">
+
+				<!-- NOME -->
+				<h:panelGroup>
+					<p:outputLabel value="Bairro:" for="nome-bairro" />
+					<p:inputText id="nome-bairro" title="Bairro" label="Bairro"
+						value="#{bairroController.entity.nome}" required="true"
+						converter="#{capitalizeFullyConverter}">
+						<f:validateLength minimum="3" maximum="250" for="nome-bairro" />
+					</p:inputText>
+					<p:message for="nome-bairro" display="tooltip" />
+				</h:panelGroup>
+
+				<!--  C A  M P O:  B U S C A   L O C A L I D A D E  -->
+				<h:panelGroup>
+					<p:outputLabel value="Localidade:" for="localidade" />
+					<div class="ui-g">
+						<div class="ui-inputgroup">
+
+
+							<p:autoComplete value="#{bairroController.entity.localidade}"
+								id="localidade" label="Município" title="Município"
+								completeMethod="#{localidadeCompleteController.completeByNome}"
+								var="loc" itemLabel="#{loc.nome.concat(' - ').concat(loc.uf)}"
+								itemValue="#{loc}" converter="#{entityConverter}"
+								forceSelection="true" minQueryLength="3" size="40"
+								maxResults="8" required="true"
+								emptyMessage="Nenhum município encontrado.">
+								<p:column>#{loc.nome} - #{loc.uf}</p:column>
+							</p:autoComplete>
+
+
+							<!-- BOTAO DE INCLUIR LOCALIDADE -->
+							<shiro:hasPermission name="localidade:incluir">
+								<p:commandButton id="btn-add-localidade"
+									icon="fa fa-fw fa-file-text-o" title="Nova Localidade"
+									process="@this" update="dlg-localidade"
+									action="#{localidadeController.novo()}" />
+							</shiro:hasPermission>
+
+
+							<p:message for="localidade" id="msg-loc" display="tooltip" />
+
+						</div>
+					</div>
+				</h:panelGroup>
+			</p:panelGrid>
+
+
+			<!-- BOTOES -->
+			<f:facet name="footer">
+				<p:panelGrid columns="2" layout="grid"
+					styleClass="ui-panelgrid-blank">
+
+					<!-- CANCELAR -->
+					<p:commandButton value="Fechar" id="btn-fechar" styleClass="btn-lg"
+						icon="fa fa-fw fa-times" title="Fechar"
+						oncomplete="PF('dlg-bairro').hide()" process="@this" />
+
+
+					<!-- SALVAR -->
+					<p:commandButton value="Salvar" id="btn-salvar" styleClass="btn-lg"
+						icon="fa fa-fw fa-floppy-o" validateClient="true"
+						update="frm-bairro" action="#{bairroController.salvar()}" />
+
+				</p:panelGrid>
+			</f:facet>
+
+
+		</p:panel>
+	</o:form>
+</p:dialog>
+</html>

@@ -1,0 +1,30 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:kmdr="http://java.sun.com/jsf/composite/components/commons">
+
+
+	<p:confirmDialog id="dlgFeriadoExcluir" header="Excluir Feriado"
+		severity="alert" widgetVar="_dlgFeriadoExcluir" responsive="true"
+		escape="true" appendTo="@(body)">
+		<f:facet name="message">
+			<h:outputFormat value="#{msg_app['app.deseja.excluir.registro']}">
+				<f:param value="#{feriadoController.entity.nome}" />
+			</h:outputFormat>
+		</f:facet>
+		<div class="ui-fluid">
+			<h:form id="frmFeriadoExcluir">
+				<p:panelGrid columns="2" layout="grid"
+					styleClass="ui-responsive ui-panelgrid-blank">
+					<kmdr:botao-sim actionListener="#{feriadoController.excluir()}"
+						update="@form :frmFeriadoPesquisar" />
+					<kmdr:botao-nao oncomplete="PF('_dlgFeriadoExcluir').hide()" />
+
+				</p:panelGrid>
+			</h:form>
+		</div>
+	</p:confirmDialog>
+
+</ui:composition>
