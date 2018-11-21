@@ -1,4 +1,4 @@
-package br.leg.rr.al.commons.web.controllers;
+package br.leg.rr.al.localidade.web.controllers;
 
 import java.util.HashMap;
 import java.util.List;
