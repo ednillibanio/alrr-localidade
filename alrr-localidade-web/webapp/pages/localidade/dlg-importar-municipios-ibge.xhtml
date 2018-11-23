@@ -32,8 +32,8 @@
 	widgetVar="dlgImportarMunicipiosWV" showEffect="clip" hideEffect="clip"
 	closeOnEscape="true" showHeader="true"
 	header="Importar Municípios IBGE" responsive="true" modal="true"
-	resizable="false" closable="true" appendTo="@(body)" fitViewport="true"
-	styleClass="al-dlg-confirm">
+	resizable="false" closable="false" appendTo="@(body)"
+	fitViewport="true" styleClass="al-dlg-confirm">
 
 
 	<!-- ####################################### -->
@@ -51,72 +51,78 @@
 			</div>
 			<div class="ui-g-12">
 				<div class="ui-g ui-fluid">
-					<!-- falta o botão fechar -->
 					<div class="ui-g-6 ui-md-3 ui-lg-2 ui-xl-2">
-						<!-- <alcore:botao-cancelar /> -->
-						<p:commandButton id="btnCancelar" value="Cancelar"
-							widgetVar="cancelar"
-							actionListener="#{ibgeMunicipioController.cancelar}"
-							oncomplete="PF('progressBarWV').cancel(); PF('confirmar').enable();"
-							update="dlgImportarMunicipiosId">
-							<p:confirm header="Confirmation" message="Are you sure?"
-								icon="ui-icon-alert" />
-
-						</p:commandButton>
+						<h:panelGroup id="pnl-fechar">
+							<p:commandButton id="btn-fechar"
+								value="#{core['btn.fechar.value']}"
+								title="#{core['btn.fechar.title']}"
+								icon="#{core['btn.fechar.icon']}"
+								styleClass="#{core['btn.fechar.styleClass']}" widgetVar="fechar"
+								rendered="#{!ibgeMunicipioController.start}"
+								oncomplete="PF('dlgImportarMunicipiosWV').hide(); PF('progressBarWV').cancel(); PF('confirmar').enable();" />
+						</h:panelGroup>
+						<h:panelGroup id="pnl-cancelar">
+							<p:commandButton id="btn-cancelar"
+								value="#{core['btn.cancelar.value']}"
+								title="#{core['btn.cancelar.title']}"
+								icon="#{core['btn.cancelar.icon']}"
+								styleClass="#{core['btn.cancelar.styleClass']}"
+								widgetVar="cancelar"
+								actionListener="#{ibgeMunicipioController.cancelar}"
+								rendered="#{ibgeMunicipioController.start}"
+								oncomplete="PF('progressBarWV').cancel(); PF('confirmar').enable();"
+								update="pnl-fechar pnl-cancelar growl progressBarId">
+								<p:confirm header="Cancelar Importação"
+									message="Tem certeza que deseja cancelar a importação dos municípios?"
+									icon="ui-icon-alert" />
+								<p:ajax update="pnl-fechar pnl-cancelar growl progressBarId" />
+							</p:commandButton>
+						</h:panelGroup>
 
 					</div>
+
 					<div class="ui-g-6 ui-md-3 ui-lg-2 ui-xl-2">
-						<!-- <alcore:botao-confirmar/> -->
-						<p:commandButton id="confirmar"
+						<p:commandButton id="confirmar" widgetVar="confirmar"
 							value="#{core['btn.confirmar.value']}"
 							title="#{core['btn.confirmar.title']}"
 							icon="#{core['btn.confirmar.icon']}"
-							styleClass="#{core['btn.sim.styleClass']}" widgetVar="confirmar"
-							onclick="PF('confirmar').disable();PF('pnlProgressBarWV').toggle(); PF('progressBarWV').start();"
-							async="true">
+							styleClass="#{core['btn.sim.styleClass']}"
+							onclick="PF('confirmar').disable(); PF('progressBarWV').start();"
+							onerror="PF('confirmar').enable();" async="true"
+							update="pnl-fechar pnl-cancelar growl ">
+							<!-- action="#{ibgeMunicipioController.importar()}" -->
+							<!-- oncomplete="PF('confirmar').enable();" -->
 							<f:setPropertyActionListener
 								target="#{ibgeMunicipioController.start}" value="true" />
 							<f:actionListener binding="#{ibgeMunicipioController.importar()}" />
+							<p:ajax update="pnl-fechar pnl-cancelar growl progressBarId" />
 						</p:commandButton>
 					</div>
 				</div>
 			</div>
-			<p:panel id="pnlProgressBarId" closable="true" toggleable="true"
-				widgetVar="pnlProgressBarWV" collapsed="true">
-				<div class="ui-g-12">
-					<span>Importando municípios do IBGE...</span>
-				</div>
-				<div class="ui-g-12">
 
-					<p:progressBar widgetVar="progressBarWV" ajax="true"
-						value="#{ibgeMunicipioController.progress}"
-						labelTemplate="{value}%" global="false">
-						<p:ajax event="complete"
-							listener="#{ibgeMunicipioController.onComplete}" update="growl"
-							oncomplete="PF('progressBarWV').cancel(); PF('dlgImportarMunicipiosWV').hide();" />
-					</p:progressBar>
-				</div>
-			</p:panel>
+			<div class="ui-g-12">
 
+				<p:progressBar id="progressBarId" widgetVar="progressBarWV"
+					ajax="true" value="#{ibgeMunicipioController.progress}"
+					labelTemplate="{value}%#{ibgeMunicipioController.statusMessage}"
+					global="false" interval="1200">
+					<p:ajax event="complete"
+						listener="#{ibgeMunicipioController.onComplete}" update="growl"
+						oncomplete="PF('confirmar').enable();" />
+				</p:progressBar>
+
+
+			</div>
 		</div>
 		<p:confirmDialog severity="alert" responsive="true" escape="true"
-			global="true" rendered="#{ibgeMunicipioController.start}">
+			global="true">
 			<p:commandButton value="Não" type="button"
 				styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 			<p:commandButton value="Sim" type="button"
 				styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
 		</p:confirmDialog>
 
-
-		<!-- <alcore:dialog-processar dlgWidgetVar="dlgProcessarWV"
-			progressBarWidgetVar="progressBarWV"
-			progressText="Importando municípios do IBGE..."
-			progressValue="#{ibgeMunicipioController.progress}"
-			ajaxListener="#{ibgeMunicipioController.onComplete}"
-			oncomplete="PF('progressBarWV').cancel(); PF('dlgProcessarWV').hide(); PF('dlgImportarMunicipiosWV').hide();"
-			cancelarActionListener="#{ibgeMunicipioController.cancelar}"
-			cancelarOncomplete="PF('progressBarWV').cancel();"
-			cancelarOnclick="PF('progressBarWV').stop(); PF('dlgProcessarWV').hide();" /> -->
 	</o:form>
 </p:dialog>
 </html>

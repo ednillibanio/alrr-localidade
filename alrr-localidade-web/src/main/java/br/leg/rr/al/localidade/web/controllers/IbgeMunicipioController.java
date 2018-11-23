@@ -7,10 +7,16 @@ import java.net.MalformedURLException;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import javax.transaction.NotSupportedException;
+import javax.transaction.Status;
+import javax.transaction.SystemException;
+import javax.transaction.UserTransaction;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,6 +45,9 @@ public class IbgeMunicipioController implements Serializable {
 	@EJB
 	private MunicipioLocal bean;
 
+	@Resource
+	UserTransaction utx;
+
 	@EJB
 	private IbgeMunicipioLocal ibgeBean;
 
@@ -47,6 +56,7 @@ public class IbgeMunicipioController implements Serializable {
 	private Integer soma;
 	private Boolean cancelado = false;
 	private Boolean start = false;
+	private String statusMessage;
 
 	@PostConstruct
 	public void init() {
@@ -56,55 +66,79 @@ public class IbgeMunicipioController implements Serializable {
 	public void importar() {
 
 		try {
+			progress = 0;
+			// tem que deixar esse espaço dentro do statusMessage
+			setStatusMessage(" preparando para a importação... aguarde...");
+
 			List<IbgeMunicipio> municipios = ibgeBean.buscarMunicipios();
 
 			if (municipios != null) {
-				tamanho = municipios.size();
-				soma = 0;
-				progress = 0;
-				String nome = null;
-				UfType uf = null;
-				Integer ibgeId = null;
-				Municipio loc = null;
-				for (IbgeMunicipio mun : municipios) {
-					soma++;
-					if (cancelado) {
-						break;
-					}
-					nome = StringHelper.capitalizeFully(mun.getNome());
-					uf = UfType.valueOf(mun.getUF().getSigla());
-					ibgeId = mun.getId();
+				try {
 
-					// verifica se existe o municipio ibge já é cadastrado na base local.
-					loc = bean.buscarPorIbgeId(ibgeId);
-					if (loc != null) {
+					utx.begin();
 
-						// verifica se o nome sofreu
-						// alterações no cadastro do ibge.
-						if (!loc.getNome().toLowerCase().equals(nome.toLowerCase())) {
+					tamanho = municipios.size();
+					soma = 0;
+					cancelado = false;
+					String nome = null;
+					UfType uf = null;
+					Integer ibgeId = null;
+					Municipio loc = null;
+					setStatusMessage(" &#8212; importando municípios do IBGE...");
 
-							loc.setNome(nome);
-							// Se sofreu alterações, irá atualiza-lo na base local.
-							bean.atualizar(loc);
+					for (IbgeMunicipio mun : municipios) {
+						soma++;
+						if (cancelado) {
+							break;
 						}
+						nome = StringHelper.capitalizeFully(mun.getNome());
+						uf = UfType.valueOf(mun.getUF().getSigla());
+						ibgeId = mun.getId();
 
+						// verifica se existe o municipio ibge já é cadastrado na base local.
+						loc = bean.buscarPorIbgeId(ibgeId);
+						if (loc != null) {
+
+							// verifica se o nome sofreu
+							// alterações no cadastro do ibge.
+							if (!loc.getNome().toLowerCase().equals(nome.toLowerCase())) {
+
+								loc.setNome(nome);
+
+								// Se sofreu alterações, irá atualiza-lo na base local.
+								bean.atualizar(loc);
+							}
+
+						} else {
+
+							// verifica se o municipio já existe na base local. Esta condição é para
+							// municipios que não possui ibge id.
+							loc = bean.buscarPorUf(uf, nome);
+
+							// cadastra um novo municipio ibge na base local
+							if (loc == null) {
+								loc = MunicipioUtils.converterIbgeMunicipioParaMunicipio(mun);
+								bean.salvar(loc);
+
+								// atualiza o cadastro do municipio local com o ibge id.
+							} else if (loc != null && loc.getIbgeId() == null) {
+								loc.setIbgeId(ibgeId);
+								bean.atualizar(loc);
+							}
+						}
+						progress = (soma * 100) / tamanho;
+					}
+
+					// cancela toda a transação de inserção ou atualização caso tenha cancelado a
+					// operação.
+					if (cancelado && utx.getStatus() != Status.STATUS_NO_TRANSACTION) {
+						utx.rollback();
 					} else {
-						// verifica se o municipio já existe na base local. Esta condição é para
-						// municipios que não possui ibge id.
-						loc = bean.buscarPorUf(uf, nome);
-
-						// cadastra um novo municipio ibge na base local
-						if (loc == null) {
-							loc = MunicipioUtils.converterIbgeMunicipioParaMunicipio(mun);
-							bean.salvar(loc);
-
-							// atualiza o cadastro do municipio local com o ibge id.
-						} else if (loc != null && loc.getIbgeId() == null) {
-							loc.setIbgeId(ibgeId);
-							bean.atualizar(loc);
-						}
+						utx.commit();
 					}
-					progress = (soma * 100) / tamanho;
+
+				} catch (NotSupportedException | SystemException e) {
+					logger.error(e.getMessage());
 				}
 			}
 		} catch (MalformedURLException e) {
@@ -112,16 +146,18 @@ public class IbgeMunicipioController implements Serializable {
 			FacesMessageUtils.addFatal(e.getMessage());
 		} catch (ConnectException e) {
 			logger.error(e.getMessage());
-			FacesMessageUtils.addFatal(e.getMessage());
-
+			FacesMessageUtils.addFatal("Servidor IBGE temporariamente indisponível. Tente mais tarde.");
 		} catch (IOException e) {
-			logger.error(e.getMessage());
+			// FIXME melhorar esse tratamento, pois pode retornar o código 500
+			String msg = ExceptionUtils.getMessage(e);
+			logger.error(msg);
 			FacesMessageUtils.addFatal(CoreUtilsValidationMessages.ERROR_503);
-			FacesUtils.hideDialog("dlgImportarMunicipiosWV");
 
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			FacesMessageUtils.addFatal(e.getMessage());
+		} finally {
+			start = false;
 		}
 
 	}
@@ -129,20 +165,24 @@ public class IbgeMunicipioController implements Serializable {
 	public void cancelar() {
 		if (start) {
 			FacesMessageUtils.addWarn("A importação dos municípios foi cancelada!");
+			setStatusMessage(" &#8212; importação cancelada.");
+			FacesUtils.execute("PF('progressBarWV').cancel();");
 		}
+		progress = 0;
 		cancelado = true;
-		soma = 0;
-		tamanho = 0;
+		FacesUtils.update("frm-municipios-ibge:progressBarId");
+		FacesUtils.update("frm-municipios-ibge:growl");
 	}
 
 	public void onComplete() {
 		FacesMessageUtils.addInfo("Municípios importados com sucesso!");
-		soma = 0;
-		progress = 0;
-		tamanho = 0;
+		setStatusMessage(" &#8212; Municípios importados com sucesso!");
+		FacesUtils.update("frm-municipios-ibge:progressBarId");
+		FacesUtils.update("frm-municipios-ibge:growl");
 	}
 
 	public Integer getProgress() {
+		FacesUtils.update("frm-municipios-ibge:progressBarId");
 		return progress;
 	}
 
@@ -172,6 +212,14 @@ public class IbgeMunicipioController implements Serializable {
 
 	public void setStart(Boolean start) {
 		this.start = start;
+	}
+
+	public String getStatusMessage() {
+		return statusMessage;
+	}
+
+	public void setStatusMessage(String statusMessage) {
+		this.statusMessage = statusMessage;
 	}
 
 }

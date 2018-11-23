@@ -64,21 +64,22 @@
 				<p:focus context="pnl-filtro" />
 				<!-- utilizando css para procurar os componentes. Maneira mais facil. -->
 				<alcore:ajax-loading trigger="@(.btn-pesquisar)" id="block"
-					block="@(.result)" />
+					block="@(.filtro)" />
 
-				<p:messages id="msgs" styleClass="msgs">
+				<p:growl id="growl" />
+				<!-- <p:messages id="msgs" styleClass="msgs">
 					<p:autoUpdate />
-				</p:messages>
+				</p:messages> -->
 
 
 				<!--  B O T Ã O:   N O V O   M U N I C I P I O   -->
 				<div class="ui-g ui-fluid">
-					<div class="ui-g-12 ui-md-3 ui-lg-3 ui-xl-3">
+					<div class="ui-g-12 ui-md-4 ui-lg-3 ui-xl-2">
 						<alcore:botao-novo id="btn-novo-municipio" value="Novo Município"
 							action="#{municipioController.novo()}" update="dlg-municipio"
 							process="@this" />
 					</div>
-					<div class="ui-g-12 ui-md-5 ui-lg-4 ui-xl-4">
+					<div class="ui-g-12 ui-md-5 ui-lg-4 ui-xl-3">
 						<alcore:botao-importar id="btn-importar-municipios-ibge"
 							type="button" widgetVar="btn-importar-mun-ibge"
 							value="Importar Municípios IBGE"
@@ -86,7 +87,7 @@
 							icon="#{core['btn.importar.icon']}"
 							styleClass="#{core['btn.importar.styleClass']}"
 							onclick="PF('dlgImportarMunicipiosWV').show();"
-							update="dlg-importar-municipios-ibge" process="@this" />
+							update="dlgImportarMunicipiosId" process="@this" />
 					</div>
 				</div>
 
