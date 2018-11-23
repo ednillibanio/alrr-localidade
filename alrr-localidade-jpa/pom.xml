@@ -9,6 +9,14 @@
 	</parent>
 	<artifactId>alrr-localidade-jpa</artifactId>
 	<name>alrr-localidade-jpa</name>
+	<developers>
+		<developer>
+			<name>Ednil Libanio da Costa Junior</name>
+			<email>ednil.libanio@gmail.com</email>
+			<organization>Assembleia Legislativa de Roraima</organization>
+			<url>www.al.rr.leg.br</url>
+		</developer>
+	</developers>
 	<build>
 		<plugins>
 			<!-- comentei pra testar. -->
@@ -18,8 +26,8 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 			</plugin>
-	<!-- <plugin> <groupId>org.codehaus.mojo</groupId> <artifactId>build-helper-maven-plugin</artifactId> 
-		</plugin> -->
+			<!-- <plugin> <groupId>org.codehaus.mojo</groupId> <artifactId>build-helper-maven-plugin</artifactId> 
+				</plugin> -->
 		</plugins>
 	</build>
 	<dependencies>
