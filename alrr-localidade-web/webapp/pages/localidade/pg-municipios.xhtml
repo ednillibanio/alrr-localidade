@@ -43,19 +43,12 @@
 	Pesquisar Municípios
 	</ui:define>
 
-	<!-- HEADER DO DIV MAIN  -->
-	<ui:define name="header-content">
-		<o:form id="frm-header-content">
-
-		</o:form>
-	</ui:define>
-
 	<!-- FORMULÁRIO DE PESQUISA DE MUNICIPIOS -->
 	<ui:define name="content">
 
 
 		<o:form id="frm-pg-municipios">
-			<div class="card">
+			<div class="card filtro">
 				<al:header-content titulo="Pesquisar Municípios">
 					<ui:include src="manual/municipio-manual.xhtml" />
 				</al:header-content>
@@ -92,22 +85,23 @@
 				</div>
 
 
-				<!-- PAINEL: FILTRO DA PESQUISA -->
+				<!--  P A I N E L:   F I L T R O   D A   P E S Q U I S A  -->
 				<al:filtro-obrigatorio-informativo />
 				<ui:include src="componentes/pnl-municipio-filtro.xhtml" />
 			</div>
-			<ui:include src="componentes/pnl-municipio-resultado.xhtml" />
 
-			<!-- <ui:include src="confirm-dialog.xhtml" /> -->
+			<!--  P A I N E L:   R E S U L T A D O   D A   P E S Q U I S A  -->
+			<ui:include src="componentes/pnl-municipio-resultado.xhtml" />
 
 		</o:form>
 
-		<!-- DIALOGS -->
+		<!--  D I A L O G S  -->
 		<ui:include src="dlg-municipio.xhtml" />
 		<ui:include src="dlg-importar-municipios-ibge.xhtml" />
 		<!-- <ui:include src="dlg-processar.xhtml" /> -->
-	</ui:define>
 
+
+	</ui:define>
 </ui:composition>
 </html>
 
