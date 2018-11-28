@@ -90,8 +90,6 @@
 							onclick="PF('confirmar').disable(); PF('progressBarWV').start();"
 							onerror="PF('confirmar').enable();" async="true"
 							update="pnl-fechar pnl-cancelar growl ">
-							<!-- action="#{ibgeMunicipioController.importar()}" -->
-							<!-- oncomplete="PF('confirmar').enable();" -->
 							<f:setPropertyActionListener
 								target="#{ibgeMunicipioController.start}" value="true" />
 							<f:actionListener binding="#{ibgeMunicipioController.importar()}" />
@@ -101,8 +99,8 @@
 				</div>
 			</div>
 
+			<!--  P R O G R E S S   B A R  -->
 			<div class="ui-g-12">
-
 				<p:progressBar id="progressBarId" widgetVar="progressBarWV"
 					ajax="true" value="#{ibgeMunicipioController.progress}"
 					labelTemplate="{value}%#{ibgeMunicipioController.statusMessage}"
@@ -111,16 +109,24 @@
 						listener="#{ibgeMunicipioController.onComplete}" update="growl"
 						oncomplete="PF('confirmar').enable();" />
 				</p:progressBar>
-
-
 			</div>
 		</div>
+
+		<!--  C O N F I R M   D I A L O G  -->
 		<p:confirmDialog severity="alert" responsive="true" escape="true"
 			global="true">
-			<p:commandButton value="Não" type="button"
-				styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-			<p:commandButton value="Sim" type="button"
-				styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+
+			<!--  B O T Ã O   N Ã O  -->
+			<p:commandButton id="btn-nao" type="button"
+				value="#{core['btn.nao.value']}" title="#{core['btn.nao.title']}"
+				icon="#{core['btn.nao.icon']}"
+				styleClass="ui-confirmdialog-no #{core['btn.nao.styleClass']}" />
+
+			<!--  B O T Ã O   S I M  -->
+			<p:commandButton id="btn-sim" type="button"
+				value="#{core['btn.sim.value']}" title="#{core['btn.sim.title']}"
+				icon="#{core['btn.sim.icon']}"
+				styleClass="ui-confirmdialog-yes #{core['btn.sim.styleClass']}" />
 		</p:confirmDialog>
 
 	</o:form>
