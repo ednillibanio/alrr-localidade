@@ -1,7 +1,9 @@
 /**
  * 
  */
-package br.leg.rr.al.localidade.ibge.jpa;
+package br.leg.rr.al.localidade.ibge.domain;
+
+import java.io.Serializable;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -15,73 +17,18 @@ import javax.persistence.Transient;
  * @author Ednil Libanio da Costa Junior
  * @date 09-04-2018
  */
-@Entity
-@Table(name = "ibge_municipio")
-public class IbgeMunicipio implements br.leg.rr.al.core.jpa.Entity<Integer> {
+public class IbgeMunicipio implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 7732002472772084110L;
 
-	@Id
-	@Column(unique = true, nullable = false)
-	protected Integer id;
+	private String id;
 
 	private String nome;
 
-	@ManyToOne(cascade = CascadeType.ALL)
 	private IbgeMicrorregiao microrregiao;
-
-	/**
-	 * @return the nome
-	 */
-	public String getNome() {
-		return nome;
-	}
-
-	/**
-	 * @param nome
-	 *            the nome to set
-	 */
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	/**
-	 * @return the microrregiao
-	 */
-	public IbgeMicrorregiao getMicrorregiao() {
-		return microrregiao;
-	}
-
-	/**
-	 * @param microrregiao
-	 *            the microrregiao to set
-	 */
-	public void setMicrorregiao(IbgeMicrorregiao microrregiao) {
-		this.microrregiao = microrregiao;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see br.leg.rr.al.core.jpa.EntityStatus#getId()
-	 */
-	@Override
-	public Integer getId() {
-		return id;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see br.leg.rr.al.core.jpa.EntityStatus#setId(java.io.Serializable)
-	 */
-	@Override
-	public void setId(Integer id) {
-		this.id = id;
-	}
 
 	/**
 	 * Retorna a UF que o município faz parte. Para retornar a entidade IbgeUF, é
@@ -89,9 +36,32 @@ public class IbgeMunicipio implements br.leg.rr.al.core.jpa.Entity<Integer> {
 	 * 
 	 * @return A UF que o município faz parte.
 	 */
-	@Transient
 	public IbgeUF getUF() {
 		return getMicrorregiao().getMesorregiao().getUF();
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public IbgeMicrorregiao getMicrorregiao() {
+		return microrregiao;
+	}
+
+	public void setMicrorregiao(IbgeMicrorregiao microrregiao) {
+		this.microrregiao = microrregiao;
 	}
 
 }
