@@ -33,7 +33,7 @@ public class Municipio extends Localidade {
 	// também pra uf.
 
 	@Column(name = "ibge_id", nullable = true)
-	private Integer ibgeId;
+	private String ibgeId;
 
 	@NotNull(message = "Preenchimento obrigatório do campo: UF.")
 	@Enumerated(EnumType.STRING)
@@ -55,14 +55,14 @@ public class Municipio extends Localidade {
 	/**
 	 * @return the ibgeId
 	 */
-	public Integer getIbgeId() {
+	public String getIbgeId() {
 		return ibgeId;
 	}
 
 	/**
 	 * @param ibgeId the ibgeId to set
 	 */
-	public void setIbgeId(Integer ibgeId) {
+	public void setIbgeId(String ibgeId) {
 		this.ibgeId = ibgeId;
 	}
 

@@ -28,59 +28,60 @@
 	xmlns:ph="http://xmlns.jcp.org/jsf/passthrough" lang="pt-br">
 <ui:composition template="/pg.xhtml">
 
-	<!-- MENU GERAL DO SISTEMA  -->
-	<ui:define name="menu">
-		<ui:include src="/menu.xhtml" />
+	<ui:define name="head">
+		<ui:include src="/head.xhtml" />
 	</ui:define>
 
-	<!-- HEADER DO DIV MAIN  -->
-	<ui:define name="header-content">
-		<o:form id="frm-header-content">
-
-			<al:header-content titulo="Pesquisar CEPs">
-				<ui:include src="manual/municipio-manual.xhtml" />
-			</al:header-content>
-
-		</o:form>
+	<!-- MENU GERAL DO SISTEMA  -->
+	<!-- <ui:define name="menu">
+		<ui:include src="/menu.xhtml" />
+	</ui:define> -->
+	<ui:define name="sidebar">
+		<ui:include src="/sidebar.xhtml" />
+	</ui:define>
+	<ui:define name="title">
+	Pesquisar CEP(s)
 	</ui:define>
 
 	<!-- FORMULÁRIO DE PESQUISA DE MUNICIPIOS -->
-	<ui:define name="form-content">
+	<ui:define name="content">
 
-		<o:form id="frm-pg-municipios">
-			<h:outputScript library="js" name="contextMenu.js" />
+		<o:form id="frm-pg-ceps">
+			<div class="card filtro">
+				<al:header-content titulo="Pesquisar CEP(s)">
+					<ui:include src="manual/cep-manual.xhtml" />
+				</al:header-content>
 
-			<!-- utilizando css para procurar os componentes. Maneira mais facil. -->
-			<alcore:ajax-loading trigger="@(.btn-pesquisar)" id="block"
-				block="@(.result)" />
+				<p:defaultCommand target="btn-pesquisar" />
+				<p:focus context="pnl-filtro" />
+				<!-- utilizando css para procurar os componentes. Maneira mais facil. -->
+				<alcore:ajax-loading trigger="@(.btn-pesquisar)" id="block"
+					block="@(.filtro)" />
 
-			<p:messages id="msgs" styleClass="msgs">
-				<p:autoUpdate />
-			</p:messages>
+				<p:growl id="growl" />
 
 
-			<!--  B O T Ã O:   N O V O   M U N I C I P I O   -->
-			<div class="ui-g ui-fluid">
-				<div class="ui-g-12 ui-md-3 ui-lg-3 ui-xl-3">
-					<alcore:botao-novo id="btn-novo-municipio" value="Novo Município"
-						action="#{municipioController.novo()}" update="dlg-municipio"
-						process="@this" />
+				<!--  B O T Ã O:   N O V O   C E P  -->
+				<div class="ui-g ui-fluid">
+					<div class="ui-g-12 ui-md-3 ui-lg-2 ui-xl-2">
+						<alcore:botao-novo id="btn-novo-cep" value="Novo Cep"
+							action="#{cepController.novo()}" update="dlg-cep" process="@this" />
+					</div>
 				</div>
+
+
+				<!--  P A I N E L:   F I L T R O   D A   P E S Q U I S A  -->
+				<al:filtro-obrigatorio-informativo />
+				<ui:include src="componentes/pnl-cep-filtro.xhtml" />
 			</div>
 
-
-			<!-- PAINEL: FILTRO DA PESQUISA -->
-			<al:filtro-obrigatorio-informativo />
-			<ui:include src="componentes/pnl-municipio-filtro.xhtml" />
-
-			<ui:include src="componentes/pnl-municipio-resultado.xhtml" />
-
-			<ui:include src="confirm-dialog.xhtml" />
+			<!--  P A I N E L:   R E S U L T A D O   D A   P E S Q U I S A  -->
+			<ui:include src="componentes/pnl-cep-resultado.xhtml" />
 
 		</o:form>
 
-		<!-- DIALOGS -->
-		<ui:include src="dlg-municipio.xhtml" />
+		<!--  D I A L O G S  -->
+		<ui:include src="dlg-cep.xhtml" />
 
 	</ui:define>
 
