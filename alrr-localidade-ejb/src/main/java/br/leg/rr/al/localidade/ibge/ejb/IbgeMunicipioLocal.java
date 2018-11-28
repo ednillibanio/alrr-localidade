@@ -14,9 +14,8 @@ import java.util.List;
 
 import javax.ejb.Local;
 
-import br.leg.rr.al.core.dao.JPADao;
 import br.leg.rr.al.localidade.domain.UfType;
-import br.leg.rr.al.localidade.ibge.jpa.IbgeMunicipio;
+import br.leg.rr.al.localidade.ibge.domain.IbgeMunicipio;
 
 /**
  * @author <a href="mailto:ednil.libanio@gmail.com"> Ednil Libanio da Costa
@@ -24,7 +23,7 @@ import br.leg.rr.al.localidade.ibge.jpa.IbgeMunicipio;
  * @since 1.0.0
  */
 @Local
-public interface IbgeMunicipioLocal extends JPADao<IbgeMunicipio, Integer> {
+public interface IbgeMunicipioLocal {
 
 	static final String URL_IBGE_MUNICIPIOS = "https://servicodados.ibge.gov.br/api/v1/localidades/municipios";
 
@@ -36,7 +35,7 @@ public interface IbgeMunicipioLocal extends JPADao<IbgeMunicipio, Integer> {
 	 * @param uf filtro dos municipios a serem buscados.
 	 * @return lista de municipios encontrados. Retorna null se nenhum municipio for
 	 *         encontrado.
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	List<IbgeMunicipio> buscarMunicipiosPorUF(UfType uf) throws IOException;
 

@@ -12,6 +12,7 @@ package br.leg.rr.al.localidade.ibge.ejb;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.net.ConnectException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -28,9 +29,8 @@ import org.slf4j.LoggerFactory;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import br.leg.rr.al.core.dao.BaseJPADao;
 import br.leg.rr.al.localidade.domain.UfType;
-import br.leg.rr.al.localidade.ibge.jpa.IbgeMunicipio;
+import br.leg.rr.al.localidade.ibge.domain.IbgeMunicipio;
 
 /**
  * @author Ednil Libanio da Costa Junior
@@ -38,7 +38,7 @@ import br.leg.rr.al.localidade.ibge.jpa.IbgeMunicipio;
  */
 @Named
 @Stateless
-public class IbgeMunicipioWS extends BaseJPADao<IbgeMunicipio, Integer> implements IbgeMunicipioLocal {
+public class IbgeMunicipioWS implements IbgeMunicipioLocal, Serializable {
 
 	/**
 	 * 
@@ -102,18 +102,6 @@ public class IbgeMunicipioWS extends BaseJPADao<IbgeMunicipio, Integer> implemen
 	public List<IbgeMunicipio> buscarMunicipios() throws IOException {
 		return buscarMunicipiosPorUF(null);
 
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * br.leg.rr.al.core.dao.DaoStatus#jaExiste(br.leg.rr.al.core.jpa.EntityStatus)
-	 */
-	@Override
-	public Boolean jaExiste(IbgeMunicipio entidade) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }
