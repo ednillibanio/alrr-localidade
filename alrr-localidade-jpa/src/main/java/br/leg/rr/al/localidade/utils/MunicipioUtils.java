@@ -2,7 +2,7 @@ package br.leg.rr.al.localidade.utils;
 
 import br.leg.rr.al.core.utils.StringHelper;
 import br.leg.rr.al.localidade.domain.UfType;
-import br.leg.rr.al.localidade.ibge.jpa.IbgeMunicipio;
+import br.leg.rr.al.localidade.ibge.domain.IbgeMunicipio;
 import br.leg.rr.al.localidade.jpa.Municipio;
 
 public final class MunicipioUtils {

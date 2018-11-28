@@ -67,10 +67,10 @@ public interface MunicipioLocal extends JPADaoStatus<Municipio, Integer> {
 	/**
 	 * Busca o município pelo código do ibge.
 	 * 
-	 * @param id código do municipio no ibge
+	 * @param id código do município no ibge
 	 * @return retorna o município que satisfaz o parametro id. Caso não encontre o
 	 *         município pelo id, retornará null.
 	 */
-	Municipio buscarPorIbgeId(Integer id);
+	Municipio buscarPorIbgeId(String id);
 
 }
