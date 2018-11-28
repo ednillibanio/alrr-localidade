@@ -1,14 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
+<!--
+/****************************************************************************************
+* ALE-RR Licença																		*
+* Copyright (C) 2018, ALE-RR															*
+* Boa Vista, RR - Brasil																*
+* Todos os direitos reservados.															*
+* 																						*
+* Este programa é propriedade da Assembleia Legislativa do Estado de Roraima e 			*
+* não é permitida a distribuição, alteração ou cópia da mesma sem prévia autoriazação.	*
+*																						*
+*																						*
+*****************************************************************************************
+* Autor:  Ednil Libanio da Costa Junior													*
+* Versão: 1.0.0 																		*
+****************************************************************************************/
+-->
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:al="http://xmlns.jcp.org/jsf/composite/componentes/core"
-	xmlns:o="http://omnifaces.org/ui"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-	xmlns:shiro="http://shiro.apache.org/tags"
+	xmlns:al="http://xmlns.jcp.org/jsf/composite/componentes/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:alcore="http://al.rr.leg.br/facelets/core"
+	xmlns:alcommons="http://al.rr.leg.br/facelets/commons"
+	xmlns:o="http://omnifaces.org/ui"
 	xmlns:ph="http://xmlns.jcp.org/jsf/passthrough" lang="pt-br">
 
 <p:dialog id="dlg-bairro" widgetVar="dlg-bairro" showEffect="clip"
@@ -39,38 +56,19 @@
 					<p:message for="nome-bairro" display="tooltip" />
 				</h:panelGroup>
 
-				<!--  C A  M P O:  B U S C A   L O C A L I D A D E  -->
+				<!--   C A  M P O:  B U S C A   M U N I C Í P I O   -->
 				<h:panelGroup>
-					<p:outputLabel value="Localidade:" for="localidade" />
-					<div class="ui-g">
-						<div class="ui-inputgroup">
-
-
-							<p:autoComplete value="#{bairroController.entity.localidade}"
-								id="localidade" label="Município" title="Município"
-								completeMethod="#{localidadeCompleteController.completeByNome}"
-								var="loc" itemLabel="#{loc.nome.concat(' - ').concat(loc.uf)}"
-								itemValue="#{loc}" converter="#{entityConverter}"
-								forceSelection="true" minQueryLength="3" size="40"
-								maxResults="8" required="true"
-								emptyMessage="Nenhum município encontrado.">
-								<p:column>#{loc.nome} - #{loc.uf}</p:column>
-							</p:autoComplete>
-
-
-							<!-- BOTAO DE INCLUIR LOCALIDADE -->
-							<shiro:hasPermission name="localidade:incluir">
-								<p:commandButton id="btn-add-localidade"
-									icon="fa fa-fw fa-file-text-o" title="Nova Localidade"
-									process="@this" update="dlg-localidade"
-									action="#{localidadeController.novo()}" />
-							</shiro:hasPermission>
-
-
-							<p:message for="localidade" id="msg-loc" display="tooltip" />
-
-						</div>
-					</div>
+					<p:outputLabel value="Municipio" for="municipio" />
+					<p:autoComplete value="#{bairroController.entity.municipio}"
+						id="municipio" label="Município" title="Município"
+						completeMethod="#{municipioCompleteController.completeByNome}"
+						var="mun" itemLabel="#{mun.nome.concat(' - ').concat(mun.uf)}"
+						itemValue="#{mun}" converter="#{entityConverter}"
+						forceSelection="true" minQueryLength="3" size="40" maxResults="8"
+						required="true" emptyMessage="Nenhum município encontrado.">
+						<p:column>#{mun.nome} - #{mun.uf}</p:column>
+					</p:autoComplete>
+					<p:message for="municipio" id="msg-mun" display="tooltip" />
 				</h:panelGroup>
 			</p:panelGrid>
 

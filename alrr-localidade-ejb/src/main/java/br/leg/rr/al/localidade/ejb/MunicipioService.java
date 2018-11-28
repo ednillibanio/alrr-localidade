@@ -22,8 +22,8 @@ import br.leg.rr.al.core.domain.StatusType;
 import br.leg.rr.al.core.jpa.BaseEntityStatus_;
 import br.leg.rr.al.core.utils.StringHelper;
 import br.leg.rr.al.localidade.domain.UfType;
+import br.leg.rr.al.localidade.ibge.domain.IbgeMunicipio;
 import br.leg.rr.al.localidade.ibge.ejb.IbgeMunicipioLocal;
-import br.leg.rr.al.localidade.ibge.jpa.IbgeMunicipio;
 import br.leg.rr.al.localidade.jpa.Municipio;
 import br.leg.rr.al.localidade.jpa.Municipio_;
 import br.leg.rr.al.localidade.utils.MunicipioUtils;
@@ -131,13 +131,13 @@ public class MunicipioService extends BaseJPADaoStatus<Municipio, Integer> imple
 
 			String nome = null;
 			UfType uf = null;
-			Integer ibgeId = null;
+			String ibgeId = null;
 			Municipio loc = null;
 			for (IbgeMunicipio mun : municipios) {
 
 				nome = StringHelper.capitalizeFully(mun.getNome());
 				uf = UfType.valueOf(mun.getUF().getSigla());
-				ibgeId = mun.getId();
+				ibgeId = mun.getId().toString();
 
 				// verifica se existe o municipio ibge já é cadastrado na base local.
 				loc = buscarPorIbgeId(ibgeId);
@@ -232,7 +232,7 @@ public class MunicipioService extends BaseJPADaoStatus<Municipio, Integer> imple
 	}
 
 	@Override
-	public Municipio buscarPorIbgeId(Integer id) {
+	public Municipio buscarPorIbgeId(String id) {
 
 		CriteriaBuilder cb = getCriteriaBuilder();
 		CriteriaQuery<Municipio> cq = createCriteriaQuery();

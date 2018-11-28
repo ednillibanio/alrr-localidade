@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 import br.leg.rr.al.core.CoreUtilsValidationMessages;
 import br.leg.rr.al.core.dao.BeanException;
 import br.leg.rr.al.core.domain.StatusType;
-import br.leg.rr.al.core.web.controller.DialogCrudViewController;
+import br.leg.rr.al.core.web.controller.status.DialogControllerEntityStatus;
 import br.leg.rr.al.core.web.util.FacesMessageUtils;
 import br.leg.rr.al.localidade.domain.UfType;
 import br.leg.rr.al.localidade.ejb.MunicipioLocal;
@@ -24,7 +24,7 @@ import br.leg.rr.al.localidade.jpa.Municipio;
 
 @Named
 @ViewScoped
-public class MunicipioController extends DialogCrudViewController<Municipio, Integer> {
+public class MunicipioController extends DialogControllerEntityStatus<Municipio, Integer> {
 
 	/**
 	 * 

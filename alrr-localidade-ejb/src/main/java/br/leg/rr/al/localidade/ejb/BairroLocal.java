@@ -38,11 +38,11 @@ public interface BairroLocal extends JPADaoStatus<Bairro, Integer> {
 	/**
 	 * Busca o Bairro pelo id da entidade municipio, e pelo nome do bairro.
 	 * 
-	 * @param locId id da entidade municipio.
+	 * @param municipioId id da entidade municipio.
 	 * @param nome  nome do bairro.
 	 * @return bairro encontrado de acordo com os valores informados nos parametros.
 	 * @throws ControllerException
 	 */
-	public Bairro buscarPorLocalidadeId(Integer locId, String nome) throws BeanException;
+	public Bairro buscarPorMunicipioId(Integer municipioId, String nome) throws BeanException;
 
 }

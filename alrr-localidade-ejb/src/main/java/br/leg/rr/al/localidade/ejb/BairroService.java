@@ -50,9 +50,9 @@ public class BairroService extends BaseJPADaoStatus<Bairro, Integer> implements 
 	}
 
 	@Override
-	public Bairro buscarPorLocalidadeId(Integer locId, String nome) throws BeanException {
+	public Bairro buscarPorMunicipioId(Integer municipioId, String nome) throws BeanException {
 
-		if (StringUtils.isNotBlank(nome) && locId != null) {
+		if (StringUtils.isNotBlank(nome) && municipioId != null) {
 			CriteriaBuilder cb = getCriteriaBuilder();
 			CriteriaQuery<Bairro> cq = createCriteriaQuery();
 			Root<Bairro> root = cq.from(Bairro.class);
@@ -60,7 +60,7 @@ public class BairroService extends BaseJPADaoStatus<Bairro, Integer> implements 
 
 			List<Predicate> predicates = new ArrayList<Predicate>();
 			Predicate cond1 = cb.equal(cb.lower(root.get(Bairro_.nome)), nome.toLowerCase());
-			Predicate cond2 = cb.equal(root.get(Bairro_.municipio), locId);
+			Predicate cond2 = cb.equal(root.get(Bairro_.municipio), municipioId);
 			predicates.add(cond1);
 			predicates.add(cond2);
 			cq.where(cb.and(predicates.toArray(new Predicate[] {})));
