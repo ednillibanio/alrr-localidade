@@ -14,14 +14,14 @@ import javax.inject.Named;
 import org.apache.commons.lang3.StringUtils;
 
 import br.leg.rr.al.core.dao.BeanException;
-import br.leg.rr.al.core.web.controller.DialogCrudViewController;
+import br.leg.rr.al.core.web.controller.status.DialogControllerEntityStatus;
 import br.leg.rr.al.core.web.util.FacesMessageUtils;
 import br.leg.rr.al.localidade.ejb.BairroLocal;
 import br.leg.rr.al.localidade.jpa.Bairro;
 
 @Named
 @ViewScoped
-public class BairroController extends DialogCrudViewController<Bairro, Integer> {
+public class BairroController extends DialogControllerEntityStatus<Bairro, Integer> {
 
 	/**
 	 * 

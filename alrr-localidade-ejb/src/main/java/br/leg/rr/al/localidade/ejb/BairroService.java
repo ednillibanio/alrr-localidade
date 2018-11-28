@@ -46,7 +46,7 @@ public class BairroService extends BaseJPADaoStatus<Bairro, Integer> implements 
 	}
 
 	@Override
-	public Bairro buscarPorLocalidadeId(Integer locId, String nome) throws BeanException {
+	public Bairro buscarPorMunicipioId(Integer locId, String nome) throws BeanException {
 
 		if (StringUtils.isNotBlank(nome) && locId != null) {
 			CriteriaBuilder cb = getCriteriaBuilder();
