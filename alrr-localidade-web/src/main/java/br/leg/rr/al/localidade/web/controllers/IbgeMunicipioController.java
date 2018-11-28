@@ -26,8 +26,8 @@ import br.leg.rr.al.core.web.util.FacesMessageUtils;
 import br.leg.rr.al.core.web.util.FacesUtils;
 import br.leg.rr.al.localidade.domain.UfType;
 import br.leg.rr.al.localidade.ejb.MunicipioLocal;
+import br.leg.rr.al.localidade.ibge.domain.IbgeMunicipio;
 import br.leg.rr.al.localidade.ibge.ejb.IbgeMunicipioLocal;
-import br.leg.rr.al.localidade.ibge.jpa.IbgeMunicipio;
 import br.leg.rr.al.localidade.jpa.Municipio;
 import br.leg.rr.al.localidade.utils.MunicipioUtils;
 
@@ -82,7 +82,7 @@ public class IbgeMunicipioController implements Serializable {
 					cancelado = false;
 					String nome = null;
 					UfType uf = null;
-					Integer ibgeId = null;
+					String ibgeId = null;
 					Municipio loc = null;
 					setStatusMessage(" &#8212; importando municípios do IBGE...");
 
