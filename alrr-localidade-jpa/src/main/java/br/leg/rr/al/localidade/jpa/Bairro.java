@@ -1,6 +1,5 @@
 package br.leg.rr.al.localidade.jpa;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
@@ -24,7 +23,7 @@ public class Bairro extends Localidade {
 	 */
 	private static final long serialVersionUID = 796491013446731504L;
 
-	@ManyToOne(fetch = FetchType.EAGER, optional = false, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "municipio_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "municipio_fk"), nullable = false)
 	private Municipio municipio;
 

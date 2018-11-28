@@ -11,7 +11,6 @@ import javax.persistence.NonUniqueResultException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -34,13 +33,18 @@ public class BairroService extends BaseJPADaoStatus<Bairro, Integer> implements 
 	@Override
 	public List<Bairro> buscarPorNome(String nome) {
 
-		CriteriaQuery<Bairro> cq = getCriteriaBuilder().createQuery(entityClass);
-		Root<Bairro> root = cq.from(entityClass);
+		CriteriaBuilder cb = getCriteriaBuilder();
+		CriteriaQuery<Bairro> cq = createCriteriaQuery();
+		Root<Bairro> root = cq.from(Bairro.class);
+		List<Predicate> predicates = new ArrayList<Predicate>();
 		cq.select(root);
-		Expression<String> exp = getCriteriaBuilder().lower(root.get("nome"));
-		Predicate like = getCriteriaBuilder().like(exp, "%" + nome.toLowerCase().trim() + "%");
 
-		cq.where(like);
+		if (StringUtils.isNotBlank(nome)) {
+			Predicate cond = cb.like(cb.lower(root.get(Bairro_.nome)), "%" + nome.toLowerCase() + "%");
+			predicates.add(cond);
+		}
+
+		cq.where(cb.and(predicates.toArray(new Predicate[] {})));
 
 		return getResultList(cq);
 	}
