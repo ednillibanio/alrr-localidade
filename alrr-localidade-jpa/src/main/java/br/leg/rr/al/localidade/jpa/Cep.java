@@ -2,13 +2,13 @@ package br.leg.rr.al.localidade.jpa;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import br.leg.rr.al.core.jpa.BaseEntity;
-import br.leg.rr.al.localidade.domain.UfType;
 
 /**
  * Classe persistente que representa a tabela "cep".
@@ -32,18 +32,19 @@ public class Cep extends BaseEntity<Integer> {
 	@Column(nullable = true, length = 250)
 	private String logradouro;
 
-	@Column(nullable = true, length = 250)
-	private String bairro;
+	// @Column(nullable = true, length = 250)
+	@ManyToOne(fetch = FetchType.EAGER, optional = true)
+	@JoinColumn(name = "bairro_id", referencedColumnName = "id", nullable = true, foreignKey = @ForeignKey(name = "bairro_fk"))
+	private Bairro bairro;
 
-	@Column(nullable = false, length = 250)
-	private String municipio;
+	// @Column(nullable = true, length = 250)
+	@ManyToOne(fetch = FetchType.EAGER, optional = true)
+	@JoinColumn(name = "municipio_id", referencedColumnName = "id", nullable = false, foreignKey = @ForeignKey(name = "municipio_fk"))
+	private Municipio municipio;
 
-	@Enumerated(EnumType.STRING)
-	@Column(name = "uf", nullable = false, length = 2)
-	private UfType uf;
-
-	@Transient
-	private Boolean erro;
+//	@Enumerated(EnumType.STRING)
+//	@Column(name = "uf", nullable = false, length = 2)
+//	private UfType uf;
 
 	public String getNumero() {
 		return numero;
@@ -61,40 +62,20 @@ public class Cep extends BaseEntity<Integer> {
 		this.logradouro = logradouro;
 	}
 
-	public String getBairro() {
+	public Bairro getBairro() {
 		return bairro;
 	}
 
-	public void setBairro(String bairro) {
+	public void setBairro(Bairro bairro) {
 		this.bairro = bairro;
 	}
 
-	public String getMunicipio() {
+	public Municipio getMunicipio() {
 		return municipio;
 	}
 
-	public void setMunicipio(String municipio) {
+	public void setMunicipio(Municipio municipio) {
 		this.municipio = municipio;
-	}
-
-	public UfType getUf() {
-		return uf;
-	}
-
-	public void setUf(UfType uf) {
-		this.uf = uf;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
-	public Boolean getErro() {
-		return erro;
-	}
-
-	public void setErro(Boolean erro) {
-		this.erro = erro;
 	}
 
 }
