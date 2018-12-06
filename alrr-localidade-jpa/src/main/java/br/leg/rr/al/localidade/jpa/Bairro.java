@@ -6,6 +6,7 @@ import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 /**
  * Classe persistente que representa a tabela "bairro".
@@ -15,7 +16,7 @@ import javax.persistence.Table;
  * @since 1.0.0
  */
 @Entity
-@Table
+@Table(uniqueConstraints = { @UniqueConstraint(name = "bairro_uq", columnNames = { "nome", "municipio_id" }) })
 public class Bairro extends Localidade {
 
 	/**

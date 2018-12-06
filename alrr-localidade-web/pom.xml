@@ -6,6 +6,7 @@
 		<groupId>br.leg.rr.al.localidade</groupId>
 		<artifactId>alrr-localidade</artifactId>
 		<version>1.0.0</version>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<artifactId>alrr-localidade-web</artifactId>
 	<packaging>war</packaging>
@@ -28,12 +29,6 @@
 	</build>
 	<dependencies>
 		<dependency>
-			<groupId>br.leg.rr.al</groupId>
-			<artifactId>alrr-web-dep</artifactId>
-			<version>1.0.0</version>
-			<type>pom</type>
-		</dependency>
-		<dependency>
 			<groupId>br.leg.rr.al.localidade</groupId>
 			<artifactId>alrr-localidade-ejb</artifactId>
 			<type>ejb</type>
@@ -48,10 +43,6 @@
 			<groupId>br.leg.rr.al.localidade</groupId>
 			<artifactId>alrr-localidade-utils</artifactId>
 			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.primefaces.themes</groupId>
-			<artifactId>all-themes</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.omnifaces</groupId>
@@ -70,5 +61,59 @@
 			<artifactId>alrr-core-utils</artifactId>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+  		<groupId>javax.enterprise</groupId>
+  		<artifactId>cdi-api</artifactId>
+  		<scope>provided</scope>
+  	</dependency>
+  	<dependency>
+  		<groupId>javax.validation</groupId>
+  		<artifactId>validation-api</artifactId>
+  		<scope>provided</scope>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.jboss.spec.javax.el</groupId>
+  		<artifactId>jboss-el-api_3.0_spec</artifactId>
+  		<scope>provided</scope>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.slf4j</groupId>
+  		<artifactId>slf4j-api</artifactId>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.jboss.spec.javax.faces</groupId>
+  		<artifactId>jboss-jsf-api_2.3_spec</artifactId>
+  		<scope>provided</scope>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.jboss.spec.javax.servlet</groupId>
+  		<artifactId>jboss-servlet-api_4.0_spec</artifactId>
+  		<scope>provided</scope>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.hibernate.validator</groupId>
+  		<artifactId>hibernate-validator</artifactId>
+  		<scope>provided</scope>
+  	</dependency>
+  	<dependency>
+  		<groupId>javax.persistence</groupId>
+  		<artifactId>javax.persistence-api</artifactId>
+  		<scope>provided</scope>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.jboss.spec.javax.annotation</groupId>
+  		<artifactId>jboss-annotations-api_1.3_spec</artifactId>
+  		<scope>provided</scope>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.jboss.spec.javax.transaction</groupId>
+  		<artifactId>jboss-transaction-api_1.2_spec</artifactId>
+  		<scope>provided</scope>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.jboss.spec.javax.ejb</groupId>
+  		<artifactId>jboss-ejb-api_3.2_spec</artifactId>
+  		<scope>provided</scope>
+  	</dependency>
 	</dependencies>
 </project>

@@ -18,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import br.leg.rr.al.core.CoreUtilsValidationMessages;
+import br.leg.rr.al.core.LuceneSearchRotina;
 import br.leg.rr.al.core.dao.BeanException;
 import br.leg.rr.al.core.domain.StatusType;
 import br.leg.rr.al.core.web.controller.status.DialogControllerEntityStatus;
@@ -38,6 +39,7 @@ public class BairroController extends DialogControllerEntityStatus<Bairro, Integ
 
 	Logger logger = LoggerFactory.getLogger(BairroController.class);
 
+	LuceneSearchRotina luceneSearchRotina;
 	/**
 	 * valor do filtro 'nome' do pesquisar municipio.
 	 */
@@ -60,7 +62,9 @@ public class BairroController extends DialogControllerEntityStatus<Bairro, Integ
 	@PostConstruct
 	public void init() {
 		setBean(bean);
-
+		/*
+		 * luceneSearchRotina = new LuceneSearchRotina(); luceneSearchRotina.init();
+		 */
 		jaExisteMsg = "Bairro já existe.";
 		setNovoDialogName("dlg-bairro");
 		setEditarDialogName("dlg-bairro");
@@ -93,6 +97,7 @@ public class BairroController extends DialogControllerEntityStatus<Bairro, Integ
 		Map<String, Object> filtros = new HashMap<String, Object>();
 		filtros.put(BairroLocal.PESQUISAR_PARAM_NOME, nome);
 		filtros.put(BairroLocal.PESQUISAR_PARAM_UFS, uFsSelecionadas);
+		filtros.put(BairroLocal.PESQUISAR_PARAM_MUNICIPIO_NOME, municipio);
 		filtros.put(BairroLocal.PESQUISAR_PARAM_SITUACAO, situacao);
 
 		try {

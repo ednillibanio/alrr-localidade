@@ -5,13 +5,6 @@ package br.leg.rr.al.localidade.ibge.domain;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
 /**
  * @author Ednil Libanio da Costa Junior
  * @date 09-04-2018

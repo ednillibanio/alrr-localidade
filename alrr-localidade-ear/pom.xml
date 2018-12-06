@@ -6,6 +6,7 @@
 		<groupId>br.leg.rr.al.localidade</groupId>
 		<artifactId>alrr-localidade</artifactId>
 		<version>1.0.0</version>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<artifactId>alrr-localidade-ear</artifactId>
 	<name>alrr-localidade-ear</name>
@@ -48,6 +49,7 @@
 		</plugins>
 	</build>
 
+	<packaging>ear</packaging>
 	<dependencies>
 		<dependency>
 			<groupId>br.leg.rr.al.localidade</groupId>
@@ -61,5 +63,4 @@
 			<type>war</type>
 		</dependency>
 	</dependencies>
-	<packaging>ear</packaging>
 </project>
