@@ -6,6 +6,7 @@
 		<groupId>br.leg.rr.al.localidade</groupId>
 		<artifactId>alrr-localidade</artifactId>
 		<version>1.0.0</version>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<artifactId>alrr-localidade-jpa</artifactId>
 	<name>alrr-localidade-jpa</name>
@@ -32,14 +33,23 @@
 	</build>
 	<dependencies>
 		<dependency>
-			<groupId>br.leg.rr.al</groupId>
-			<artifactId>alrr-jpa-dep</artifactId>
-			<version>1.0.0</version>
-			<type>pom</type>
-		</dependency>
-		<dependency>
 			<groupId>br.leg.rr.al.core</groupId>
 			<artifactId>alrr-core-utils</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>br.leg.rr.al.localidade</groupId>
+			<artifactId>alrr-localidade-utils</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.persistence</groupId>
+			<artifactId>javax.persistence-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -47,21 +57,13 @@
 			<artifactId>hibernate-jpamodelgen</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-search-orm</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-validator</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>javax.enterprise</groupId>
-			<artifactId>cdi-api</artifactId>
+			<groupId>org.jboss.spec.javax.annotation</groupId>
+			<artifactId>jboss-annotations-api_1.3_spec</artifactId>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>br.leg.rr.al.localidade</groupId>
-			<artifactId>alrr-localidade-utils</artifactId>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-search-engine</artifactId>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
