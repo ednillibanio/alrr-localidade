@@ -84,6 +84,18 @@ public class CepController extends DialogController<Cep, Integer> {
 		return null;
 	}
 
+	@Override
+	public String novo() {
+		numero = null;
+		return super.novo();
+	}
+
+	@Override
+	protected void posInserir() {
+		numero = null;
+		super.posInserir();
+	}
+
 	/**
 	 * Busca Cep informado.
 	 * 

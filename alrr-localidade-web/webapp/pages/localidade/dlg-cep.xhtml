@@ -12,8 +12,8 @@
 *																						*
 *																						*
 *****************************************************************************************
-* Autor:  Ednil Libanio da Costa Junior													*
-* Versão: 1.0.0 																		*
+* @author	Ednil Libanio da Costa Junior												*
+* @since 	1.0.0 																		*
 ****************************************************************************************/
 -->
 <html xmlns="http://www.w3.org/1999/xhtml"
@@ -57,7 +57,7 @@
 						<p:inputMask id="cep" value="#{cepController.numero}"
 							mask="99999-999" converter="#{cepConverter}"
 							title="Informe o cep e o sistema irá buscá-lo automaticamente."
-							required="true">
+							required="true" disabled="#{cepController.isNotEditavel()}">
 							<p:ajax process="@this" listener="#{cepController.buscarCep}"
 								update="@form" />
 						</p:inputMask>
@@ -78,14 +78,13 @@
 		<h:panelGroup id="pnl-logradouro">
 			<p:outputLabel value="Logradouro" for="logradouro" />
 			<p:inputText id="logradouro"
-				value="#{cepController.entity.logradouro}" disabled="true" />
+				value="#{cepController.entity.logradouro}" />
 		</h:panelGroup>
 
 		<!-- BAIRRO -->
 		<h:panelGroup id="pnl-bairro">
 			<p:outputLabel value="Bairro" for="bairro" />
-			<p:inputText id="bairro" value="#{cepController.entity.bairro.nome}"
-				disabled="true" />
+			<p:inputText id="bairro" value="#{cepController.entity.bairro.nome}" />
 		</h:panelGroup>
 
 		<!-- MUNICÍPIO -->
@@ -120,8 +119,8 @@
 
 	<!--   B O T Ã O:   F E C H A R   -->
 	<ui:define name="btn-esquerda">
-		<alcore:botao-fechar id="btnfechar" oncomplete="PF('dlg-cep').hide()"
-			immediate="true" />
+		<alcore:botao-fechar id="btnfechar" oncomplete="PF('dlg-cep').hide();"
+			immediate="true" process="@this" />
 	</ui:define>
 
 	<!--   B O T Ã O:   S A L V A R   -->

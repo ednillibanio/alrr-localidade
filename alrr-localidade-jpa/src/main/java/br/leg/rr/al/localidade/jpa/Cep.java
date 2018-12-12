@@ -7,6 +7,7 @@ import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import br.leg.rr.al.core.jpa.BaseEntity;
 
@@ -18,7 +19,7 @@ import br.leg.rr.al.core.jpa.BaseEntity;
  * @since 1.0.0
  */
 @Entity
-@Table
+@Table(uniqueConstraints = @UniqueConstraint(name = "numero_uq", columnNames = "numero"))
 public class Cep extends BaseEntity<Integer> {
 
 	/**
@@ -27,6 +28,7 @@ public class Cep extends BaseEntity<Integer> {
 	private static final long serialVersionUID = -1696673731486221778L;
 
 	@Column(nullable = false, length = 8)
+
 	private String numero;
 
 	@Column(nullable = true, length = 250)
@@ -41,10 +43,6 @@ public class Cep extends BaseEntity<Integer> {
 	@ManyToOne(fetch = FetchType.EAGER, optional = true)
 	@JoinColumn(name = "municipio_id", referencedColumnName = "id", nullable = false, foreignKey = @ForeignKey(name = "municipio_fk"))
 	private Municipio municipio;
-
-//	@Enumerated(EnumType.STRING)
-//	@Column(name = "uf", nullable = false, length = 2)
-//	private UfType uf;
 
 	public String getNumero() {
 		return numero;
