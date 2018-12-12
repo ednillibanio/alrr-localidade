@@ -46,6 +46,20 @@
 				value="#{municipioController.nome}" tabindex="1"
 				title="Filtra os municípios que satisfaçam o nome informado." />
 
+			<!--   F I L T R O:   S I T U A Ç Ã O   -->
+			<p:outputLabel value="Situação" for="sit" />
+			<p:selectOneMenu value="#{municipioController.situacao}" id="sit"
+				converter="omnifaces.GenericEnumConverter" tabindex="3">
+				<f:selectItem noSelectionOption="true" itemLabel="[Selecione]"
+					itemValue="" />
+				<f:selectItems value="#{localidadeEnumFactory.statusType}"
+					var="_sit" itemValue="#{_sit}" itemLabel="#{_sit.label}" />
+			</p:selectOneMenu>
+		</p:panelGrid>
+
+		<p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank"
+			columnClasses="ui-grid-col-2, ui-grid-col-10">
+
 
 			<!--   F I L T R O:   U F   -->
 			<p:outputLabel value="UF(s)" for="uf" />
@@ -56,15 +70,7 @@
 					itemValue="#{_uf}" itemLabel="#{_uf.label}" />
 			</p:selectCheckboxMenu>
 
-			<!--   F I L T R O:   S I T U A Ç Ã O   -->
-			<p:outputLabel value="Situação" for="sit" />
-			<p:selectOneMenu value="#{municipioController.situacao}" id="sit"
-				converter="omnifaces.GenericEnumConverter" tabindex="3">
-				<f:selectItem noSelectionOption="true" itemLabel="[Selecione]"
-					itemValue="" />
-				<f:selectItems value="#{localidadeEnumFactory.statusType}"
-					var="_sit" itemValue="#{_sit}" itemLabel="#{_sit.label}" />
-			</p:selectOneMenu>
+
 		</p:panelGrid>
 
 	</ui:define>

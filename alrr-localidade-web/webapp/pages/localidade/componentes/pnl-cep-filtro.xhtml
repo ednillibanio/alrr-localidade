@@ -58,6 +58,9 @@
 				value="#{cepController.municipio}" tabindex="1"
 				title="Filtra os municípios que satisfaçam o nome informado." />
 
+		</p:panelGrid>
+		<p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank"
+			columnClasses="ui-grid-col-2, ui-grid-col-10">
 
 			<!--   F I L T R O:   U F   -->
 			<p:outputLabel value="UF(s)" for="ufs" />
@@ -78,13 +81,20 @@
 		<alcore:botao-limpar id="btnlimpar" tabindex="4"
 			action="#{cepController.limpar()}" process="@this" update="@form" />
 	</ui:define>
-
-	<!--   B O T Ã O:   P E S Q U I S A R   -->
 	<ui:define name="btn-pesquisar">
-		<alcore:botao-pesquisar id="btnpesquisar" tabindex="3"
+		<p:commandButton id="btn-pesquisar"
+			value="#{core['btn.pesquisar.value']}"
+			styleClass="#{core['btn.pesquisar.styleClass']}"
+			icon="#{core['btn.pesquisar.icon']}" tabindex="3"
 			action="#{cepController.pesquisar()}"
 			update="frm-pg-ceps @(.result) @(.msgs)" />
 	</ui:define>
+	<!--   B O T Ã O:   P E S Q U I S A R   -->
+	<!-- <ui:define name="btn-pesquisar">
+		<alcore:botao-pesquisar id="btnpesquisar" tabindex="3"
+			action="#{cepController.pesquisar()}"
+			update="frm-pg-ceps @(.result) @(.msgs)" />
+	</ui:define> -->
 
 
 </ui:composition>

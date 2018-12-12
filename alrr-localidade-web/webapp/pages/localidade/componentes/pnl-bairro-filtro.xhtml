@@ -37,7 +37,7 @@
 
 		<p:panelGrid columns="4" layout="grid"
 			styleClass="ui-panelgrid-blank ui-fluid" id="pnl-filtro"
-			columnClasses="ui-grid-col-1, ui-grid-col-5, ui-grid-col-1, ui-grid-col-5">
+			columnClasses="ui-grid-col-2, ui-grid-col-4, ui-grid-col-2, ui-grid-col-4">
 
 			<!--   F I L T R O:  NOME DO BAIRRO -->
 			<p:outputLabel value="Bairro" for="bairro" />
@@ -45,22 +45,11 @@
 				value="#{bairroController.nome}" />
 
 
-
-			<!--  criar uma lista de municípios selecionados -->
 			<!--   F I L T R O:  NOME DO MUNICIPIO -->
 			<p:outputLabel value="Município" for="municipio" />
 			<p:inputText id="municipio" label="Município"
 				value="#{bairroController.municipio}" />
 
-			<!--   F I L T R O:  UF -->
-			<!--   F I L T R O:   U F   -->
-			<p:outputLabel value="UF(s)" for="ufs" />
-			<p:selectCheckboxMenu value="#{bairroController.uFsSelecionadas}"
-				id="ufs" converter="omnifaces.GenericEnumConverter" multiple="true"
-				filter="true" tabindex="2">
-				<f:selectItems value="#{localidadeEnumFactory.ufs}" var="_uf"
-					itemValue="#{_uf}" itemLabel="#{_uf.label}" />
-			</p:selectCheckboxMenu>
 
 			<!--   F I L T R O:   S I T U A Ç Ã O   -->
 			<p:outputLabel value="Situação" for="sit" />
@@ -71,6 +60,21 @@
 				<f:selectItems value="#{localidadeEnumFactory.statusType}"
 					var="_sit" itemValue="#{_sit}" itemLabel="#{_sit.label}" />
 			</p:selectOneMenu>
+
+		</p:panelGrid>
+
+		<p:panelGrid columns="2" layout="grid"
+			styleClass="ui-panelgrid-blank ui-fluid"
+			columnClasses="ui-grid-col-2, ui-grid-col-10">
+
+			<!--   F I L T R O:   U F   -->
+			<p:outputLabel value="UF(s)" for="ufs" />
+			<p:selectCheckboxMenu value="#{bairroController.uFsSelecionadas}"
+				id="ufs" converter="omnifaces.GenericEnumConverter" multiple="true"
+				filter="true" tabindex="2">
+				<f:selectItems value="#{localidadeEnumFactory.ufs}" var="_uf"
+					itemValue="#{_uf}" itemLabel="#{_uf.label}" />
+			</p:selectCheckboxMenu>
 
 		</p:panelGrid>
 

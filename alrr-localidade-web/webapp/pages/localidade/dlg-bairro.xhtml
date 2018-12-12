@@ -12,8 +12,8 @@
 *																						*
 *																						*
 *****************************************************************************************
-* Autor:  Ednil Libanio da Costa Junior													*
-* Versão: 1.0.0 																		*
+* @author	Ednil Libanio da Costa Junior												*
+* @since 	1.0.0 																		*
 ****************************************************************************************/
 -->
 <html xmlns="http://www.w3.org/1999/xhtml"
@@ -28,72 +28,76 @@
 	xmlns:o="http://omnifaces.org/ui"
 	xmlns:ph="http://xmlns.jcp.org/jsf/passthrough" lang="pt-br">
 
-<p:dialog id="dlg-bairro" widgetVar="dlg-bairro" showEffect="clip"
-	hideEffect="clip" closeOnEscape="true" showHeader="false"
-	responsive="true" modal="true" resizable="false" closable="false"
-	appendTo="@(body)" styleClass="ui-fluid ui-md-6 ui-lg-6 nopad"
-	fitViewport="true">
+<ui:composition template="/dialog.xhtml">
 
-	<o:form id="frm-bairro">
-		<p:tooltip />
-		<p:panel header="Bairro" id="pnl-bairro" style="nopad">
+	<!--   P A R A M E T R O S   D E   C O N F I G U R A Ç Ã O   -->
+	<!--   D O   T E M P L A T E:   D I A L O G   -->
+	<ui:param name="dlgid" value="dlg-bairro" />
+	<ui:param name="widgetVar" value="dlg-bairro" />
+	<ui:param name="frmid" value="frm-bairro" />
+	<ui:param name="panelheader" value="Cadastro de Bairro" />
+	<ui:param name="columns" value="1" />
 
-			<p:growl id="msgs-bairro" escape="false" closable="true">
-				<p:autoUpdate />
-			</p:growl>
+	<ui:define name="form-dialog">
+		<p:defaultCommand target="frm-bairro:btn-salvar" />
+	</ui:define>
 
-			<p:panelGrid id="grid-bairro" columns="1" columnClasses="column"
-				cellpadding="10" styleClass="ui-panelgrid-blank" layout="grid">
+	<!-- ####################################### -->
+	<!--   C O N T E Ú D O   D O   D I A L O G   -->
+	<!-- ####################################### -->
+	<ui:define name="dialog-content">
 
-				<!-- NOME -->
-				<h:panelGroup>
-					<p:outputLabel value="Bairro:" for="nome-bairro" />
-					<p:inputText id="nome-bairro" title="Bairro" label="Bairro"
-						value="#{bairroController.entity.nome}" required="true"
-						converter="#{capitalizeFullyConverter}">
-						<f:validateLength minimum="3" maximum="250" for="nome-bairro" />
-					</p:inputText>
-					<p:message for="nome-bairro" display="tooltip" />
-				</h:panelGroup>
-
-				<!--   C A  M P O:  B U S C A   M U N I C Í P I O   -->
-				<h:panelGroup>
-					<p:outputLabel value="Municipio" for="municipio" />
-					<p:autoComplete value="#{bairroController.entity.municipio}"
-						id="municipio" label="Município" title="Município"
-						completeMethod="#{municipioCompleteController.completeByNome}"
-						var="mun" itemLabel="#{mun.nome.concat(' - ').concat(mun.uf)}"
-						itemValue="#{mun}" converter="#{entityConverter}"
-						forceSelection="true" minQueryLength="3" size="40" maxResults="8"
-						required="true" emptyMessage="Nenhum município encontrado.">
-						<p:column>#{mun.nome} - #{mun.uf}</p:column>
-					</p:autoComplete>
-					<p:message for="municipio" id="msg-mun" display="tooltip" />
-				</h:panelGroup>
-			</p:panelGrid>
+		<!-- NOME -->
+		<h:panelGroup id="pnl-bairro">
+			<p:outputLabel value="Bairro:" for="nome-bairro" />
+			<div class="ui-inputgroup">
+				<p:inputText id="nome-bairro" title="Bairro" label="Bairro"
+					value="#{bairroController.entity.nome}" required="true">
+					<f:validateLength minimum="3" maximum="250" for="nome-bairro" />
+				</p:inputText>
+				<alcore:botao-capitalizar param="#{bairroController.entity.nome}"
+					target="#{bairroController.entity.nome}" update="pnl-bairro"
+					process="pnl-bairro" />
+			</div>
+			<p:message for="nome-bairro" display="tooltip" />
+		</h:panelGroup>
 
 
-			<!-- BOTOES -->
-			<f:facet name="footer">
-				<p:panelGrid columns="2" layout="grid"
-					styleClass="ui-panelgrid-blank">
+		<!--   C A  M P O:  B U S C A   M U N I C Í P I O   -->
+		<h:panelGroup>
+			<p:outputLabel value="Municipio" for="municipio" />
+			<p:autoComplete value="#{bairroController.entity.municipio}"
+				id="municipio" label="Município" title="Município"
+				completeMethod="#{municipioCompleteController.completeByNome}"
+				var="mun" itemLabel="#{mun.nome.concat(' - ').concat(mun.uf)}"
+				itemValue="#{mun}" converter="#{entityConverter}"
+				forceSelection="true" minQueryLength="3" maxResults="8"
+				required="true" emptyMessage="Nenhum município encontrado.">
+				<p:column>#{mun.nome} - #{mun.uf}</p:column>
+			</p:autoComplete>
+			<p:message for="municipio" id="msg-mun" display="tooltip" />
+		</h:panelGroup>
 
-					<!-- CANCELAR -->
-					<p:commandButton value="Fechar" id="btn-fechar" styleClass="btn-lg"
-						icon="fa fa-fw fa-times" title="Fechar"
-						oncomplete="PF('dlg-bairro').hide()" process="@this" />
-
-
-					<!-- SALVAR -->
-					<p:commandButton value="Salvar" id="btn-salvar" styleClass="btn-lg"
-						icon="fa fa-fw fa-floppy-o" validateClient="true"
-						update="frm-bairro" action="#{bairroController.salvar()}" />
-
-				</p:panelGrid>
-			</f:facet>
+	</ui:define>
 
 
-		</p:panel>
-	</o:form>
-</p:dialog>
+	<!-- ################################### -->
+	<!--   R O D A P É   D O   D I A L O G   -->
+	<!-- ################################### -->
+
+	<!--   B O T Ã O:   F E C H A R   -->
+	<ui:define name="btn-esquerda">
+		<alcore:botao-fechar id="btnfechar"
+			oncomplete="PF('dlg-bairro').hide();" process="@this" />
+	</ui:define>
+
+	<!--   B O T Ã O:   S A L V A R   -->
+	<ui:define name="btn-direita">
+		<alcore:botao-salvar id="btnsalvar"
+			action="#{bairroController.salvar()}" validateClient="true"
+			update="frm-bairro frm-bairro:msgs-dialog @(.result)" process="@form" />
+	</ui:define>
+
+</ui:composition>
 </html>
+

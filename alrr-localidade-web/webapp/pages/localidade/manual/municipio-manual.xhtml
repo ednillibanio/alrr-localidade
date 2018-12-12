@@ -2,41 +2,54 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:p="http://primefaces.org/ui">
-<h3 class="al-titulo-manual">#Cadastro de Feriado</h3>
+<h1 class="al-titulo-manual">#Cadastro de Município</h1>
 
-<p>A funcionalidade Cadastro de Feriado é responsável por manter os
-	feriados e que são categorizados de 3 maneiras:</p>
-<ol>
-	<li><strong>Municipal - </strong>feriado local, ou seja, no
-		município. Neste cenário, o usuário deve selecionar o Tipo 'Municipal'
-		e preencher o campo Localidade. Caso a Localidade (município) não
-		esteja cadastrada, o usuário pode cadastrá-lo ou pedir para o seu
-		superior, caso não tenha permissão;</li>
-	<li><strong>Estadual - </strong>feriado que ocorre em todo o
-		Estado. Neste caso o usuário deve preencher o campo Estado;</li>
-	<li><strong>Nacional - </strong>feriado que ocorre em todo o
-		território brasileiro. Neste caso, o usuário não tem deve preencher os
-		camposdeve preO feriado é em todo o país. Não necessita preencher os
-		campos Localidade e UF.</li>
-</ol>
+<p>
+	A funcionalidade <i>Cadastro de Município</i> é responsável pela
+	manutenção dos municípios que são usados por várias outras
+	funcionalidades. É um cadastro único compartilhado com outros sistemas.
+	Dessa maneira mantém-se uma base consistente, evitando-se a redundância
+	de dados e facilitando a manutenção.
+</p>
 
-<h4>Ações</h4>
-<h5>Desativar</h5>
-<span>Esta ação substitui a ação de excluir um registro. Não é
-	recomendado excluir registros. Por isso, a ação de desativar, altera a
-	situação do feriado para inativo e consequentemente para de ser exibido
-	nas consultas de busca em outras funcionalidades. Por exemplo, um
-	feriado que está inativo deixa de ser exibido num calendário.</span>
-<h4>Validações</h4>
+
+<h2>Ações</h2>
+<h3>Importar Municípios IBGE</h3>
+<p>Esta ação é responsável por importar todos os municípios da base
+	do IBGE para a base local do sistema. É uma tarefa que facilita o
+	cadastro dos municípios e mantém os dados consistentes. Segue o padrão
+	de nomes, nomenclaturas e códigos do IBGE.</p>
+<p>Pode ser executada várias vezes. Na primeira vez, o sistema
+	importa todos os municípos do IBGE. Nas execuções seguintes, o sistema
+	cadastra apenas os novos municípios criados pelo IBGE e que ainda não
+	estão na base local do sistema. Além disso, o sistema atualiza os dados
+	dos municípios que sofreram alterações no cadastro do IBGE.</p>
+<h3>Novo Município</h3>
+<span>Esta ação cadastra um novo município na base local. Ela
+	pode ser usada quando o usuário deseja cadastrar apenas um ou uma
+	pequena quantidade de municípios. Deve ser usada em exceções, quando o
+	Importar Municípios IBGE está fora do ou ou uma pequena quantidade. a
+	ação de excluir um registro. Não é recomendado excluir registros. Por
+	isso, a ação de desativar, altera a situação do feriado para inativo e
+	consequentemente para de ser exibido nas consultas de busca em outras
+	funcionalidades. Por exemplo, um feriado que está inativo deixa de ser
+	exibido num calendário.</span>
+<h3>Ativar/Desativar</h3>
+<h2>Validações</h2>
 <ul>
 	<li>O valor do campo Dia deve ser entre 1 e 31.</li>
 </ul>
 <h4>Restrições</h4>
 <ul>
-	<li>O sistema não permite mais de um feriado cadastado com o mesmo
-		Tipo, Nome, Dia e Mês;</li>
+	<li>O sistema não permite mais de um município cadastado com o
+		mesmo Nome e UF.</li>
+	<li>O campo Ibge Cod. é único.</li>
 	<li>Todos os campos marcados com "<span style="color: red">*</span>"
 		são obrigatórios.
 	</li>
+	<li>Registro que a situação seja Inativa não aparece nos
+		componentes de seleção de valores. Por exemplo, se Boa Vista estiver
+		inativa, ela não será exibida no componente de seleção de Naturalidade
+		de Pessoa Física.</li>
 </ul>
 </html>
