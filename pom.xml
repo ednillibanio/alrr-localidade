@@ -25,6 +25,7 @@
 		<module>alrr-localidade-utils</module>
 		<module>alrr-localidade-ear</module>
 		<module>alrr-localidade-web</module>
+		<module>alrr-localidade-web-fragment</module>
 	</modules>
 	<dependencyManagement>
 		<dependencies>

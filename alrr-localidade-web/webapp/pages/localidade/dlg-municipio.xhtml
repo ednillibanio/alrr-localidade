@@ -53,12 +53,18 @@
 
 			<!--   C A M P O:   N O M E   -->
 			<al:campo value="Nome" for="nome-municipio">
-				<p:inputText id="nome-municipio" title="Nome do município"
-					label="Nome" required="true"
-					value="#{municipioController.entity.nome}"
-					converter="#{capitalizeFullyConverter}">
-					<f:validateLength minimum="3" maximum="250" for="nome-municipio" />
-				</p:inputText>
+				<div class="ui-inputgroup">
+					<p:inputText id="nome-municipio" title="Nome do município"
+						label="Nome" required="true"
+						value="#{municipioController.entity.nome}"
+						converter="#{capitalizeFullyConverter}">
+						<f:validateLength minimum="3" maximum="250" for="nome-municipio" />
+					</p:inputText>
+					<alcore:botao-capitalizar
+						param="#{municipioController.entity.nome}"
+						target="#{municipioController.entity.nome}"
+						update="nome-municipio" process="nome-municipio" />
+				</div>
 			</al:campo>
 
 			<!--   C A M P O:   U F'S  -->
@@ -73,8 +79,8 @@
 		</p:panelGrid>
 
 	</ui:define>
-	
-	
+
+
 	<!-- ################################### -->
 	<!--   R O D A P É   D O   D I A L O G   -->
 	<!-- ################################### -->

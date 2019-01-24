@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<facelet-taglib version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facelettaglibrary_2_2.xsd">
+ <namespace>http://al.rr.leg.br/facelets/localidade</namespace>
+ <tag>
+  <description>Busca todas os municípios que satisfaçam a condição, e armazena o valor selecionado no atributo value.</description>
+  <tag-name>autocomplete-municipio</tag-name>
+  <source>tags/br/leg/al/rr/localidade/facelets/autocomplete-municipio.xhtml</source>
+  <attribute>
+   <description>Informe o ojbeto da instância Municipio que será atribuído ao atributo value do componente autocomplete do primefaces. O valor encontrado na busca será definido neste campo.</description>
+   <name>value</name>
+   <required>true</required>
+   <type>br.leg.rr.al.localidade.jpa.Municipio</type>
+  </attribute>
+  <attribute>
+   <description>Atributo que preenche o atributo minQueryLength do componente commandBunton do primefaces.</description>
+   <name>minQueryLength</name>
+  </attribute>
+  <attribute>
+   <description>Atributo que preenche o atributo maxResults do componente commandBunton do primefaces.</description>
+   <name>maxResults</name>
+  </attribute>
+  <attribute>
+   <description>Atributo que preenche o atributo maxResults do componente commandBunton do primefaces.</description>
+   <name>forceSelection</name>
+  </attribute>
+ </tag>
+</facelet-taglib>
