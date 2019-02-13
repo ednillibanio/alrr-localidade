@@ -24,9 +24,8 @@
 				value="localidade_schema" />
 			<!-- <property name="javax.persistence.schema-generation.database.action" 
 				value="create" /> -->
-			<property
-				name="javax.persistence.schema-generation.create-database-schemas"
-				value="true" />
+			<!-- <property name="javax.persistence.schema-generation.create-database-schemas" 
+				value="true" /> -->
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.format_sql" value="true" />
 			<property name="hibernate.connection.useUnicode"
@@ -43,6 +42,8 @@
 				value="filesystem" />
 			<property name="hibernate.search.default.indexBase"
 				value="./lucene/indexes" />
+			<property name="wildfly.jpa.hibernate.search.module"
+				value="org.hibernate.search.orm:main" />
 			<!-- <property name="hibernate.search.analyzer" value="br.leg.rr.al.core.jpa.EntityAnalyzer" 
 				/> -->
 			<!-- CONFIGURAÇÃO DE AUDITORIA. SERÁ USADO PARA A ENTIDADE ATENDIMENTO -->
