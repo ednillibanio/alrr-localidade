@@ -2,19 +2,26 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	<artifactId>alrr-localidade-ear</artifactId>
+	<name>alrr-localidade-ear</name>
+	<packaging>ear</packaging>
 	<parent>
 		<groupId>br.leg.rr.al.localidade</groupId>
 		<artifactId>alrr-localidade</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
-		<relativePath>../pom.xml</relativePath>
 	</parent>
-	<artifactId>alrr-localidade-ear</artifactId>
-	<name>alrr-localidade-ear</name>
+	<organization>
+		<name>Assembleia Legislativa de Roraima</name>
+		<url>https://www.al.rr.leg.br</url>
+	</organization>
 	<developers>
 		<developer>
 			<id>ednil</id>
 			<name>Ednil Libanio da Costa Junior</name>
 			<email>ednil.libanio@gmail.com</email>
+			<roles>
+				<role>Analista de Sistema</role>
+			</roles>
 		</developer>
 	</developers>
 	<build>
@@ -26,6 +33,10 @@
 				<inherited>true</inherited>
 				<configuration>
 					<modules>
+						<ejbModule>
+							<groupId>br.leg.rr.al.localidade</groupId>
+							<artifactId>alrr-localidade-ejb</artifactId>
+						</ejbModule>
 						<webModule>
 							<groupId>br.leg.rr.al.localidade</groupId>
 							<artifactId>alrr-localidade-web</artifactId>
@@ -48,18 +59,16 @@
 			</plugin>
 		</plugins>
 	</build>
-
-	<packaging>ear</packaging>
 	<dependencies>
-		<dependency>
-			<groupId>br.leg.rr.al.localidade</groupId>
-			<artifactId>alrr-localidade-ejb</artifactId>
-			<type>ejb</type>
-		</dependency>
 		<dependency>
 			<groupId>br.leg.rr.al.localidade</groupId>
 			<artifactId>alrr-localidade-web</artifactId>
 			<type>war</type>
+		</dependency>
+		<dependency>
+			<groupId>br.leg.rr.al.localidade</groupId>
+			<artifactId>alrr-localidade-ejb</artifactId>
+			<type>ejb</type>
 		</dependency>
 	</dependencies>
 </project>

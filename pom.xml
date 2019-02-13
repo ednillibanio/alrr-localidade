@@ -2,21 +2,30 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>br.leg.rr.al</groupId>
-		<artifactId>alrr-bibliotecas</artifactId>
-		<version>1.0.0</version>
-		<relativePath>../alrr-bibliotecas/pom.xml</relativePath>
-	</parent>
 	<groupId>br.leg.rr.al.localidade</groupId>
 	<artifactId>alrr-localidade</artifactId>
 	<packaging>pom</packaging>
 	<name>alrr-localidade</name>
+	<properties>
+		<al.rr.localidade.version>1.0.0-SNAPSHOT</al.rr.localidade.version>
+	</properties>
+	<parent>
+		<groupId>br.leg.rr.al</groupId>
+		<artifactId>alrr-bibliotecas</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+	<organization>
+		<name>Assembleia Legislativa de Roraima</name>
+		<url>https://www.al.rr.leg.br</url>
+	</organization>
 	<developers>
 		<developer>
 			<id>ednil</id>
 			<name>Ednil Libanio da Costa Junior</name>
 			<email>ednil.libanio@gmail.com</email>
+			<roles>
+				<role>Analista de Sistema</role>
+			</roles>
 		</developer>
 	</developers>
 	<modules>
@@ -32,18 +41,18 @@
 			<dependency>
 				<groupId>br.leg.rr.al.localidade</groupId>
 				<artifactId>alrr-localidade-ejb</artifactId>
-				<version>${project.version}</version>
+				<version>${al.rr.localidade.version}</version>
 				<type>ejb</type>
 			</dependency>
 			<dependency>
 				<groupId>br.leg.rr.al.localidade</groupId>
 				<artifactId>alrr-localidade-jpa</artifactId>
-				<version>${project.version}</version>
+				<version>${al.rr.localidade.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>br.leg.rr.al.localidade</groupId>
 				<artifactId>alrr-localidade-utils</artifactId>
-				<version>${project.version}</version>
+				<version>${al.rr.localidade.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>br.leg.rr.al.core</groupId>
@@ -55,13 +64,9 @@
 			<dependency>
 				<groupId>br.leg.rr.al.localidade</groupId>
 				<artifactId>alrr-localidade-web</artifactId>
-				<version>${project.version}</version>
+				<version>${al.rr.localidade.version}</version>
 				<type>war</type>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-	<version>1.0.0-SNAPSHOT</version>
-	<properties>
-		<project.version>1.0.0-SNAPSHOT</project.version>
-	</properties>
 </project>

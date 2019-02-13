@@ -4,18 +4,24 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>alrr-localidade-jpa</artifactId>
 	<name>alrr-localidade-jpa</name>
+	<packaging>jar</packaging>
 	<parent>
 		<groupId>br.leg.rr.al.localidade</groupId>
 		<artifactId>alrr-localidade</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
-		<relativePath>../pom.xml</relativePath>
 	</parent>
+	<organization>
+		<name>Assembleia Legislativa de Roraima</name>
+		<url>https://www.al.rr.leg.br</url>
+	</organization>
 	<developers>
 		<developer>
+			<id>ednil</id>
 			<name>Ednil Libanio da Costa Junior</name>
 			<email>ednil.libanio@gmail.com</email>
-			<organization>Assembleia Legislativa de Roraima</organization>
-			<url>www.al.rr.leg.br</url>
+			<roles>
+				<role>Analista de Sistema</role>
+			</roles>
 		</developer>
 	</developers>
 	<build>
