@@ -8,6 +8,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import br.leg.rr.al.core.jpa.DominioIndexado;
+
 /**
  * Classe persistente que representa a tabela "pais".
  * 
@@ -17,7 +19,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table
-public class Pais extends Localidade {
+public class Pais extends DominioIndexado {
 
 	/**
 	 * 
@@ -41,8 +43,7 @@ public class Pais extends Localidade {
 	}
 
 	/**
-	 * @param sigla
-	 *            the sigla to set
+	 * @param sigla the sigla to set
 	 */
 	public void setSigla(String sigla) {
 		this.sigla = sigla;
@@ -56,8 +57,7 @@ public class Pais extends Localidade {
 	}
 
 	/**
-	 * @param codigoDiscagem
-	 *            the codigoDiscagem to set
+	 * @param codigoDiscagem the codigoDiscagem to set
 	 */
 	public void setCodigoDiscagem(String codigoDiscagem) {
 		this.codigoDiscagem = codigoDiscagem;
@@ -71,8 +71,7 @@ public class Pais extends Localidade {
 	}
 
 	/**
-	 * @param nacionalidade
-	 *            the nacionalidade to set
+	 * @param nacionalidade the nacionalidade to set
 	 */
 	public void setNacionalidade(String nacionalidade) {
 		this.nacionalidade = nacionalidade;

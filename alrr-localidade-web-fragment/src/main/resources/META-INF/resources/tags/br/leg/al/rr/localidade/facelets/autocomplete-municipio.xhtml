@@ -23,9 +23,9 @@
 ****************************************************************************************/
 -->
 
-<p:autoComplete id="locmun" label="Município" value="#{value}"
-	required="true" emptyMessage="Nenhum município encontrado"
-	completeMethod="#{municipioCompleteController.completeByNome}"
+<p:autoComplete id="#{id}" label="Município" value="#{value}"
+	required="#{required}" emptyMessage="Nenhum município encontrado"
+	completeMethod="#{municipioCompleteController.completarPorNomeIndexado}"
 	var="municipio"
 	itemLabel="#{municipio.nome.concat(' - ').concat(municipio.uf)}"
 	itemValue="#{municipio}" converter="#{entityConverter}"

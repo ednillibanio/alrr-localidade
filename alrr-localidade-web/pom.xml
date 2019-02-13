@@ -51,6 +51,10 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
+			<groupId>br.leg.rr.al.localidade</groupId>
+			<artifactId>alrr-localidade-web-fragment</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.omnifaces</groupId>
 			<artifactId>omnifaces</artifactId>
 		</dependency>

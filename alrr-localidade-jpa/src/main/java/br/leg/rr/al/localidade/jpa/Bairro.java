@@ -8,6 +8,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import br.leg.rr.al.core.jpa.Dominio;
+
 /**
  * Classe persistente que representa a tabela "bairro".
  * 
@@ -17,7 +19,7 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity
 @Table(uniqueConstraints = { @UniqueConstraint(name = "bairro_uq", columnNames = { "nome", "municipio_id" }) })
-public class Bairro extends Localidade {
+public class Bairro extends Dominio {
 
 	/**
 	 * 
@@ -27,14 +29,6 @@ public class Bairro extends Localidade {
 	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "municipio_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "municipio_fk"), nullable = false)
 	private Municipio municipio;
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
 
 	public Municipio getMunicipio() {
 		return municipio;

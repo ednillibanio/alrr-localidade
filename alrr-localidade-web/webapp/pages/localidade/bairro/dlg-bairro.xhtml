@@ -24,6 +24,7 @@
 	xmlns:al="http://xmlns.jcp.org/jsf/composite/componentes/core"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:alcore="http://al.rr.leg.br/facelets/core"
+	xmlns:alloc="http://al.rr.leg.br/facelets/localidade"
 	xmlns:alcommons="http://al.rr.leg.br/facelets/commons"
 	xmlns:o="http://omnifaces.org/ui"
 	xmlns:ph="http://xmlns.jcp.org/jsf/passthrough" lang="pt-br">
@@ -64,20 +65,27 @@
 
 
 		<!--   C A  M P O:  B U S C A   M U N I C Í P I O   -->
-		<h:panelGroup>
-			<p:outputLabel value="Municipio" for="municipio" />
-			<p:autoComplete value="#{bairroController.entity.municipio}"
-				id="municipio" label="Município" title="Município"
-				completeMethod="#{municipioCompleteController.completeByNome}"
-				var="mun" itemLabel="#{mun.nome.concat(' - ').concat(mun.uf)}"
-				itemValue="#{mun}" converter="#{entityConverter}"
-				forceSelection="true" minQueryLength="3" maxResults="8"
-				required="true" emptyMessage="Nenhum município encontrado.">
-				<p:column>#{mun.nome} - #{mun.uf}</p:column>
-			</p:autoComplete>
-			<p:message for="municipio" id="msg-mun" display="tooltip" />
-		</h:panelGroup>
+		<al:campo for="municipio" title="Município" value="Município">
+			<alloc:autocomplete-municipio id="municipio" required="true"
+				value="#{bairroController.entity.municipio}" />
+		</al:campo>
 
+
+		<!-- 		<h:panelGroup>
+			<p:outputLabel value="Municipio" for="municipio" />
+			<alloc:autocomplete-municipio value="#{bairroController.entity.municipio}"/>
+				<p:autoComplete value="#{bairroController.entity.municipio}"
+					id="municipio" label="Município" title="Município"
+					completeMethod="#{municipioCompleteController.completeByNome}"
+					var="mun" itemLabel="#{mun.nome.concat(' - ').concat(mun.uf)}"
+					itemValue="#{mun}" converter="#{entityConverter}"
+					forceSelection="true" minQueryLength="3" maxResults="8"
+					required="true" emptyMessage="Nenhum município encontrado.">
+					<p:column>#{mun.nome} - #{mun.uf}</p:column>
+				</p:autoComplete>
+				<p:message for="municipio" id="msg-mun" display="tooltip" />
+		</h:panelGroup>
+ -->
 	</ui:define>
 
 

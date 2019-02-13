@@ -4,17 +4,12 @@
  ******************************************************************************/
 package br.leg.rr.al.localidade.ejb;
 
-import java.util.List;
-
 import javax.ejb.Local;
 
-import br.leg.rr.al.core.dao.JPADaoStatus;
+import br.leg.rr.al.core.dao.DominioIndexadoJPADao;
 import br.leg.rr.al.localidade.jpa.Pais;
 
 @Local
-public interface PaisLocal extends JPADaoStatus<Pais, Integer> {
-
-	@Override
-	public List<Pais> buscarPorNome(String nome);
+public interface PaisLocal extends DominioIndexadoJPADao<Pais> {
 
 }

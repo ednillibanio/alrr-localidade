@@ -24,5 +24,15 @@
    <description>Atributo que preenche o atributo maxResults do componente commandBunton do primefaces.</description>
    <name>forceSelection</name>
   </attribute>
+  <attribute>
+   <description>Identificador do componente</description>
+   <name>id</name>
+   <type>java.lang.String</type>
+  </attribute>
+  <attribute>
+   <description>Define se o campo é de preenchimento obrigatório.</description>
+   <name>required</name>
+   <type>java.lang.Boolean</type>
+  </attribute>
  </tag>
 </facelet-taglib>

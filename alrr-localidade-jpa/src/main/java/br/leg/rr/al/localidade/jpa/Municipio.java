@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.search.annotations.Indexed;
 
+import br.leg.rr.al.core.jpa.DominioIndexado;
 import br.leg.rr.al.localidade.domain.UfType;
 
 /**
@@ -25,7 +26,7 @@ import br.leg.rr.al.localidade.domain.UfType;
 		@Index(name = "municipio_idx1", columnList = "nome"),
 		@Index(name = "municipio_idx2", columnList = "nome, uf") })
 @Indexed
-public class Municipio extends Localidade {
+public class Municipio extends DominioIndexado {
 
 	/**
 	 * 
@@ -38,6 +39,8 @@ public class Municipio extends Localidade {
 	@Column(name = "ibge_id", nullable = true)
 	private String ibgeId;
 
+	// @Analyzer(definition = NOME_ANALYZER)
+	// @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
 	@NotNull(message = "Preenchimento obrigatório do campo: UF.")
 	@Enumerated(EnumType.STRING)
 	@Column(name = "uf", nullable = false, length = 2)

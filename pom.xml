@@ -67,6 +67,11 @@
 				<version>${al.rr.localidade.version}</version>
 				<type>war</type>
 			</dependency>
+			<dependency>
+				<groupId>br.leg.rr.al.localidade</groupId>
+				<artifactId>alrr-localidade-web-fragment</artifactId>
+				<version>${al.rr.localidade.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 </project>

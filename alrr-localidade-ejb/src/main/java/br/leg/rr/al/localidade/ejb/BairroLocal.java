@@ -5,11 +5,11 @@ import java.util.List;
 import javax.ejb.Local;
 
 import br.leg.rr.al.core.dao.BeanException;
-import br.leg.rr.al.core.dao.JPADaoStatus;
+import br.leg.rr.al.core.dao.DominioJPADao;
 import br.leg.rr.al.localidade.jpa.Bairro;
 
 @Local
-public interface BairroLocal extends JPADaoStatus<Bairro, Integer> {
+public interface BairroLocal extends DominioJPADao<Bairro> {
 
 	/**
 	 * Busca pelo campo "uf" da entidade {@code Bairro}.<br>

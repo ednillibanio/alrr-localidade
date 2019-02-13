@@ -6,12 +6,12 @@ import java.util.List;
 import javax.ejb.Local;
 
 import br.leg.rr.al.core.dao.BeanException;
-import br.leg.rr.al.core.dao.JPADaoStatus;
+import br.leg.rr.al.core.dao.DominioIndexadoJPADao;
 import br.leg.rr.al.localidade.domain.UfType;
 import br.leg.rr.al.localidade.jpa.Municipio;
 
 @Local
-public interface MunicipioLocal extends JPADaoStatus<Municipio, Integer> {
+public interface MunicipioLocal extends DominioIndexadoJPADao<Municipio> {
 
 	/**
 	 * Busca pelo campo "uf" da entidade {@code Municipio}.<br>
@@ -19,17 +19,6 @@ public interface MunicipioLocal extends JPADaoStatus<Municipio, Integer> {
 	 * @value {@literal List<UfType>};
 	 */
 	String PESQUISAR_PARAM_UFS = "ufs";
-
-	/**
-	 * Busca as localidades que contém parte do nome informado.
-	 * 
-	 * @param nome nome da municipio a ser pesquisada.
-	 * @return retorna uma lista de nomes que satisfaz o <param>nome</param>
-	 *         informado.
-	 * @throws ControllerException
-	 */
-	@Override
-	public List<Municipio> buscarPorNome(String nome) throws BeanException;
 
 	/**
 	 * Busca Municipio por Unidade Federativa.

@@ -16,7 +16,7 @@ import javax.persistence.criteria.Root;
 
 import org.apache.commons.lang3.StringUtils;
 
-import br.leg.rr.al.core.dao.BaseJPADaoStatus;
+import br.leg.rr.al.core.dao.BaseDominioIndexadoJPADao;
 import br.leg.rr.al.core.dao.BeanException;
 import br.leg.rr.al.core.domain.StatusType;
 import br.leg.rr.al.core.jpa.BaseEntityStatus_;
@@ -30,7 +30,7 @@ import br.leg.rr.al.localidade.utils.MunicipioUtils;
 
 @Named
 @Stateless
-public class MunicipioService extends BaseJPADaoStatus<Municipio, Integer> implements MunicipioLocal {
+public class MunicipioService extends BaseDominioIndexadoJPADao<Municipio> implements MunicipioLocal {
 
 	/**
 	 * 
