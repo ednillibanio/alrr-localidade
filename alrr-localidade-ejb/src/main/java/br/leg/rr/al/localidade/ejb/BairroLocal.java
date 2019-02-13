@@ -12,13 +12,6 @@ import br.leg.rr.al.localidade.jpa.Bairro;
 public interface BairroLocal extends JPADaoStatus<Bairro, Integer> {
 
 	/**
-	 * Busca entidade {@code Bairro} pelo campo "nome".<br>
-	 * 
-	 * @value {@literal String};
-	 */
-	String PESQUISAR_PARAM_NOME = "nome";
-
-	/**
 	 * Busca pelo campo "uf" da entidade {@code Bairro}.<br>
 	 * 
 	 * @value {@literal List<UfType>};

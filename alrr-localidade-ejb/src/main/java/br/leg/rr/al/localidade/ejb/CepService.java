@@ -30,6 +30,7 @@ import org.apache.commons.text.WordUtils;
 import com.google.gson.Gson;
 
 import br.leg.rr.al.core.dao.BaseJPADao;
+import br.leg.rr.al.core.jpa.BaseEntityStatus_;
 import br.leg.rr.al.localidade.domain.UfType;
 import br.leg.rr.al.localidade.domain.ViaCep;
 import br.leg.rr.al.localidade.jpa.Bairro;
@@ -147,7 +148,6 @@ public class CepService extends BaseJPADao<Cep, Integer> implements CepLocal {
 		return null;
 	}
 
-	@SuppressWarnings("null")
 	@Override
 	public Cep buscarCepWS(String arg) throws Exception {
 
@@ -231,7 +231,25 @@ public class CepService extends BaseJPADao<Cep, Integer> implements CepLocal {
 
 	@Override
 	public Boolean jaExiste(Cep entidade) {
-		return false;
+		CriteriaBuilder cb = getCriteriaBuilder();
+		CriteriaQuery<Cep> cq = createCriteriaQuery();
+		Root<Cep> root = cq.from(Cep.class);
+		cq.select(root);
+
+		List<Predicate> predicates = new ArrayList<Predicate>();
+
+		Predicate cep = cb.equal(root.get(Cep_.numero), entidade.getNumero());
+		predicates.add(cep);
+
+		// condição para não verificar a mesma entidade se já existir.
+		if (entidade.getId() != null) {
+			Predicate id = cb.notEqual(root.get(BaseEntityStatus_.id), entidade.getId());
+			predicates.add(id);
+		}
+
+		cq.where(predicates.toArray(new Predicate[predicates.size()]));
+
+		return (!getResultList(cq).isEmpty());
 	}
 
 	@SuppressWarnings("unchecked")

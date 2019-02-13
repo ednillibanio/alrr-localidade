@@ -22,6 +22,7 @@ import org.apache.commons.lang3.StringUtils;
 import br.leg.rr.al.core.dao.BaseJPADaoStatus;
 import br.leg.rr.al.core.dao.BeanException;
 import br.leg.rr.al.core.domain.StatusType;
+import br.leg.rr.al.core.jpa.BaseEntityStatus_;
 import br.leg.rr.al.localidade.domain.UfType;
 import br.leg.rr.al.localidade.jpa.Bairro;
 import br.leg.rr.al.localidade.jpa.Bairro_;
@@ -86,9 +87,34 @@ public class BairroService extends BaseJPADaoStatus<Bairro, Integer> implements 
 		return null;
 	}
 
+	/**
+	 * Verifica se já existe um bairro com o mesmo nome e municipio. Caso já exista,
+	 * retorna true.
+	 */
 	@Override
 	public Boolean jaExiste(Bairro entidade) {
-		return false;
+		CriteriaBuilder cb = getCriteriaBuilder();
+		CriteriaQuery<Bairro> cq = createCriteriaQuery();
+		Root<Bairro> root = cq.from(Bairro.class);
+		cq.select(root);
+
+		List<Predicate> predicates = new ArrayList<Predicate>();
+
+		Predicate nome = cb.equal(root.get(Bairro_.nome), entidade.getNome());
+		predicates.add(nome);
+
+		Predicate mun = cb.equal(root.get(Bairro_.municipio), entidade.getMunicipio());
+		predicates.add(mun);
+
+		// condição para não verificar a mesma entidade se já existir.
+		if (entidade.getId() != null) {
+			Predicate id = cb.notEqual(root.get(BaseEntityStatus_.id), entidade.getId());
+			predicates.add(id);
+		}
+
+		cq.where(predicates.toArray(new Predicate[predicates.size()]));
+
+		return (!getResultList(cq).isEmpty());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -124,7 +150,7 @@ public class BairroService extends BaseJPADaoStatus<Bairro, Integer> implements 
 			}
 			if (params.containsKey(PESQUISAR_PARAM_SITUACAO)) {
 				sit = (StatusType) params.get(PESQUISAR_PARAM_SITUACAO);
-				
+
 				if (sit != null) {
 					cond = cb.equal(root.get(Bairro_.situacao), sit);
 					predicates.add(cond);

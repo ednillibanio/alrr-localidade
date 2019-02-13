@@ -14,13 +14,6 @@ import br.leg.rr.al.localidade.jpa.Municipio;
 public interface MunicipioLocal extends JPADaoStatus<Municipio, Integer> {
 
 	/**
-	 * Busca entidade {@code Municipio} pelo campo "nome".<br>
-	 * 
-	 * @value {@literal String};
-	 */
-	String PESQUISAR_PARAM_NOME = "nome";
-
-	/**
 	 * Busca pelo campo "uf" da entidade {@code Municipio}.<br>
 	 * 
 	 * @value {@literal List<UfType>};
