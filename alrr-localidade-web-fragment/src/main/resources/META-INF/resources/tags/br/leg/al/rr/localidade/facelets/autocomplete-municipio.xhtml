@@ -17,21 +17,21 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:o="http://omnifaces.org/ui">
 <!--
-/****************************************************************************************
-* Autor: Ednil Libanio da Costa Junior													*
-* Data: 30-08-2018																		*
-* 																						*
+*****************************************************************************************
+* @autor:	Ednil Libanio da Costa Junior												*
+* @since:	1.0.0 																		*
 ****************************************************************************************/
 -->
 
 <p:autoComplete id="locmun" label="Município" value="#{value}"
 	required="true" emptyMessage="Nenhum município encontrado"
-	completeMethod="#{localidadeCompleteController.completeByNome}"
-	var="loc" itemLabel="#{loc.nome.concat(' - ').concat(loc.uf)}"
-	itemValue="#{loc}" converter="#{entityConverter}" forceSelection="true"
-	minQueryLength="3" maxResults="8">
+	completeMethod="#{municipioCompleteController.completeByNome}"
+	var="municipio"
+	itemLabel="#{municipio.nome.concat(' - ').concat(municipio.uf)}"
+	itemValue="#{municipio}" converter="#{entityConverter}"
+	forceSelection="true" minQueryLength="3" maxResults="8">
 	<p:column>
-		#{loc.nome} - #{loc.uf}
+		#{municipio.nome} - #{municipio.uf}
 	</p:column>
 </p:autoComplete>
 

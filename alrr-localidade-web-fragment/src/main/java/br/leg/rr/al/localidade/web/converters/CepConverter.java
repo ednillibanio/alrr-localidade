@@ -12,7 +12,7 @@ import br.leg.rr.al.localidade.utils.CepUtils;
 
 @Named
 @RequestScoped
-public class CepConverter implements Converter, Serializable {
+public class CepConverter implements Converter<Object>, Serializable {
 
 	/**
 	 * 
