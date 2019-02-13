@@ -57,6 +57,7 @@ public class CepController extends DialogController<Cep, Integer> {
 		jaExisteMsg = "Cep já existe.";
 		setNovoDialogName("dlg-cep");
 		setEditarDialogName("dlg-cep");
+		setDetalhesDialogName("dlg-cep-detalhes");
 	}
 
 	@Override
@@ -94,6 +95,12 @@ public class CepController extends DialogController<Cep, Integer> {
 	protected void posInserir() {
 		numero = null;
 		super.posInserir();
+	}
+
+	@Override
+	protected void posEditar() {
+		super.posEditar();
+		this.numero = getEntity().getNumero();
 	}
 
 	/**

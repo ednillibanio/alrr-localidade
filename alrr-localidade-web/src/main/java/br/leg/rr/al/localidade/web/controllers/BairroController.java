@@ -18,13 +18,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import br.leg.rr.al.core.CoreUtilsValidationMessages;
-import br.leg.rr.al.core.LuceneSearchRotina;
 import br.leg.rr.al.core.dao.BeanException;
 import br.leg.rr.al.core.domain.StatusType;
 import br.leg.rr.al.core.web.controller.status.DialogControllerEntityStatus;
 import br.leg.rr.al.core.web.util.FacesMessageUtils;
 import br.leg.rr.al.localidade.domain.UfType;
 import br.leg.rr.al.localidade.ejb.BairroLocal;
+import br.leg.rr.al.localidade.ejb.LuceneSearchRotina;
 import br.leg.rr.al.localidade.jpa.Bairro;
 import br.leg.rr.al.localidade.jpa.Municipio;
 
@@ -68,6 +68,7 @@ public class BairroController extends DialogControllerEntityStatus<Bairro, Integ
 		jaExisteMsg = "Bairro já existe.";
 		setNovoDialogName("dlg-bairro");
 		setEditarDialogName("dlg-bairro");
+		setDetalhesDialogName("dlg-bairro-detalhes");
 	}
 
 	/**

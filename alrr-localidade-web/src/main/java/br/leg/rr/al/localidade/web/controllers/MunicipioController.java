@@ -57,6 +57,7 @@ public class MunicipioController extends DialogControllerEntityStatus<Municipio,
 		jaExisteMsg = "Município já existe.";
 		setNovoDialogName("dlg-municipio");
 		setEditarDialogName("dlg-municipio");
+		setDetalhesDialogName("dlg-municipio-detalhes");
 	}
 
 	@Override
