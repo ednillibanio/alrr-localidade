@@ -27,8 +27,7 @@ public class Cep extends BaseEntity<Integer> {
 	 */
 	private static final long serialVersionUID = -1696673731486221778L;
 
-	@Column(nullable = false, length = 8)
-
+	@Column(nullable = false, length = 8, unique = true)
 	private String numero;
 
 	@Column(nullable = true, length = 250)

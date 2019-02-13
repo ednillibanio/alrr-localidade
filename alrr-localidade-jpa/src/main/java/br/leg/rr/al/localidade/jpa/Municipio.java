@@ -9,6 +9,8 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.search.annotations.Indexed;
+
 import br.leg.rr.al.localidade.domain.UfType;
 
 /**
@@ -22,6 +24,7 @@ import br.leg.rr.al.localidade.domain.UfType;
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = { "nome", "uf" }), indexes = {
 		@Index(name = "municipio_idx1", columnList = "nome"),
 		@Index(name = "municipio_idx2", columnList = "nome, uf") })
+@Indexed
 public class Municipio extends Localidade {
 
 	/**
