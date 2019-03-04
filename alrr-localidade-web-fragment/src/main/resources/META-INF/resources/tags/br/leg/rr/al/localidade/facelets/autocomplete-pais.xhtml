@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<!--
+/****************************************************************************************
+* ALE-RR Licença																		*
+* Copyright (C) 2018, ALE-RR															*
+* Boa Vista, RR - Brasil																*
+* Todos os direitos reservados.															*
+* 																						*
+* Este programa é propriedade da Assembleia Legislativa do Estado de Roraima e 			*
+* não é permitida a distribuição, alteração ou cópia da mesma sem prévia autoriazação.	*
+****************************************************************************************/
+-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:o="http://omnifaces.org/ui">
+<!--
+*****************************************************************************************
+* @autor:	Ednil Libanio da Costa Junior												*
+* @since:	1.0.0 																		*
+****************************************************************************************/
+-->
+
+<p:autoComplete id="#{id}" label="País" value="#{value}"
+	multiple="#{multiple}" required="#{required}"
+	emptyMessage="Nenhum país encontrado"
+	completeMethod="#{paisAutoCompleteController.completarPorNomeIndexado}"
+	var="pais" itemLabel="#{pais.nome}" itemValue="#{pais}"
+	converter="#{entityConverter}" forceSelection="#{forceSelection}"
+	minQueryLength="#{minQueryLength}" maxResults="#{maxResults}">
+	<p:column>
+		#{pais.nome}
+	</p:column>
+</p:autoComplete>
+
+</html>
