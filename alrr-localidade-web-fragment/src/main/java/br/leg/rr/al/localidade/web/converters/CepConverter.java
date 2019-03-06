@@ -12,7 +12,7 @@ import br.leg.rr.al.localidade.utils.CepUtils;
 
 @Named
 @RequestScoped
-public class CepConverter implements Converter<Object>, Serializable {
+public class CepConverter implements Converter<String>, Serializable {
 
 	/**
 	 * 
@@ -20,14 +20,14 @@ public class CepConverter implements Converter<Object>, Serializable {
 	private static final long serialVersionUID = 6530116112672863422L;
 
 	@Override
-	public Object getAsObject(FacesContext context, UIComponent component, String value) {
+	public String getAsObject(FacesContext context, UIComponent component, String value) {
 
 		return CepUtils.unformat(value);
 	}
 
 	@Override
-	public String getAsString(FacesContext context, UIComponent component, Object value) {
-		return CepUtils.format((String) value);
+	public String getAsString(FacesContext context, UIComponent component, String value) {
+		return CepUtils.format(value);
 	}
 
 }

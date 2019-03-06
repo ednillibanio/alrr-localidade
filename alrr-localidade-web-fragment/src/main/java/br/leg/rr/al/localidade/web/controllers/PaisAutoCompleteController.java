@@ -6,15 +6,15 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 
 import br.leg.rr.al.core.web.controller.AutoCompleteIndexadoController;
-import br.leg.rr.al.localidade.ejb.BairroLocal;
-import br.leg.rr.al.localidade.jpa.Bairro;
+import br.leg.rr.al.localidade.ejb.PaisLocal;
+import br.leg.rr.al.localidade.jpa.Pais;
 
 @Named
 @RequestScoped
-public class BairroAutoCompleteController extends AutoCompleteIndexadoController<Bairro> {
+public class PaisAutoCompleteController extends AutoCompleteIndexadoController<Pais> {
 
 	@EJB
-	private BairroLocal bean;
+	private PaisLocal bean;
 
 	@Override
 	@PostConstruct
@@ -22,4 +22,5 @@ public class BairroAutoCompleteController extends AutoCompleteIndexadoController
 		setBean(bean);
 
 	}
+
 }

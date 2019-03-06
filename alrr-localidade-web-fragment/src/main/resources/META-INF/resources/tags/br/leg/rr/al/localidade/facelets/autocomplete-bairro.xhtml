@@ -25,7 +25,7 @@
 
 <p:autoComplete id="#{id}" label="Bairro" value="#{value}"
 	required="#{required}" emptyMessage="Nenhum bairro encontrado"
-	completeMethod="#{bairroCompleteController.completarPorNomeIndexado}"
+	completeMethod="#{bairroAutoCompleteController.completarPorNomeIndexado}"
 	var="bairro"
 	itemLabel="#{bairro.nome.concat(', ').concat(bairro.municipio.nome).concat(', ').concat(bairro.municipio.uf)}"
 	itemValue="#{bairro}" converter="#{entityConverter}"
