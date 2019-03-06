@@ -12,7 +12,7 @@
 		<class>br.leg.rr.al.localidade.jpa.Bairro</class>
 		<class>br.leg.rr.al.localidade.jpa.Cep</class>
 		<class>br.leg.rr.al.localidade.jpa.Municipio</class>
-		<class>br.leg.rr.al.localidade.jpa.Localidade</class>
+		<class>br.leg.rr.al.localidade.jpa.UnidadeFederativa</class>
 		<class>br.leg.rr.al.localidade.jpa.Pais</class>
 		<class>br.leg.rr.al.core.jpa.BaseEntity</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
@@ -23,7 +23,7 @@
 			<property name="hibernate.default_schema"
 				value="localidade_schema" />
 			<!-- <property name="javax.persistence.schema-generation.database.action" 
-				value="create" /> -->
+				value="drop-and-create" /> -->
 			<!-- <property name="javax.persistence.schema-generation.create-database-schemas" 
 				value="true" /> -->
 			<property name="hibernate.show_sql" value="true" />
