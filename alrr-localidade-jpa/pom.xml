@@ -70,11 +70,6 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-search-engine</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
 			<groupId>org.hibernate.validator</groupId>
 			<artifactId>
 				hibernate-validator-annotation-processor
@@ -82,9 +77,8 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.jboss.spec.javax.xml.bind</groupId>
-			<artifactId>jboss-jaxb-api_2.3_spec</artifactId>
-			<scope>provided</scope>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-search-orm</artifactId>
 		</dependency>
 	</dependencies>
 </project>

@@ -1,17 +1,25 @@
-/*******************************************************************************
- * Copyright (c) 2017, KMDR Consultoria e Serviços, Boa Vista, RR - Brasil.
- * Todos os direitos reservados. Este programa é propriedade da Assembleia Legislativa do Estado de Roraima e não é permitida a distribuição, alteração ou cópia da mesma sem prévia autoriazação.
- ******************************************************************************/
 package br.leg.rr.al.localidade.jpa;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import org.hibernate.search.annotations.Indexed;
+
 import br.leg.rr.al.core.jpa.DominioIndexado;
 
 /**
- * Classe persistente que representa a tabela "pais".
+ * <p>
+ * Classe persistente que representa a tabela "pais" que possui os seguintes
+ * indices:
+ * <ul>
+ * <li>lower(nome)</li>
+ * <li>lower(sigla)</li>
+ * </ul>
+ * Obs.: A função <strong>lower</strong> é utilizada para evitar que valores
+ * sejam duplicados no banco de dados em casos que não devem. O postgres é case
+ * sensitive nos campos varchar. Constraints não funciona nesses casos.
+ * </p>
  * 
  * @author <a href="mailto:ednil.libanio@gmail.com"> Ednil Libanio da Costa
  *         Junior</a>
@@ -19,6 +27,7 @@ import br.leg.rr.al.core.jpa.DominioIndexado;
  */
 @Entity
 @Table
+@Indexed
 public class Pais extends DominioIndexado {
 
 	/**

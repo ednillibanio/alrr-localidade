@@ -19,7 +19,7 @@ import br.leg.rr.al.core.jpa.BaseEntity;
  * @since 1.0.0
  */
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(name = "numero_uq", columnNames = "numero"))
+@Table
 public class Cep extends BaseEntity<Integer> {
 
 	/**
@@ -33,13 +33,11 @@ public class Cep extends BaseEntity<Integer> {
 	@Column(nullable = true, length = 250)
 	private String logradouro;
 
-	// @Column(nullable = true, length = 250)
 	@ManyToOne(fetch = FetchType.EAGER, optional = true)
 	@JoinColumn(name = "bairro_id", referencedColumnName = "id", nullable = true, foreignKey = @ForeignKey(name = "bairro_fk"))
 	private Bairro bairro;
 
-	// @Column(nullable = true, length = 250)
-	@ManyToOne(fetch = FetchType.EAGER, optional = true)
+	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "municipio_id", referencedColumnName = "id", nullable = false, foreignKey = @ForeignKey(name = "municipio_fk"))
 	private Municipio municipio;
 

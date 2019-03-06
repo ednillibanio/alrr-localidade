@@ -8,6 +8,8 @@ import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 
 import br.leg.rr.al.core.jpa.BaseEntityStatus;
 import br.leg.rr.al.localidade.domain.EnderecoType;
@@ -29,9 +31,13 @@ public class Endereco extends BaseEntityStatus<Integer> {
 	 */
 	private static final long serialVersionUID = -1696673731486221778L;
 
+	@Transient
+	private Boolean semCep = false;
+
 	@Column(nullable = true, length = 8)
 	private String cep;
 
+	@NotNull(message = "Preenchimento obrigatório do logradouro.")
 	@Column(nullable = false, length = 250)
 	private String logradouro;
 
@@ -51,7 +57,7 @@ public class Endereco extends BaseEntityStatus<Integer> {
 
 	// uni-directional many-to-one association to Municipio
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "localidade_id", referencedColumnName = "id", nullable = false, foreignKey = @ForeignKey(name = "localidade_fk"))
+	@JoinColumn(name = "municipio_id", referencedColumnName = "id", nullable = false, foreignKey = @ForeignKey(name = "municipio_fk"))
 	private Municipio municipio;
 
 	@Column(length = 20, nullable = true)
@@ -59,14 +65,6 @@ public class Endereco extends BaseEntityStatus<Integer> {
 
 	@Column(length = 20, nullable = true)
 	private String longitude;
-
-	public Municipio getMunicipio() {
-		return municipio;
-	}
-
-	public void setMunicipio(Municipio municipio) {
-		this.municipio = municipio;
-	}
 
 	public EnderecoType getTipo() {
 		return tipo;
@@ -130,5 +128,13 @@ public class Endereco extends BaseEntityStatus<Integer> {
 
 	public void setLongitude(String longitude) {
 		this.longitude = longitude;
+	}
+
+	public Municipio getMunicipio() {
+		return municipio;
+	}
+
+	public void setMunicipio(Municipio municipio) {
+		this.municipio = municipio;
 	}
 }

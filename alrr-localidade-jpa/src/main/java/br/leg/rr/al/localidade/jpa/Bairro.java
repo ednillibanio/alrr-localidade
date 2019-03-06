@@ -6,9 +6,11 @@ import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.Transient;
 
-import br.leg.rr.al.core.jpa.Dominio;
+import org.hibernate.search.annotations.Indexed;
+
+import br.leg.rr.al.core.jpa.DominioIndexado;
 
 /**
  * Classe persistente que representa a tabela "bairro".
@@ -17,9 +19,10 @@ import br.leg.rr.al.core.jpa.Dominio;
  *         Junior</a>
  * @since 1.0.0
  */
+@Indexed
 @Entity
-@Table(uniqueConstraints = { @UniqueConstraint(name = "bairro_uq", columnNames = { "nome", "municipio_id" }) })
-public class Bairro extends Dominio {
+@Table
+public class Bairro extends DominioIndexado {
 
 	/**
 	 * 
@@ -36,6 +39,16 @@ public class Bairro extends Dominio {
 
 	public void setMunicipio(Municipio municipio) {
 		this.municipio = municipio;
+	}
+
+	@Transient
+	public UnidadeFederativa getUf() {
+		return municipio.getUf();
+	}
+
+	@Transient
+	public Pais getPais() {
+		return municipio.getPais();
 	}
 
 }

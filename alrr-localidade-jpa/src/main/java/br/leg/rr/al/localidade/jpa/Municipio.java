@@ -2,29 +2,36 @@ package br.leg.rr.al.localidade.jpa;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Index;
+import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.search.annotations.Indexed;
 
 import br.leg.rr.al.core.jpa.DominioIndexado;
-import br.leg.rr.al.localidade.domain.UfType;
 
 /**
- * Classe persistente que representa a tabela "municipio".
+ * <p>
+ * * Classe persistente que representa a tabela "pais" que possui os seguintes
+ * indices:
+ * <ul>
+ * <li>municipio_idx1 - (uf_id, LOWER(nome))</li>
+ * </ul>
+ * Obs.: A função <strong>lower</strong> é utilizada para evitar que valores
+ * sejam duplicados no banco de dados em casos que não devem. O postgres é case
+ * sensitive nos campos varchar. Constraints não funciona nesses casos.
+ * </p>
  * 
  * @author <a href="mailto:ednil.libanio@gmail.com"> Ednil Libanio da Costa
  *         Junior</a>
  * @since 1.0.0
  */
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = { "nome", "uf" }), indexes = {
-		@Index(name = "municipio_idx1", columnList = "nome"),
-		@Index(name = "municipio_idx2", columnList = "nome, uf") })
+@Table
 @Indexed
 public class Municipio extends DominioIndexado {
 
@@ -36,25 +43,23 @@ public class Municipio extends DominioIndexado {
 	// TODO: Ver se vai inserir a data de aniversário aqui do municipio. Seria legal
 	// também pra uf.
 
-	@Column(name = "ibge_id", nullable = true)
+	@Column(name = "ibge_id", nullable = true, unique = true)
 	private String ibgeId;
 
-	// @Analyzer(definition = NOME_ANALYZER)
-	// @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
-	@NotNull(message = "Preenchimento obrigatório do campo: UF.")
-	@Enumerated(EnumType.STRING)
-	@Column(name = "uf", nullable = false, length = 2)
-	private UfType uf;
+	@NotNull(message = "Uf: campo obrigatório.")
+	@ManyToOne(fetch = FetchType.EAGER, optional = false)
+	@JoinColumn(name = "uf_id", referencedColumnName = "id", nullable = false, foreignKey = @ForeignKey(name = "uf_fk"))
+	private UnidadeFederativa uf;
 
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
 
-	public UfType getUf() {
+	public UnidadeFederativa getUf() {
 		return uf;
 	}
 
-	public void setUf(UfType uf) {
+	public void setUf(UnidadeFederativa uf) {
 		this.uf = uf;
 	}
 
@@ -70,6 +75,16 @@ public class Municipio extends DominioIndexado {
 	 */
 	public void setIbgeId(String ibgeId) {
 		this.ibgeId = ibgeId;
+	}
+
+	/**
+	 * Retorna o país da Unidade Federativa do Município
+	 * 
+	 * @return pais
+	 */
+	@Transient
+	public Pais getPais() {
+		return uf.getPais();
 	}
 
 }
