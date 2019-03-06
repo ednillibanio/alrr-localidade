@@ -30,8 +30,9 @@ import org.apache.commons.text.WordUtils;
 import com.google.gson.Gson;
 
 import br.leg.rr.al.core.dao.BaseJPADao;
+import br.leg.rr.al.core.dao.BeanException;
+import br.leg.rr.al.core.domain.StatusType;
 import br.leg.rr.al.core.jpa.BaseEntityStatus_;
-import br.leg.rr.al.localidade.domain.UfType;
 import br.leg.rr.al.localidade.domain.ViaCep;
 import br.leg.rr.al.localidade.jpa.Bairro;
 import br.leg.rr.al.localidade.jpa.Bairro_;
@@ -39,6 +40,7 @@ import br.leg.rr.al.localidade.jpa.Cep;
 import br.leg.rr.al.localidade.jpa.Cep_;
 import br.leg.rr.al.localidade.jpa.Municipio;
 import br.leg.rr.al.localidade.jpa.Municipio_;
+import br.leg.rr.al.localidade.jpa.UnidadeFederativa;
 import br.leg.rr.al.localidade.utils.CepUtils;
 
 /**
@@ -55,10 +57,16 @@ public class CepService extends BaseJPADao<Cep, Integer> implements CepLocal {
 	private static final long serialVersionUID = -7570695428497812951L;
 
 	@EJB
-	private MunicipioLocal localidadeBean;
+	private MunicipioLocal municipioBean;
 
 	@EJB
 	private BairroLocal bairroBean;
+
+	@EJB
+	private UnidadeFederativaLocal ufBean;
+
+	@EJB
+	private PaisLocal paisBean;
 
 	public void completeEnderecoByCep() {
 
@@ -190,21 +198,34 @@ public class CepService extends BaseJPADao<Cep, Integer> implements CepLocal {
 		Bairro bairro = null;
 		Cep cep = new Cep();
 
+		// Busca a Uf na base local.
+		UnidadeFederativa uf = ufBean.buscarBrasilUfPorNome(via.getUf().getLabel());
+		// Cadastra a UF caso não encontre na base local.
+		if (uf == null) {
+			uf = new UnidadeFederativa();
+			uf.setIbgeId(via.getUf().getIbgeId());
+			uf.setNome(via.getUf().getLabel());
+			uf.setSigla(via.getUf().toString());
+			uf.setSituacao(StatusType.ATIVO);
+			uf.setPais(paisBean.getBrasil());
+			ufBean.salvar(uf);
+		}
+
 		// Busca o município na base local.
 		if (via.getIbge() != null) {
-			mun = localidadeBean.buscarPorIbgeId(via.getIbge());
+			mun = municipioBean.buscarPorIbgeId(via.getIbge());
 
 		} else if (via.getLocalidade() != null && via.getUf() != null) {
-			mun = localidadeBean.buscarPorUf(via.getUf(), via.getLocalidade());
+			mun = municipioBean.buscarPorUf(via.getUf(), via.getLocalidade());
 		}
 
 		// Salva o novo município se não o encontrou na base local.
 		if (mun == null) {
 			mun = new Municipio();
 			mun.setNome(via.getLocalidade());
-			mun.setUf(via.getUf());
+			mun.setUf(uf);
 			mun.setIbgeId(via.getIbge());
-			localidadeBean.salvar(mun);
+			municipioBean.salvar(mun);
 		}
 
 		if (via.getBairro() != null && mun != null) {
@@ -232,9 +253,9 @@ public class CepService extends BaseJPADao<Cep, Integer> implements CepLocal {
 	@Override
 	public Boolean jaExiste(Cep entidade) {
 		CriteriaBuilder cb = getCriteriaBuilder();
-		CriteriaQuery<Cep> cq = createCriteriaQuery();
+		CriteriaQuery<Long> cq = cb.createQuery(Long.class);
 		Root<Cep> root = cq.from(Cep.class);
-		cq.select(root);
+		cq.select(cb.count(root));
 
 		List<Predicate> predicates = new ArrayList<Predicate>();
 
@@ -248,8 +269,13 @@ public class CepService extends BaseJPADao<Cep, Integer> implements CepLocal {
 		}
 
 		cq.where(predicates.toArray(new Predicate[predicates.size()]));
+		TypedQuery<Long> q = getEntityManager().createQuery(cq);
 
-		return (!getResultList(cq).isEmpty());
+		if (q.getSingleResult() > 0) {
+			throw new BeanException("Cep com este Número já existe. Informe outro valor.");
+		}
+		
+		return false;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -263,14 +289,11 @@ public class CepService extends BaseJPADao<Cep, Integer> implements CepLocal {
 		String logradouro = null;
 		String bairro = null;
 		String municipio = null;
-		List<UfType> ufs = null;
+		List<UnidadeFederativa> ufs = null;
 
 		final CriteriaBuilder cb = getCriteriaBuilder();
 		CriteriaQuery<Cep> cq = cb.createQuery(Cep.class);
 		final Root<Cep> root = cq.from(Cep.class);
-
-		Join<Cep, Bairro> joinBairro = root.join(Cep_.bairro);
-		Join<Cep, Municipio> joinMunicipio = root.join(Cep_.municipio);
 
 		cq.select(root).distinct(true);
 
@@ -302,6 +325,7 @@ public class CepService extends BaseJPADao<Cep, Integer> implements CepLocal {
 
 				if (StringUtils.isNotBlank(bairro)) {
 
+					Join<Cep, Bairro> joinBairro = root.join(Cep_.bairro);
 					cond = cb.like(cb.lower(joinBairro.get(Bairro_.nome)), "%" + bairro.toLowerCase() + "%");
 					predicates.add(cond);
 				}
@@ -312,6 +336,7 @@ public class CepService extends BaseJPADao<Cep, Integer> implements CepLocal {
 
 				if (StringUtils.isNotBlank(municipio)) {
 
+					Join<Cep, Municipio> joinMunicipio = root.join(Cep_.municipio);
 					cond = cb.like(cb.lower(joinMunicipio.get(Municipio_.nome)), "%" + municipio.toLowerCase() + "%");
 					predicates.add(cond);
 				}
@@ -319,10 +344,11 @@ public class CepService extends BaseJPADao<Cep, Integer> implements CepLocal {
 
 			if (params.containsKey(PESQUISAR_PARAM_UFS)) {
 
-				ufs = (List<UfType>) params.get(PESQUISAR_PARAM_UFS);
+				ufs = (List<UnidadeFederativa>) params.get(PESQUISAR_PARAM_UFS);
 
 				if (ufs != null && ufs.size() > 0) {
 
+					Join<Cep, Municipio> joinMunicipio = root.join(Cep_.municipio);
 					cond = joinMunicipio.get(Municipio_.uf).in(Arrays.asList(ufs));
 					predicates.add(cond);
 				}

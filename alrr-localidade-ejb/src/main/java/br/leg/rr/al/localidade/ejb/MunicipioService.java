@@ -1,32 +1,34 @@
 package br.leg.rr.al.localidade.ejb;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Named;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import br.leg.rr.al.core.dao.BaseDominioIndexadoJPADao;
 import br.leg.rr.al.core.dao.BeanException;
 import br.leg.rr.al.core.domain.StatusType;
 import br.leg.rr.al.core.jpa.BaseEntityStatus_;
-import br.leg.rr.al.core.utils.StringHelper;
 import br.leg.rr.al.localidade.domain.UfType;
-import br.leg.rr.al.localidade.ibge.domain.IbgeMunicipio;
 import br.leg.rr.al.localidade.ibge.ejb.IbgeMunicipioLocal;
 import br.leg.rr.al.localidade.jpa.Municipio;
 import br.leg.rr.al.localidade.jpa.Municipio_;
-import br.leg.rr.al.localidade.utils.MunicipioUtils;
+import br.leg.rr.al.localidade.jpa.UnidadeFederativa;
 
 @Named
 @Stateless
@@ -37,11 +39,16 @@ public class MunicipioService extends BaseDominioIndexadoJPADao<Municipio> imple
 	 */
 	private static final long serialVersionUID = -7074097657495549567L;
 
+	Logger logger = LoggerFactory.getLogger(BaseDominioIndexadoJPADao.class);
+
 	@EJB
 	private IbgeMunicipioLocal ibgeBean;
 
+	@EJB
+	private UnidadeFederativaLocal ufBean;
+
 	@Override
-	public Municipio buscarPorUf(UfType uf, String nome) throws BeanException {
+	public Municipio buscarPorUf(UnidadeFederativa uf, String nome) throws BeanException {
 
 		CriteriaBuilder cb = getCriteriaBuilder();
 		CriteriaQuery<Municipio> cq = createCriteriaQuery();
@@ -67,7 +74,7 @@ public class MunicipioService extends BaseDominioIndexadoJPADao<Municipio> imple
 	}
 
 	@Override
-	public List<Municipio> buscarPorNome(String nome, UfType uf) throws BeanException {
+	public List<Municipio> buscarPorNome(String nome, UnidadeFederativa uf) throws BeanException {
 
 		CriteriaBuilder cb = getCriteriaBuilder();
 		CriteriaQuery<Municipio> cq = createCriteriaQuery();
@@ -91,25 +98,55 @@ public class MunicipioService extends BaseDominioIndexadoJPADao<Municipio> imple
 
 	}
 
+	/**
+	 * 
+	 * @param entidade
+	 * @return
+	 */
+	private Boolean jaExisteIbgeId(Municipio entidade) {
+		CriteriaBuilder cb = getCriteriaBuilder();
+		CriteriaQuery<Long> cq = cb.createQuery(Long.class);
+		Root<Municipio> root = cq.from(Municipio.class);
+		cq.select(cb.count(root));
+
+		List<Predicate> predicates = new ArrayList<Predicate>();
+
+		Predicate cond = cb.equal(root.get(Municipio_.ibgeId), entidade.getIbgeId());
+		predicates.add(cond);
+
+		// condição para não verificar a mesma entidade se já existir.
+		if (entidade.getId() != null) {
+			cond = cb.notEqual(root.get(BaseEntityStatus_.id), entidade.getId());
+			predicates.add(cond);
+		}
+
+		cq.where(predicates.toArray(new Predicate[predicates.size()]));
+
+		TypedQuery<Long> q = getEntityManager().createQuery(cq);
+
+		return (q.getSingleResult() > 0);
+	}
+
 	@Override
 	public Boolean jaExiste(Municipio entidade) {
 		CriteriaBuilder cb = getCriteriaBuilder();
-		CriteriaQuery<Municipio> cq = createCriteriaQuery();
+		CriteriaQuery<Long> cq = cb.createQuery(Long.class);
 		Root<Municipio> root = cq.from(Municipio.class);
-		cq.select(root);
+		cq.select(cb.count(root));
 
 		List<Predicate> predicates = new ArrayList<Predicate>();
+
+		if (entidade.getIbgeId() != null) {
+			if (jaExisteIbgeId(entidade)) {
+				throw new BeanException("Município com este Cód. Ibge já existe. Informe outro valor.");
+			}
+		}
 
 		Predicate nome = cb.equal(root.get(Municipio_.nome), entidade.getNome());
 		predicates.add(nome);
 
 		Predicate uf = cb.equal(root.get(Municipio_.uf), entidade.getUf());
 		predicates.add(uf);
-
-		if (entidade.getIbgeId() != null) {
-			Predicate id = cb.notEqual(root.get(Municipio_.ibgeId), entidade.getIbgeId());
-			predicates.add(id);
-		}
 
 		// condição para não verificar a mesma entidade se já existir.
 		if (entidade.getId() != null) {
@@ -118,59 +155,12 @@ public class MunicipioService extends BaseDominioIndexadoJPADao<Municipio> imple
 		}
 
 		cq.where(predicates.toArray(new Predicate[predicates.size()]));
+		TypedQuery<Long> q = getEntityManager().createQuery(cq);
 
-		return (!getResultList(cq).isEmpty());
-
-	}
-
-	@Override
-	public void importarMunicipiosDoIBGE() throws IOException {
-		List<IbgeMunicipio> municipios = ibgeBean.buscarMunicipios();
-
-		if (municipios != null && municipios.size() > 0) {
-
-			String nome = null;
-			UfType uf = null;
-			String ibgeId = null;
-			Municipio loc = null;
-			for (IbgeMunicipio mun : municipios) {
-
-				nome = StringHelper.capitalizeFully(mun.getNome());
-				uf = UfType.valueOf(mun.getUF().getSigla());
-				ibgeId = mun.getId().toString();
-
-				// verifica se existe o municipio ibge já é cadastrado na base local.
-				loc = buscarPorIbgeId(ibgeId);
-				if (loc != null) {
-
-					// verifica se o nome sofreu
-					// alterações no cadastro do ibge.
-					if (!loc.getNome().toLowerCase().equals(nome.toLowerCase())) {
-
-						loc.setNome(nome);
-						// Se sofreu alterações, irá atualiza-lo na base local.
-						atualizar(loc);
-					}
-
-				} else {
-					// verifica se o municipio já existe na base local. Esta condição é para
-					// municipios que não possui ibge id.
-					loc = buscarPorUf(uf, nome);
-
-					// cadastra um novo municipio ibge na base local
-					if (loc == null) {
-						loc = MunicipioUtils.converterIbgeMunicipioParaMunicipio(mun);
-						salvar(loc);
-
-					}
-					// atualiza o cadastro do municipio local com o ibge id.
-					else if (loc != null && loc.getIbgeId() == null) {
-						loc.setIbgeId(ibgeId);
-						atualizar(loc);
-					}
-				}
-			}
+		if (q.getSingleResult() > 0) {
+			throw new BeanException("Município com este Nome e Uf já existe. Informe outro valor.");
 		}
+		return false;
 
 	}
 
@@ -183,7 +173,7 @@ public class MunicipioService extends BaseDominioIndexadoJPADao<Municipio> imple
 		Predicate cond = null;
 		String nome = null;
 		StatusType sit = null;
-		List<UfType> ufs = null;
+		List<UnidadeFederativa> ufs = null;
 
 		final CriteriaBuilder cb = getCriteriaBuilder();
 		CriteriaQuery<Municipio> cq = cb.createQuery(Municipio.class);
@@ -213,7 +203,7 @@ public class MunicipioService extends BaseDominioIndexadoJPADao<Municipio> imple
 
 			if (params.containsKey(PESQUISAR_PARAM_UFS)) {
 
-				ufs = (List<UfType>) params.get(PESQUISAR_PARAM_UFS);
+				ufs = (List<UnidadeFederativa>) params.get(PESQUISAR_PARAM_UFS);
 
 				if (ufs != null && ufs.size() > 0) {
 
@@ -243,6 +233,40 @@ public class MunicipioService extends BaseDominioIndexadoJPADao<Municipio> imple
 		cq.where(cond);
 
 		return getSingleResult(cq);
+	}
+
+	// TODO: Implementar esse método. Permitir consulta inserido o nome + uf. Talvez
+	// de problema porque uf é enum. vai dar trabalho.
+	@SuppressWarnings("unchecked")
+	public List<Municipio> buscarPeloNomeIndexado(String nome, UfType uf) {
+		throw new NotImplementedException(
+				"Método buscarPeloNomeIndexado(String nome, UfType uf) não implementado ainda.");
+		// return null;
+	}
+
+	@Override
+	public List<Municipio> buscarAtivosPeloNomeIndexado(String nome, UfType uf) {
+
+		List<Municipio> result = buscarPeloNomeIndexado(nome, uf);
+
+		if (result != null && result.size() > 0) {
+			result = result.stream().filter(entidade -> entidade.getSituacao().equals(StatusType.ATIVO))
+					.collect(Collectors.toList());
+		}
+
+		return result;
+	}
+
+	@Override
+	public Municipio buscarPorUf(UfType ufType, String nome) throws BeanException {
+		UnidadeFederativa uf = ufBean.buscarBrasilUfPorSigla(ufType.toString());
+		return buscarPorUf(uf, nome);
+	}
+
+	@Override
+	public List<Municipio> buscarPorNome(String nome, UfType ufType) throws BeanException {
+		UnidadeFederativa uf = ufBean.buscarBrasilUfPorSigla(ufType.toString());
+		return buscarPorNome(nome, uf);
 	}
 
 }

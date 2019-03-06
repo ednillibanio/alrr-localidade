@@ -19,19 +19,19 @@ import javax.persistence.criteria.Root;
 
 import org.apache.commons.lang3.StringUtils;
 
-import br.leg.rr.al.core.dao.BaseDominioJPADao;
+import br.leg.rr.al.core.dao.BaseDominioIndexadoJPADao;
 import br.leg.rr.al.core.dao.BeanException;
 import br.leg.rr.al.core.domain.StatusType;
 import br.leg.rr.al.core.jpa.BaseEntityStatus_;
-import br.leg.rr.al.localidade.domain.UfType;
 import br.leg.rr.al.localidade.jpa.Bairro;
 import br.leg.rr.al.localidade.jpa.Bairro_;
 import br.leg.rr.al.localidade.jpa.Municipio;
 import br.leg.rr.al.localidade.jpa.Municipio_;
+import br.leg.rr.al.localidade.jpa.UnidadeFederativa;
 
 @Named
 @Stateless
-public class BairroService extends BaseDominioJPADao<Bairro> implements BairroLocal {
+public class BairroService extends BaseDominioIndexadoJPADao<Bairro> implements BairroLocal {
 
 	/**
 	 * 
@@ -93,10 +93,11 @@ public class BairroService extends BaseDominioJPADao<Bairro> implements BairroLo
 	 */
 	@Override
 	public Boolean jaExiste(Bairro entidade) {
+		
 		CriteriaBuilder cb = getCriteriaBuilder();
-		CriteriaQuery<Bairro> cq = createCriteriaQuery();
+		CriteriaQuery<Long> cq = cb.createQuery(Long.class);
 		Root<Bairro> root = cq.from(Bairro.class);
-		cq.select(root);
+		cq.select(cb.count(root));
 
 		List<Predicate> predicates = new ArrayList<Predicate>();
 
@@ -113,8 +114,13 @@ public class BairroService extends BaseDominioJPADao<Bairro> implements BairroLo
 		}
 
 		cq.where(predicates.toArray(new Predicate[predicates.size()]));
+		TypedQuery<Long> q = getEntityManager().createQuery(cq);
 
-		return (!getResultList(cq).isEmpty());
+		if (q.getSingleResult() > 0) {
+			throw new BeanException("Bairro com este Nome e Município já existe. Informe outro valor.");
+		}
+
+		return false;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -126,7 +132,7 @@ public class BairroService extends BaseDominioJPADao<Bairro> implements BairroLo
 		Predicate cond = null;
 		String nome = null;
 		String municipio = null;
-		List<UfType> ufs = null;
+		List<UnidadeFederativa> ufs = null;
 		StatusType sit = null;
 
 		final CriteriaBuilder cb = getCriteriaBuilder();
@@ -168,7 +174,7 @@ public class BairroService extends BaseDominioJPADao<Bairro> implements BairroLo
 
 			if (params.containsKey(PESQUISAR_PARAM_UFS)) {
 
-				ufs = (List<UfType>) params.get(PESQUISAR_PARAM_UFS);
+				ufs = (List<UnidadeFederativa>) params.get(PESQUISAR_PARAM_UFS);
 
 				if (ufs != null && ufs.size() > 0) {
 

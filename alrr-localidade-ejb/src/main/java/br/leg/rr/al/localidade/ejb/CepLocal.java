@@ -29,7 +29,7 @@ public interface CepLocal extends JPADao<Cep, Integer> {
 	/**
 	 * Busca pelo campo "uf" da entidade {@code Cep}.<br>
 	 * 
-	 * @value {@literal List<UfType>};
+	 * @value {@literal List<UnidadeFederativa>};
 	 */
 	String PESQUISAR_PARAM_UFS = "ufs";
 

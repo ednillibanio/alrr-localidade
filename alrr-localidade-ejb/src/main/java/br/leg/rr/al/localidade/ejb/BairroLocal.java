@@ -5,16 +5,16 @@ import java.util.List;
 import javax.ejb.Local;
 
 import br.leg.rr.al.core.dao.BeanException;
-import br.leg.rr.al.core.dao.DominioJPADao;
+import br.leg.rr.al.core.dao.DominioIndexadoJPADao;
 import br.leg.rr.al.localidade.jpa.Bairro;
 
 @Local
-public interface BairroLocal extends DominioJPADao<Bairro> {
+public interface BairroLocal extends DominioIndexadoJPADao<Bairro> {
 
 	/**
 	 * Busca pelo campo "uf" da entidade {@code Bairro}.<br>
 	 * 
-	 * @value {@literal List<UfType>};
+	 * @value {@literal List<UnidadeFederativa>};
 	 */
 	String PESQUISAR_PARAM_UFS = "ufs";
 
