@@ -98,13 +98,13 @@
 				</div>
 			</div>
 			<div class="ui-g">
-				<div class="ui-g-12 ui-md-10 ui-lg-10 ui-g-nopad">
+				<div class="ui-g-12 ui-md-10 ui-lg-10 nopad-left">
 					<p:inputText id="municipio"
 						value="#{cepController.entity.municipio.nome}" disabled="true" />
 				</div>
-				<div class="ui-g-12 ui-md-2 ui-lg-2 ui-g-nopad">
-					<p:inputText id="uf" value="#{cepController.entity.municipio.uf}"
-						disabled="true" />
+				<div class="ui-g-12 ui-md-2 ui-lg-2 nopad-right">
+					<p:inputText id="uf"
+						value="#{cepController.entity.municipio.uf.sigla}" disabled="true" />
 				</div>
 			</div>
 		</h:panelGroup>

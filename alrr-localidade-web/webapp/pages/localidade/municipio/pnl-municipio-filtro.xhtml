@@ -23,6 +23,7 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:al="http://xmlns.jcp.org/jsf/composite/componentes/core"
 	xmlns:alcore="http://al.rr.leg.br/facelets/core"
+	xmlns:alloc="http://al.rr.leg.br/facelets/localidade"
 	xmlns:o="http://omnifaces.org/ui"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:ph="http://xmlns.jcp.org/jsf/passthrough" lang="pt-br"
@@ -33,7 +34,7 @@
 
 
 		<!-- Esse componente deve vir sempre antes dos filtros para que a validação funcione. -->
-		<alcore:validateOneOrMore components="nome uf sit" />
+		<alcore:validateOneOrMore components="nome ufs sit" />
 
 
 		<p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank"
@@ -57,18 +58,25 @@
 			</p:selectOneMenu>
 		</p:panelGrid>
 
-		<p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank"
+		<p:panelGrid columns="2" layout="grid"
+			styleClass="ui-panelgrid-blank ui-grid-responsive"
 			columnClasses="ui-grid-col-2, ui-grid-col-10">
 
 
 			<!--   F I L T R O:   U F   -->
-			<p:outputLabel value="UF(s)" for="uf" />
-			<p:selectCheckboxMenu value="#{municipioController.uFsSelecionadas}"
-				id="uf" converter="omnifaces.GenericEnumConverter" multiple="true"
-				filter="true" tabindex="2">
-				<f:selectItems value="#{localidadeEnumFactory.ufs}" var="_uf"
-					itemValue="#{_uf}" itemLabel="#{_uf.label}" />
-			</p:selectCheckboxMenu>
+			<p:outputLabel value="UF(s)" for="ufs" />
+			<p:outputPanel>
+				<div class="ui-inputgroup">
+					<alloc:autocomplete-uf id="ufs" multiple="true"
+						value="#{municipioController.uFsSelecionadas}"
+						forceSelection="true" maxResults="8" minQueryLength="2" />
+					<p:commandButton id="btn-rem" icon="fa fa-times"
+						styleClass="red-button"
+						actionListener="#{municipioController.removerUfsSelecionadas()}"
+						process="@this" update="ufs" />
+
+				</div>
+			</p:outputPanel>
 
 
 		</p:panelGrid>

@@ -12,8 +12,8 @@
 *																						*
 *																						*
 *****************************************************************************************
-* @author:  Ednil Libanio da Costa Junior												*
-* @since: 1.0.0 																		*
+* Autor:  Ednil Libanio da Costa Junior													*
+* Versão: 1.0.0 																		*
 ****************************************************************************************/
 -->
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
@@ -34,64 +34,52 @@
 
 
 		<!-- Esse componente deve vir sempre antes dos filtros para que a validação funcione. -->
-		<alcore:validateOneOrMore components="bairro municipio ufs sit" />
-
-		<p:panelGrid columns="4" layout="grid"
-			styleClass="ui-panelgrid-blank ui-fluid" id="pnl-filtro"
-			columnClasses="ui-grid-col-2, ui-grid-col-4, ui-grid-col-2, ui-grid-col-4">
-
-			<!--   F I L T R O:  N O M E  D O   B A I R R O   -->
-			<p:outputLabel value="Bairro" for="bairro" />
-			<p:inputText id="bairro" label="Bairro"
-				value="#{bairroController.nome}" />
+		<alcore:validateOneOrMore components="nome sit paises" />
 
 
-			<!--   F I L T R O:  NOME DO MUNICIPIO -->
-			<p:outputLabel value="Município" for="municipio" />
-			<p:inputText id="municipio" label="Município"
-				value="#{bairroController.municipio}" />
+		<p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank"
+			id="pnl-filtro"
+			columnClasses="ui-grid-col-2, ui-grid-col-4,ui-grid-col-2, ui-grid-col-4">
 
+			<!--   F I L T R O:  N O M E   D O   P A I S   -->
+			<p:outputLabel value="Nome" for="nome" />
+			<p:inputText id="nome" label="Nome" value="#{ufController.nome}"
+				tabindex="1"
+				title="Filtra os países que satisfaçam o nome informado." />
 
-			<!--   F I L T R O:   U F   -->
-			<p:outputLabel value="UF(s)" for="ufs" />
+			<p:outputLabel value="Países" for="paises" />
 			<p:outputPanel>
-				<div class="ui-inputgroup">
-					<alloc:autocomplete-uf id="ufs" multiple="true"
-						value="#{bairroController.uFsSelecionadas}" forceSelection="true"
-						maxResults="8" minQueryLength="2" />
-					<p:commandButton id="btn-rem" icon="fa fa-times"
-						styleClass="red-button"
-						actionListener="#{bairroController.removerUfsSelecionadas()}"
-						process="@this" update="ufs" />
-				</div>
+				<alloc:autocomplete-pais id="paises" multiple="true"
+					value="#{ufController.paisesSelecionados}" forceSelection="true"
+					maxResults="8" minQueryLength="2" />
 			</p:outputPanel>
-
 
 			<!--   F I L T R O:   S I T U A Ç Ã O   -->
 			<p:outputLabel value="Situação" for="sit" />
-			<p:selectOneMenu value="#{bairroController.situacao}" id="sit"
+			<p:selectOneMenu value="#{ufController.situacao}" id="sit"
 				converter="omnifaces.GenericEnumConverter" tabindex="3">
 				<f:selectItem noSelectionOption="true" itemLabel="[Selecione]"
 					itemValue="" />
 				<f:selectItems value="#{localidadeEnumFactory.statusType}"
 					var="_sit" itemValue="#{_sit}" itemLabel="#{_sit.label}" />
 			</p:selectOneMenu>
-
 		</p:panelGrid>
+
 	</ui:define>
 
 
 	<!--   B O T Ã O:   L I M P A R   -->
 	<ui:define name="btn-limpar">
 		<alcore:botao-limpar id="btnlimpar" tabindex="4"
-			action="#{bairroController.limpar()}" process="@this" update="@form" />
+			action="#{ufController.limpar()}" process="@this" update="@form" />
 	</ui:define>
 
 	<!--   B O T Ã O:   P E S Q U I S A R   -->
 	<ui:define name="btn-pesquisar">
 		<alcore:botao-pesquisar id="btnpesquisar" tabindex="3"
-			action="#{bairroController.pesquisar()}"
-			update="frm-pg-bairros @(.result) @(.msgs)" />
+			action="#{ufController.pesquisar()}"
+			update="frm-pg-ufs @(.result) @(.msgs)" />
 	</ui:define>
+
 
 </ui:composition>

@@ -33,60 +33,84 @@
 
 	<!--   P A R A M E T R O S   D E   C O N F I G U R A Ç Ã O   -->
 	<!--   D O   T E M P L A T E:   D I A L O G   -->
-	<ui:param name="dlgid" value="dlg-municipio" />
-	<ui:param name="widgetVar" value="dlg-municipio" />
-	<ui:param name="frmid" value="frm-municipio" />
-	<ui:param name="panelheader" value="Cadastro de Município" />
-	<ui:param name="columns" value="1" />
+	<ui:param name="dlgid" value="dlg-uf" />
+	<ui:param name="widgetVar" value="dlg-uf" />
+	<ui:param name="frmid" value="frm-uf" />
+	<ui:param name="panelheader" value="Cadastro de Unidade Federativa" />
+	<ui:param name="columns" value="2" />
 
 	<ui:define name="form-dialog">
-		<p:defaultCommand target="frm-municipio:btn-salvar" />
+		<p:defaultCommand target="frm-uf:btn-salvar" />
 	</ui:define>
+
 
 	<!-- ####################################### -->
 	<!--   C O N T E Ú D O   D O   D I A L O G   -->
 	<!-- ####################################### -->
 	<ui:define name="dialog-content">
 
-
+		<o:importConstants type="br.leg.rr.al.core.domain.StatusType" />
 		<!--   C A M P O:   N O M E   -->
-		<al:campo value="Nome" for="nome-municipio">
+		<al:campo value="Nome" for="nome">
 			<div class="ui-inputgroup">
-				<p:inputText id="nome-municipio" title="Nome do município"
-					label="Nome" required="true"
-					value="#{municipioController.entity.nome}">
-					<f:validateLength minimum="3" maximum="250" for="nome-municipio" />
+
+				<p:inputText id="nome" title="Nome da Uf" label="Nome"
+					required="true" value="#{ufController.entity.nome}">
+					<f:validateLength minimum="3" maximum="250" for="nome" />
 				</p:inputText>
 				<alcore:botao-capitalizar
-					actionListener="#{municipioController.capitalizeNome()}"
-					update="nome-municipio" process="nome-municipio @this" />
+					actionListener="#{ufController.capitalizeNome()}" update="nome"
+					process="nome @this" />
 
 			</div>
 		</al:campo>
 
 
-		<!--   C A M P O:   U N I D A D E   F E D E R A T I V A   -->
-		<al:campo value="Uf" for="uf">
-			<alloc:autocomplete-uf-ativo id="uf"
-				value="#{municipioController.entity.uf}" forceSelection="true"
-				maxResults="8" minQueryLength="2" />
+		<!--   C A M P O:   S I G L A  -->
+		<al:campo value="Sigla" for="sigla">
+			<p:inputText id="sigla" title="Sigla da Uf"
+				value="#{ufController.entity.sigla}"
+				converter="omnifaces.ToUpperCaseConverter">
+				<f:validateLength maximum="5" for="sigla" />
+				<f:ajax event="blur" render="@this" />
+			</p:inputText>
+
 		</al:campo>
 
-		<al:campo value="Cód. Ibge" for="ibgeid">
-			<p:inputText id="ibgeid" title="Cód. Ibge"
-				value="#{municipioController.entity.ibgeId}">
-				<f:validateLength maximum="8" for="ibgeid" />
-			</p:inputText>
+
+		<!--   C A M P O:   P A Í S  -->
+		<al:campo value="País" for="pais">
+			<div class="ui-inputgroup">
+				<alloc:autocomplete-pais-ativo id="pais"
+					value="#{ufController.entity.pais}" forceSelection="true"
+					maxResults="8" minQueryLength="2" required="true" />
+
+				<alcore:botao-novo actionListener="#{paisController.novo()}"
+					update="frm-pais" />
+			</div>
+		</al:campo>
+
+
+		<!--   C A M P O:   I B G E   I D   -->
+		<al:campo value="Cód. Ibge" for="ibgeId">
+			<p:inputText id="ibgeId" title="Código do Ibge"
+				value="#{ufController.entity.ibgeId}" />
+
 		</al:campo>
 
 
 		<!--   C A M P O:  S I T U A Ç Ã O  -->
-		<o:importConstants type="br.leg.rr.al.core.domain.StatusType" />
 		<al:campo value="Situação" for="situacao">
 			<al:select-situacao-button id="situacao"
-				value="#{municipioController.entity.situacao}" required="true" />
+				value="#{ufController.entity.situacao}" required="true" />
+			<!-- <p:selectOneButton id="situacao"
+				value="#{ufController.entity.situacao}" required="true">
+				<f:selectItem itemValue="#{StatusType.ATIVO}"
+					itemLabel="#{StatusType.ATIVO.label}" />
+				<f:selectItem itemLabel="#{StatusType.INATIVO.label}"
+					itemValue="#{StatusType.INATIVO}" />
+			</p:selectOneButton> -->
 		</al:campo>
-
 
 	</ui:define>
 
@@ -97,15 +121,14 @@
 
 	<!--   B O T Ã O:   F E C H A R   -->
 	<ui:define name="btn-esquerda">
-		<alcore:botao-fechar id="btnfechar"
-			oncomplete="PF('dlg-municipio').hide()" immediate="true" />
+		<alcore:botao-fechar id="btnfechar" oncomplete="PF('dlg-uf').hide()"
+			immediate="true" />
 	</ui:define>
 
 	<!--   B O T Ã O:   S A L V A R   -->
 	<ui:define name="btn-direita">
-		<alcore:botao-salvar id="btnsalvar"
-			action="#{municipioController.salvar()}" validateClient="true"
-			update="frm-municipio @(.result)" process="@form" />
+		<alcore:botao-salvar id="btnsalvar" action="#{ufController.salvar()}"
+			validateClient="true" update="frm-uf @(.result)" process="@form" />
 	</ui:define>
 
 </ui:composition>

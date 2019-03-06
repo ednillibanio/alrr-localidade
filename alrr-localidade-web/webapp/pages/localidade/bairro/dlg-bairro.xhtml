@@ -48,44 +48,27 @@
 	<!-- ####################################### -->
 	<ui:define name="dialog-content">
 
-		<!-- NOME -->
-		<h:panelGroup id="pnl-bairro">
-			<p:outputLabel value="Bairro:" for="nome-bairro" />
+		<!--   C A  M P O:  N O M E   -->
+		<al:campo value="Bairro" for="nome-bairro">
 			<div class="ui-inputgroup">
 				<p:inputText id="nome-bairro" title="Bairro" label="Bairro"
 					value="#{bairroController.entity.nome}" required="true">
 					<f:validateLength minimum="3" maximum="250" for="nome-bairro" />
 				</p:inputText>
-				<alcore:botao-capitalizar param="#{bairroController.entity.nome}"
-					target="#{bairroController.entity.nome}" update="pnl-bairro"
-					process="pnl-bairro" />
+				<alcore:botao-capitalizar
+					actionListener="#{bairroController.capitalizeNome()}"
+					update="nome-bairro" process="nome-bairro @this" />
 			</div>
-			<p:message for="nome-bairro" display="tooltip" />
-		</h:panelGroup>
+		</al:campo>
 
 
 		<!--   C A  M P O:  B U S C A   M U N I C Í P I O   -->
 		<al:campo for="municipio" title="Município" value="Município">
-			<alloc:autocomplete-municipio id="municipio" required="true"
-				value="#{bairroController.entity.municipio}" />
+			<alloc:autocomplete-municipio-ativo id="municipio" required="true"
+				value="#{bairroController.entity.municipio}" maxResults="8"
+				minQueryLength="2" />
 		</al:campo>
 
-
-		<!-- 		<h:panelGroup>
-			<p:outputLabel value="Municipio" for="municipio" />
-			<alloc:autocomplete-municipio value="#{bairroController.entity.municipio}"/>
-				<p:autoComplete value="#{bairroController.entity.municipio}"
-					id="municipio" label="Município" title="Município"
-					completeMethod="#{municipioCompleteController.completeByNome}"
-					var="mun" itemLabel="#{mun.nome.concat(' - ').concat(mun.uf)}"
-					itemValue="#{mun}" converter="#{entityConverter}"
-					forceSelection="true" minQueryLength="3" maxResults="8"
-					required="true" emptyMessage="Nenhum município encontrado.">
-					<p:column>#{mun.nome} - #{mun.uf}</p:column>
-				</p:autoComplete>
-				<p:message for="municipio" id="msg-mun" display="tooltip" />
-		</h:panelGroup>
- -->
 	</ui:define>
 
 
@@ -103,7 +86,7 @@
 	<ui:define name="btn-direita">
 		<alcore:botao-salvar id="btnsalvar"
 			action="#{bairroController.salvar()}" validateClient="true"
-			update="frm-bairro frm-bairro:msgs-dialog @(.result)" process="@form" />
+			update="frm-bairro @(.result)" process="@form" />
 	</ui:define>
 
 </ui:composition>

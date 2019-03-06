@@ -12,8 +12,8 @@
 *																						*
 *																						*
 *****************************************************************************************
-* @author:	Ednil Libanio da Costa Junior												*
-* @since:	1.0.0 																		*
+* Autor:  Ednil Libanio da Costa Junior													*
+* Versão: 1.0.0 																		*
 ****************************************************************************************/
 -->
 <ui:fragment xmlns="http://www.w3.org/1999/xhtml"
@@ -29,40 +29,39 @@
 	xmlns:ph="http://xmlns.jcp.org/jsf/passthrough" lang="pt-br">
 
 
-	<!-- RESULTADO DA PESQUISA -->
-	<al:datatable-resultado-pesquisa id="dt-bairros"
-		controller="#{bairroController}" filename="bairros"
-		dataTableRendered="#{bairroController.entities.size()>0}" tabindex="5">
+	<!--   R E S U L T A D O   D A   P E S Q U I S A   -->
+	<al:datatable-resultado-pesquisa id="dt-paises"
+		controller="#{paisController}" filename="paises"
+		dataTableRendered="#{paisController.entities.size()>0}" tabindex="5">
+
 
 		<!--  N O M E  -->
 		<p:column id="nome" sortBy="#{var.nome}" headerText="Nome">
 			<h:outputText value="#{var.nome}" />
+		</p:column> -->
+
+		<!--  S I G L A  -->
+		<p:column sortBy="#{var.sigla}" id="sigla" headerText="Sigla"
+			width="5%">
+			<h:outputText value="#{var.sigla}" />
 		</p:column>
 
-
-		<!--  L O C A L I D A D E  -->
-		<p:column id="municipio" sortBy="#{var.municipio.nome}"
-			headerText="Município">
-			<h:outputText value="#{var.municipio.nome}" />
+		<!--  N A C I O N A L I D A D E  -->
+		<p:column sortBy="#{var.nacionalidade}" id="nac"
+			headerText="Nacionalidade">
+			<h:outputText value="#{var.nacionalidade}" />
 		</p:column>
 
-
-		<!--  U F  -->
-		<p:column sortBy="#{var.uf.nome}" id="uf" width="10%" headerText="Uf">
-			<h:outputText value="#{var.uf.nome}" />
+		<!--  C Ó D I G O   D I S C A G E M  -->
+		<p:column sortBy="#{var.codigoDiscagem}" id="codDisc"
+			headerText="Cód. Discagem" width="10%">
+			<h:outputText value="#{var.codigoDiscagem}" />
 		</p:column>
 
-		<!--   P A Í S   -->
-		<p:column sortBy="#{var.pais.nome}" id="pais" headerText="País"
-			width="15%">
-			<h:outputText value="#{var.pais.nome}" />
-		</p:column>
-
-		<!--   S I T U A Ç Ã O   -->
+		<!--  S I T U A Ç Ã O  -->
 		<p:column id="sit" headerText="Situação" width="10%">
 			<h:outputText value="#{var.situacao.label}" />
 		</p:column>
-
 
 		<f:facet name="contextmenu">
 			<!-- ContextMenu deve sempre vir depois do datable para funcionar a seleção pelo botão direito do mouse. -->
@@ -71,29 +70,26 @@
 				beforeShow="return true;">
 
 				<!-- *********   M E N U   D E T A L H E S   ********* -->
-				<alcore:menuitem-detalhes update="frm-bairro-detalhes"
-					action="#{bairroController.detalhes()}" />
-
+				<alcore:menuitem-detalhes update="frm-pais-detalhes"
+					action="#{paisController.detalhes()}" />
 
 				<!-- *********   M E N U   E D I T A R   ********* -->
-				<alcore:menuitem-editar update="frm-bairro"
-					action="#{bairroController.editar()}" process="@this" />
-
+				<alcore:menuitem-editar update="frm-pais"
+					action="#{paisController.editar()}" process="@this" />
 
 
 				<!-- *********   M E N U   D E S A T I V A R   ********* -->
 				<alcore:menuitem-desativar update="@(.result)"
-					rendered="#{bairroController.entity.situacao eq 'ATIVO' }"
-					action="#{bairroController.desativar()}" process="@this" />
+					rendered="#{paisController.entity.situacao eq 'ATIVO' }"
+					action="#{paisController.desativar()}" process="@this" />
 
 
 				<!-- *********   M E N U   A T I V A R   ********* -->
 				<alcore:menuitem-ativar update="@(.result)"
-					rendered="#{bairroController.entity.situacao eq 'INATIVO' }"
-					action="#{bairroController.ativar()}" process="@this" />
+					rendered="#{paisController.entity.situacao eq 'INATIVO' }"
+					action="#{paisController.ativar()}" process="@this" />
 
 			</p:contextMenu>
-
 
 		</f:facet>
 

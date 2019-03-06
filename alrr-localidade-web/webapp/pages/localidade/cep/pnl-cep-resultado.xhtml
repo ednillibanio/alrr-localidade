@@ -46,7 +46,7 @@
 		</p:column>
 
 		<!--  B A I R R O  -->
-		<p:column id="bairro" sortBy="#{var.bairro}" headerText="Bairro">
+		<p:column id="bairro" sortBy="#{var.bairro.nome}" headerText="Bairro">
 			<h:outputText value="#{var.bairro.nome}" />
 		</p:column>
 
@@ -57,11 +57,10 @@
 		</p:column>
 
 		<!--  U F  -->
-		<p:column sortBy="#{var.uf.name()}" id="uf" headerText="Uf"
+		<p:column sortBy="#{var.municipio.uf.nome}" id="uf" headerText="Uf"
 			width="10%">
-			<h:outputText value="#{var.municipio.uf.label}" />
+			<h:outputText value="#{var.municipio.uf.nome}" />
 		</p:column>
-
 
 
 		<f:facet name="contextmenu">
