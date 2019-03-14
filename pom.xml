@@ -48,11 +48,13 @@
 				<groupId>br.leg.rr.al.localidade</groupId>
 				<artifactId>alrr-localidade-jpa</artifactId>
 				<version>${al.rr.localidade.version}</version>
+				<type>jar</type>
 			</dependency>
 			<dependency>
 				<groupId>br.leg.rr.al.localidade</groupId>
 				<artifactId>alrr-localidade-utils</artifactId>
 				<version>${al.rr.localidade.version}</version>
+				<type>jar</type>
 			</dependency>
 			<dependency>
 				<groupId>br.leg.rr.al.core</groupId>
@@ -66,12 +68,15 @@
 				<artifactId>alrr-localidade-web</artifactId>
 				<version>${al.rr.localidade.version}</version>
 				<type>war</type>
+				<scope>compile</scope>
 			</dependency>
 			<dependency>
 				<groupId>br.leg.rr.al.localidade</groupId>
 				<artifactId>alrr-localidade-web-fragment</artifactId>
 				<version>${al.rr.localidade.version}</version>
+				<type>jar</type>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+	<description>Projeto Localidade</description>
 </project>
