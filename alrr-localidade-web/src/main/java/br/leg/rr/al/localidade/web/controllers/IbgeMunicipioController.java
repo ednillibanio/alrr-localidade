@@ -21,14 +21,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import br.leg.rr.al.core.CoreUtilsValidationMessages;
+import br.leg.rr.al.core.domain.StatusType;
 import br.leg.rr.al.core.utils.StringHelper;
 import br.leg.rr.al.core.web.util.FacesMessageUtils;
 import br.leg.rr.al.core.web.util.FacesUtils;
 import br.leg.rr.al.localidade.domain.UfType;
 import br.leg.rr.al.localidade.ejb.MunicipioLocal;
+import br.leg.rr.al.localidade.ejb.PaisLocal;
+import br.leg.rr.al.localidade.ejb.UnidadeFederativaLocal;
 import br.leg.rr.al.localidade.ibge.domain.IbgeMunicipio;
 import br.leg.rr.al.localidade.ibge.ejb.IbgeMunicipioLocal;
 import br.leg.rr.al.localidade.jpa.Municipio;
+import br.leg.rr.al.localidade.jpa.UnidadeFederativa;
 import br.leg.rr.al.localidade.utils.MunicipioUtils;
 
 @Named
@@ -44,6 +48,12 @@ public class IbgeMunicipioController implements Serializable {
 
 	@EJB
 	private MunicipioLocal bean;
+
+	@EJB
+	private PaisLocal paisBean;
+
+	@EJB
+	private UnidadeFederativaLocal ufBean;
 
 	@Resource
 	UserTransaction utx;
@@ -81,9 +91,10 @@ public class IbgeMunicipioController implements Serializable {
 					soma = 0;
 					cancelado = false;
 					String nome = null;
-					UfType uf = null;
 					String ibgeId = null;
-					Municipio loc = null;
+					UnidadeFederativa uf = null;
+					UfType ufType = null;
+					Municipio municipio = null;
 					setStatusMessage(" &#8212; importando municípios do IBGE...");
 
 					for (IbgeMunicipio mun : municipios) {
@@ -92,38 +103,56 @@ public class IbgeMunicipioController implements Serializable {
 							break;
 						}
 						nome = StringHelper.capitalizeFully(mun.getNome());
-						uf = UfType.valueOf(mun.getUF().getSigla());
+
 						ibgeId = mun.getId();
 
-						// verifica se existe o municipio ibge já é cadastrado na base local.
-						loc = bean.buscarPorIbgeId(ibgeId);
-						if (loc != null) {
+						// verifica se existe o municipio do ibge já cadastrado na base local.
+						municipio = bean.buscarPorIbgeId(ibgeId);
+						if (municipio != null) {
 
 							// verifica se o nome sofreu
 							// alterações no cadastro do ibge.
-							if (!loc.getNome().toLowerCase().equals(nome.toLowerCase())) {
+							if (!municipio.getNome().toLowerCase().equals(nome.toLowerCase())) {
 
-								loc.setNome(nome);
+								municipio.setNome(nome);
 
 								// Se sofreu alterações, irá atualiza-lo na base local.
-								bean.atualizar(loc);
+								bean.atualizar(municipio);
 							}
 
 						} else {
-
+							ufType = UfType.valueOf(mun.getUF().getSigla());
+							
 							// verifica se o municipio já existe na base local. Esta condição é para
 							// municipios que não possui ibge id.
-							loc = bean.buscarPorUf(uf, nome);
+							municipio = bean.buscarPorUf(ufType, nome);
 
 							// cadastra um novo municipio ibge na base local
-							if (loc == null) {
-								loc = MunicipioUtils.converterIbgeMunicipioParaMunicipio(mun);
-								bean.salvar(loc);
+							if (municipio == null) {
+
+								// Busca Uf na base local
+								uf = ufBean.buscarBrasilUfPorSigla(mun.getUF().getSigla());
+								// Cadastra Uf na base local se não existe
+								if (uf == null) {
+									uf = new UnidadeFederativa();
+									uf.setIbgeId(mun.getUF().getId());
+									uf.setNome(mun.getUF().getNome());
+									uf.setSigla(mun.getUF().getSigla());
+									uf.setSituacao(StatusType.ATIVO);
+									uf.setPais(paisBean.getBrasil());
+									// salva
+									ufBean.salvar(uf);
+								}
+
+								// converte ibge municipio para municipio local
+								municipio = MunicipioUtils.converterIbgeMunicipioParaMunicipio(mun, uf);
+								// salva
+								bean.salvar(municipio);
 
 								// atualiza o cadastro do municipio local com o ibge id.
-							} else if (loc != null && loc.getIbgeId() == null) {
-								loc.setIbgeId(ibgeId);
-								bean.atualizar(loc);
+							} else if (municipio != null && municipio.getIbgeId() == null) {
+								municipio.setIbgeId(ibgeId);
+								bean.atualizar(municipio);
 							}
 						}
 						progress = (soma * 100) / tamanho;
