@@ -18,18 +18,33 @@
 						<a id="profile-button" href="#"> <span class="username">Ednil
 								Libanio</span> <i class="fa fa-fw fa-cog"></i>
 						</a>
-						<ul>
-							<li><a href="#"><i class="fa fa-fw fa-sliders"></i><span>Minha
-										Conta</span></a></li>
-							<li><a href="#"><i class="fa fa-fw fa-bell"></i><span>Notificações</span><span
-									class="menu-badge">2</span></a></li>
-							<li><a href="#"><i class="fa fa-fw fa-sign-out"></i><span>Sair</span></a></li>
-						</ul>
+						<po:menu>
+
+							<p:menuitem id="conta" value="Minha Conta"
+								icon="fa fa-fw fa-sliders"
+								url="http://localhost:8081/auth/realms/ALERR/account/"
+								target="_blank" />
+							<p:menuitem id="notificacoes" value="Notificações"
+								styleClass="menu-badge" icon="fa fa-fw fa-bell"
+								action="#{logoutController.logout()}" />
+							<p:menuitem id="sair" value="Sair" icon="fa fa-fw fa-sign-out"
+								action="#{logoutController.logout()}" />
+						</po:menu>
 					</div>
 
 					<div class="menu">
 						<po:menu>
 							<p:menuitem id="om_dashboard" value="Página Inicial"
+								icon="fa fa-home" outcome="pagina-inicial" />
+							<ui:include src="/pages/localidade/menu.xhtml" />
+							<p:submenu label="Configurações" expanded="true"
+								styleClass="submenu">
+								<p:menuitem value="Indexar Base" icon="fa fa-map-marker"
+									outcome="pg-indexar" />
+							</p:submenu>
+							<p:menuitem id="om_doc" value="Manual do Sistema"
+								icon="fa fa-book" />
+							<!-- <p:menuitem id="om_dashboard" value="Página Inicial"
 								icon="fa fa-home" outcome="pagina-inicial" />
 							<p:submenu label="Localidade" expanded="true"
 								styleClass="submenu">
@@ -50,7 +65,7 @@
 									outcome="pg-indexar" />
 							</p:submenu>
 							<p:menuitem id="om_doc" value="Manual do Sistema"
-								icon="fa fa-book" />
+								icon="fa fa-book" /> -->
 						</po:menu>
 					</div>
 				</div>
