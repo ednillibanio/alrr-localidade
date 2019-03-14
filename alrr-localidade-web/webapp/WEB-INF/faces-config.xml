@@ -10,35 +10,8 @@
 			<to-view-id>/pagina-inicial.xhtml</to-view-id>
 		</navigation-case>
 		<navigation-case>
-			<from-outcome>pg-bairros</from-outcome>
-			<to-view-id>/pages/localidade/bairro/pg-bairros.xhtml</to-view-id>
-		</navigation-case>
-		<navigation-case>
-			<from-outcome>pg-municipios</from-outcome>
-			<to-view-id>/pages/localidade/municipio/pg-municipios.xhtml</to-view-id>
-		</navigation-case>
-		<navigation-case>
-			<from-outcome>pg-ceps</from-outcome>
-			<to-view-id>/pages/localidade/cep/pg-ceps.xhtml</to-view-id>
-		</navigation-case>
-		<navigation-case>
-			<from-outcome>pg-paises</from-outcome>
-			<to-view-id>/pages/localidade/pais/pg-paises.xhtml</to-view-id>
-		</navigation-case>
-		<navigation-case>
-			<from-outcome>pg-ufs</from-outcome>
-			<to-view-id>/pages/localidade/uf/pg-ufs.xhtml</to-view-id>
-		</navigation-case>
-		<navigation-case>
 			<from-outcome>pg-indexar</from-outcome>
 			<to-view-id>/pages/config/lucene-indexar.xhtml</to-view-id>
-		</navigation-case>
-	</navigation-rule>
-	<navigation-rule>
-		<from-view-id>/pages/localidade/municipio/pg-municipios.xhtml</from-view-id>
-		<navigation-case>
-			<from-outcome>manual</from-outcome>
-			<to-view-id>/pages/localidade/municipio/municipio-manual.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 	<application>

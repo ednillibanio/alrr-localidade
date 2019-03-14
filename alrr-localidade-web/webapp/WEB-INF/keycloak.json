@@ -1,0 +1,15 @@
+{
+  "realm": "ALERR",
+  "auth-server-url": "http://localhost:8081/auth",
+  "ssl-required": "external",
+  "resource": "localidade",
+  "verify-token-audience": true,
+  "credentials": {
+    "secret": "0af92f04-1beb-445c-a461-b013918ed804"
+  },
+  "use-resource-role-mappings": true,
+  "confidential-port": 0,
+  "policy-enforcer": {
+      "on-deny-redirect-to" : "/localidade/access-denied.xhtml"
+    }
+}
