@@ -23,15 +23,15 @@
 ****************************************************************************************/
 -->
 
-<p:autoComplete id="#{id}" label="Uf" value="#{value}"
-	multiple="#{multiple}" required="#{required}"
-	emptyMessage="Nenhuma Uf encontrada"
-	completeMethod="#{ufAutoCompleteController.completarAtivoPorNomeIndexado}"
-	var="uf" itemLabel="#{uf.nome}" itemValue="#{uf}"
+<p:autoComplete id="#{id}" label="Município" value="#{value}"
+	required="#{required}" emptyMessage="Nenhum município encontrado"
+	completeMethod="#{bairroAutoCompleteController.completarAtivoPorNomeIndexado}"
+	var="bairro" itemLabel="#{bairro.nome}" itemValue="#{bairro}"
 	converter="#{entityConverter}" forceSelection="#{forceSelection}"
-	minQueryLength="#{minQueryLength}" maxResults="#{maxResults}">
+	minQueryLength="#{minQueryLength}" maxResults="#{maxResults}"
+	disabled="#{disabled}">
 	<p:column>
-		#{uf.nome}, #{uf.pais.nome}
+		#{bairro.nome}, #{bairro.municipio.nome}, #{bairro.municipio.uf.nome}
 	</p:column>
 	<ui:insert />
 </p:autoComplete>

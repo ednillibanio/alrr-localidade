@@ -30,10 +30,11 @@
 	itemLabel="#{municipio.nome.concat(' - ').concat(municipio.uf.sigla)}"
 	itemValue="#{municipio}" converter="#{entityConverter}"
 	forceSelection="#{forceSelection}" minQueryLength="#{minQueryLength}"
-	maxResults="#{maxResults}">
+	maxResults="#{maxResults}" disabled="#{disabled}">
 	<p:column>
 		#{municipio.nome}, #{municipio.uf.sigla}, #{municipio.uf.pais.nome}
 	</p:column>
+	<ui:insert />
 </p:autoComplete>
 
 </html>
