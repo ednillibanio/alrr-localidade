@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.org/ui">
+<h3 class="al-titulo-manual">#Cadastro de Feriado</h3>
+
+<p>A funcionalidade Cadastro de Feriado é responsável por manter os
+	feriados e que são categorizados de 3 maneiras:</p>
+<ol>
+	<li><strong>Municipal - </strong>feriado local, ou seja, no
+		município. Neste cenário, o usuário deve selecionar o Tipo 'Municipal'
+		e preencher o campo Localidade. Caso a Localidade (município) não
+		esteja cadastrada, o usuário pode cadastrá-lo ou pedir para o seu
+		superior, caso não tenha permissão;</li>
+	<li><strong>Estadual - </strong>feriado que ocorre em todo o
+		Estado. Neste caso o usuário deve preencher o campo Estado;</li>
+	<li><strong>Nacional - </strong>feriado que ocorre em todo o
+		território brasileiro. Neste caso, o usuário não tem deve preencher os
+		camposdeve preO feriado é em todo o país. Não necessita preencher os
+		campos Localidade e UF.</li>
+</ol>
+
+<h4>Ações</h4>
+<h5>Desativar</h5>
+<span>Esta ação substitui a ação de excluir um registro. Não é
+	recomendado excluir registros. Por isso, a ação de desativar, altera a
+	situação do feriado para inativo e consequentemente para de ser exibido
+	nas consultas de busca em outras funcionalidades. Por exemplo, um
+	feriado que está inativo deixa de ser exibido num calendário.</span>
+<h4>Validações</h4>
+<ul>
+	<li>O valor do campo Dia deve ser entre 1 e 31.</li>
+</ul>
+<h4>Restrições</h4>
+<ul>
+	<li>O sistema não permite mais de um feriado cadastado com o mesmo
+		Tipo, Nome, Dia e Mês;</li>
+	<li>Todos os campos marcados com "<span style="color: red">*</span>"
+		são obrigatórios.
+	</li>
+</ul>
+</html>

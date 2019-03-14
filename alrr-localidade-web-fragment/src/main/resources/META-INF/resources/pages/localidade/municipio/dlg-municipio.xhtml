@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<!--
+/****************************************************************************************
+* ALE-RR Licença																		*
+* Copyright (C) 2018, ALE-RR															*
+* Boa Vista, RR - Brasil																*
+* Todos os direitos reservados.															*
+* 																						*
+* Este programa é propriedade da Assembleia Legislativa do Estado de Roraima e 			*
+* não é permitida a distribuição, alteração ou cópia da mesma sem prévia autoriazação.	*
+*																						*
+*																						*
+*****************************************************************************************
+* Autor:  Ednil Libanio da Costa Junior													*
+* Versão: 1.0.0 																		*
+****************************************************************************************/
+-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:al="http://xmlns.jcp.org/jsf/composite/facelets/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:alcore="http://al.rr.leg.br/facelets/core"
+	xmlns:alloc="http://al.rr.leg.br/tags/localidade"
+	xmlns:alcommons="http://al.rr.leg.br/facelets/commons"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:ph="http://xmlns.jcp.org/jsf/passthrough" lang="pt-br">
+
+<ui:composition template="/dialog.xhtml">
+
+	<!--   P A R A M E T R O S   D E   C O N F I G U R A Ç Ã O   -->
+	<!--   D O   T E M P L A T E:   D I A L O G   -->
+	<ui:param name="dlgid" value="dlg-municipio" />
+	<ui:param name="widgetVar" value="dlg-municipio" />
+	<ui:param name="frmid" value="frm-municipio" />
+	<ui:param name="panelheader" value="Cadastro de Município" />
+	<ui:param name="columns" value="1" />
+
+	<ui:define name="form-dialog">
+		<p:defaultCommand target="frm-municipio:btn-salvar" />
+	</ui:define>
+
+	<!-- ####################################### -->
+	<!--   C O N T E Ú D O   D O   D I A L O G   -->
+	<!-- ####################################### -->
+	<ui:define name="dialog-content">
+
+
+		<!--   C A M P O:   N O M E   -->
+		<al:campo value="Nome" for="nome-municipio">
+			<div class="ui-inputgroup">
+				<p:inputText id="nome-municipio" title="Nome do município"
+					label="Nome" required="true"
+					value="#{municipioController.entity.nome}">
+					<f:validateLength minimum="3" maximum="250" for="nome-municipio" />
+				</p:inputText>
+				<alcore:botao-capitalizar
+					actionListener="#{municipioController.capitalizeNome()}"
+					update="nome-municipio" process="nome-municipio @this" />
+
+			</div>
+		</al:campo>
+
+
+		<!--   C A M P O:   U N I D A D E   F E D E R A T I V A   -->
+		<al:campo value="Uf" for="uf">
+			<alloc:autocomplete-uf-ativo id="uf"
+				value="#{municipioController.entity.uf}" forceSelection="true"
+				maxResults="8" minQueryLength="2" />
+		</al:campo>
+
+		<al:campo value="Cód. Ibge" for="ibgeid">
+			<p:inputText id="ibgeid" title="Cód. Ibge"
+				value="#{municipioController.entity.ibgeId}">
+				<f:validateLength maximum="8" for="ibgeid" />
+			</p:inputText>
+		</al:campo>
+
+
+		<!--   C A M P O:  S I T U A Ç Ã O  -->
+		<o:importConstants type="br.leg.rr.al.core.domain.StatusType" />
+		<al:campo value="Situação" for="situacao">
+			<al:selectSituacaoOneButton id="situacao"
+				value="#{municipioController.entity.situacao}" required="true" />
+		</al:campo>
+
+
+	</ui:define>
+
+
+	<!-- ################################### -->
+	<!--   R O D A P É   D O   D I A L O G   -->
+	<!-- ################################### -->
+
+	<!--   B O T Ã O:   F E C H A R   -->
+	<ui:define name="btn-esquerda">
+		<alcore:botao-fechar id="btnfechar"
+			oncomplete="PF('dlg-municipio').hide()" immediate="true" />
+	</ui:define>
+
+	<!--   B O T Ã O:   S A L V A R   -->
+	<ui:define name="btn-direita">
+		<alcore:botao-salvar id="btnsalvar"
+			action="#{municipioController.salvar()}" validateClient="true"
+			update="frm-municipio @(.result)" process="@form" />
+	</ui:define>
+
+</ui:composition>
+</html>

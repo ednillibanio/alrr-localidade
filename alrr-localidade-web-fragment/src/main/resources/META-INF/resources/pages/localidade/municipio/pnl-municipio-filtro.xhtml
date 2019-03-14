@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<!--
+/****************************************************************************************
+* ALE-RR Licença																		*
+* Copyright (C) 2018, ALE-RR															*
+* Boa Vista, RR - Brasil																*
+* Todos os direitos reservados.															*
+* 																						*
+* Este programa é propriedade da Assembleia Legislativa do Estado de Roraima e 			*
+* não é permitida a distribuição, alteração ou cópia da mesma sem prévia autoriazação.	*
+*																						*
+*																						*
+*****************************************************************************************
+* Autor:  Ednil Libanio da Costa Junior													*
+* Versão: 1.0.0 																		*
+****************************************************************************************/
+-->
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:al="http://xmlns.jcp.org/jsf/composite/facelets/core"
+	xmlns:alcore="http://al.rr.leg.br/facelets/core"
+	xmlns:alloc="http://al.rr.leg.br/tags/localidade"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ph="http://xmlns.jcp.org/jsf/passthrough" lang="pt-br"
+	template="/pnl-filtro-pesquisa.xhtml">
+
+	<!--   P A I N E L   D E   F I L T R O S   -->
+	<ui:define name="filtros">
+
+
+		<!-- Esse componente deve vir sempre antes dos filtros para que a validação funcione. -->
+		<alcore:validateOneOrMore components="nome ufs sit" />
+
+
+		<p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank"
+			id="pnl-filtro"
+			columnClasses="ui-grid-col-2, ui-grid-col-4,ui-grid-col-2, ui-grid-col-4">
+
+			<!--   F I L T R O:  N O M E   D O   M U N I C I P I O   -->
+			<p:outputLabel value="Nome" for="nome" />
+			<p:inputText id="nome" label="Nome"
+				value="#{municipioController.nome}" tabindex="1"
+				title="Filtra os municípios que satisfaçam o nome informado." />
+
+			<!--   F I L T R O:   S I T U A Ç Ã O   -->
+			<p:outputLabel value="Situação" for="sit" />
+			<p:selectOneMenu value="#{municipioController.situacao}" id="sit"
+				converter="omnifaces.GenericEnumConverter" tabindex="3">
+				<f:selectItem noSelectionOption="true" itemLabel="[Selecione]"
+					itemValue="" />
+				<f:selectItems value="#{localidadeEnumFactory.statusType}"
+					var="_sit" itemValue="#{_sit}" itemLabel="#{_sit.label}" />
+			</p:selectOneMenu>
+		</p:panelGrid>
+
+		<p:panelGrid columns="2" layout="grid"
+			styleClass="ui-panelgrid-blank ui-grid-responsive"
+			columnClasses="ui-grid-col-2, ui-grid-col-10">
+
+
+			<!--   F I L T R O:   U F   -->
+			<p:outputLabel value="UF(s)" for="ufs" />
+			<p:outputPanel>
+				<div class="ui-inputgroup">
+					<alloc:autocomplete-uf id="ufs" multiple="true"
+						value="#{municipioController.uFsSelecionadas}"
+						forceSelection="true" maxResults="8" minQueryLength="2" />
+					<p:commandButton id="btn-rem" icon="fa fa-times"
+						styleClass="red-button"
+						actionListener="#{municipioController.removerUfsSelecionadas()}"
+						process="@this" update="ufs" />
+
+				</div>
+			</p:outputPanel>
+
+
+		</p:panelGrid>
+
+	</ui:define>
+
+
+	<!--   B O T Ã O:   L I M P A R   -->
+	<ui:define name="btn-limpar">
+		<alcore:botao-limpar id="btnlimpar" tabindex="4"
+			action="#{municipioController.limpar()}" process="@this"
+			update="@form" />
+	</ui:define>
+
+	<!--   B O T Ã O:   P E S Q U I S A R   -->
+	<ui:define name="btn-pesquisar">
+		<alcore:botao-pesquisar id="btnpesquisar" tabindex="3"
+			action="#{municipioController.pesquisar()}"
+			update="frm-pg-municipios @(.result) @(.msgs)" />
+	</ui:define>
+
+
+</ui:composition>
