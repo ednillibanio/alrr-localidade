@@ -44,5 +44,10 @@
 			<artifactId>javax.persistence-api</artifactId>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>br.leg.rr.al.localidade</groupId>
+			<artifactId>alrr-localidade-jpa</artifactId>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
 </project>
