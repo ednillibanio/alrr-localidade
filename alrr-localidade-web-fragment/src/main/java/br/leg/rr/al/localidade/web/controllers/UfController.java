@@ -57,12 +57,11 @@ public class UfController extends DialogControllerEntityStatus<UnidadeFederativa
 	@Override
 	public void prePesquisar() {
 
-		Map<String, Object> filtros = new HashMap<String, Object>();
+		filtros = new HashMap<String, Object>();
 		filtros.put(UnidadeFederativaLocal.PESQUISAR_PARAM_NOME, nome);
 		filtros.put(UnidadeFederativaLocal.PESQUISAR_PARAM_PAISES, paisesSelecionados);
 		filtros.put(UnidadeFederativaLocal.PESQUISAR_PARAM_SITUACAO, situacao);
 
-		setFiltros(filtros);
 	}
 
 	/**

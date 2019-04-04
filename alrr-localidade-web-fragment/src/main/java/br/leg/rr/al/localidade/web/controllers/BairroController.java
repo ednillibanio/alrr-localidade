@@ -86,13 +86,13 @@ public class BairroController extends DialogControllerEntityStatus<Bairro, Integ
 	@Override
 	public void prePesquisar() {
 
-		Map<String, Object> filtros = new HashMap<String, Object>();
+		filtros = new HashMap<String, Object>();
 		filtros.put(BairroLocal.PESQUISAR_PARAM_NOME, nome);
 		filtros.put(BairroLocal.PESQUISAR_PARAM_UFS, uFsSelecionadas);
 		filtros.put(BairroLocal.PESQUISAR_PARAM_MUNICIPIO_NOME, municipio);
 		filtros.put(BairroLocal.PESQUISAR_PARAM_SITUACAO, situacao);
 
-		setFiltros(filtros);
+		
 	}
 
 	public String getNome() {

@@ -54,11 +54,10 @@ public class PaisController extends DialogControllerEntityStatus<Pais, Integer> 
 	@Override
 	public void prePesquisar() {
 
-		Map<String, Object> filtros = new HashMap<String, Object>();
+		filtros = new HashMap<String, Object>();
 		filtros.put(MunicipioLocal.PESQUISAR_PARAM_NOME, nome);
 		filtros.put(MunicipioLocal.PESQUISAR_PARAM_SITUACAO, situacao);
 
-		setFiltros(filtros);
 	}
 
 	/**
