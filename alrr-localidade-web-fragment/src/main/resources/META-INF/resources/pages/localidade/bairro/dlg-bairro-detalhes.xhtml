@@ -48,10 +48,12 @@
 		<!--  -->
 		<al:campo-detalhe label="Bairro"
 			value="#{bairroController.entity.nome}" />
+			
 		<al:campo-detalhe label="Município"
 			value="#{bairroController.entity.municipio.nome}" />
+			
 		<al:campo-detalhe label="Uf"
-			value="#{bairroController.entity.municipio.uf.label}" />
+			value="#{bairroController.entity.municipio.uf.nome}" />
 
 	</ui:define>
 </ui:composition>

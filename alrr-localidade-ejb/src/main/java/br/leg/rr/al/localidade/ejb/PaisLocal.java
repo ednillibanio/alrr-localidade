@@ -1,5 +1,7 @@
 package br.leg.rr.al.localidade.ejb;
 
+import java.util.List;
+
 import javax.ejb.Local;
 
 import br.leg.rr.al.core.dao.DominioIndexadoJPADao;
@@ -14,5 +16,7 @@ public interface PaisLocal extends DominioIndexadoJPADao<Pais> {
 	 * @return Brasil.
 	 */
 	Pais getBrasil();
+
+	List<Pais> buscarPorNacionalidadeIndexado(String texto);
 
 }

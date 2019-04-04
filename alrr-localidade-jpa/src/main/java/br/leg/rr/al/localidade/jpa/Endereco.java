@@ -2,12 +2,11 @@ package br.leg.rr.al.localidade.jpa;
 
 import javax.persistence.Column;
 import javax.persistence.Convert;
-import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
@@ -22,8 +21,7 @@ import br.leg.rr.al.localidade.domain.EnderecoTypeConverter;
  *         Junior</a>
  * @since 1.0.0
  */
-@Entity
-@Table
+@MappedSuperclass
 public class Endereco extends BaseEntityStatus<Integer> {
 
 	/**
@@ -37,7 +35,7 @@ public class Endereco extends BaseEntityStatus<Integer> {
 	@Column(nullable = true, length = 8)
 	private String cep;
 
-	@NotNull(message = "Preenchimento obrigatório do logradouro.")
+	@NotNull(message = "Logradouro: preenchimento obrigatório")
 	@Column(nullable = false, length = 250)
 	private String logradouro;
 

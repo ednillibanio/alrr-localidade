@@ -26,11 +26,10 @@
 <p:autoComplete id="#{id}" label="Município" value="#{value}"
 	required="#{required}" emptyMessage="Nenhum município encontrado"
 	completeMethod="#{municipioAutoCompleteController.completarAtivoPorNomeIndexado}"
-	var="municipio"
-	itemLabel="#{municipio.nome.concat(' - ').concat(municipio.uf.sigla)}"
-	itemValue="#{municipio}" converter="#{entityConverter}"
-	forceSelection="#{forceSelection}" minQueryLength="#{minQueryLength}"
-	maxResults="#{maxResults}" disabled="#{disabled}">
+	var="municipio" itemLabel="#{municipio.nome}" itemValue="#{municipio}"
+	converter="#{entityConverter}" forceSelection="#{forceSelection}"
+	minQueryLength="#{minQueryLength}" maxResults="#{maxResults}"
+	disabled="#{disabled}">
 	<p:column>
 		#{municipio.nome}, #{municipio.uf.sigla}, #{municipio.uf.pais.nome}
 	</p:column>

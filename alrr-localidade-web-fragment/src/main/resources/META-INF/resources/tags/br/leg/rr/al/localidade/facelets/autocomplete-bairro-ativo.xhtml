@@ -15,6 +15,7 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:o="http://omnifaces.org/ui">
 <!--
 *****************************************************************************************
@@ -22,6 +23,10 @@
 * @since:	1.0.0 																		*
 ****************************************************************************************/
 -->
+
+<!-- <c:if test="${ empty rendered }">
+	<c:set var="rendered" value="true" />
+</c:if> -->
 
 <p:autoComplete id="#{id}" label="Município" value="#{value}"
 	required="#{required}" emptyMessage="Nenhum município encontrado"
@@ -31,7 +36,7 @@
 	minQueryLength="#{minQueryLength}" maxResults="#{maxResults}"
 	disabled="#{disabled}">
 	<p:column>
-		#{bairro.nome}, #{bairro.municipio.nome}, #{bairro.municipio.uf.nome}
+		#{bairro.nome}, #{bairro.municipio.nome}, #{bairro.municipio.uf.nome} - #{bairro.municipio.pais.nome} 
 	</p:column>
 	<ui:insert />
 </p:autoComplete>

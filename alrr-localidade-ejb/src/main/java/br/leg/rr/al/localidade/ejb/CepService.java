@@ -68,6 +68,7 @@ public class CepService extends BaseJPADao<Cep, Integer> implements CepLocal {
 	@EJB
 	private PaisLocal paisBean;
 
+	//TODO: ver oq vai fazer com isso daqui. se não é lixo. Nem esta na interface Local dele.
 	public void completeEnderecoByCep() {
 
 		// 1 - buscar cep via WS

@@ -4,7 +4,12 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import org.hibernate.search.annotations.Analyze;
+import org.hibernate.search.annotations.Analyzer;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.Store;
 
 import br.leg.rr.al.core.jpa.DominioIndexado;
 
@@ -41,6 +46,8 @@ public class Pais extends DominioIndexado {
 	@Column(name = "codigo_discagem", length = 4, nullable = true)
 	private String codigoDiscagem;
 
+	@Analyzer(definition = NOME_ANALYZER)
+	@Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
 	@Column(length = 70, nullable = true)
 	private String nacionalidade;
 
