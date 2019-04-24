@@ -6,16 +6,13 @@
 	xmlns:al="http://xmlns.jcp.org/jsf/composite/facelets/core"
 	xmlns:o="http://omnifaces.org/ui"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-	xmlns:ph="http://xmlns.jcp.org/jsf/passthrough" lang="pt-br">
+	xmlns:ph="http://xmlns.jcp.org/jsf/passthrough">
 
-	<p:submenu label="Localidade" expanded="true" styleClass="submenu">
-		<p:menuitem value="Países" outcome="pg-paises" icon="fa fa-map-marker" />
-		<p:menuitem value="Unidades Federativa" outcome="pg-ufs"
-			icon="fa fa-map-marker" />
-		<p:menuitem value="Municípios" outcome="pg-municipios"
-			icon="fa fa-map-marker" />
-		<p:menuitem value="Bairros" icon="fa fa-map-marker"
-			outcome="pg-bairros" />
-		<p:menuitem value="Ceps" outcome="pg-ceps" icon="fa fa-map-marker" />
+	<p:submenu id="al_loc" label="Localidade">
+		<p:menuitem id="al_paises" value="Países" outcome="pg-paises" />
+		<p:menuitem id="al_uf" value="Unidades Federativa" outcome="pg-ufs" />
+		<p:menuitem id="al_mun" value="Municípios" outcome="pg-municipios" />
+		<p:menuitem id="al_bairros" value="Bairros" outcome="pg-bairros" />
+		<p:menuitem id="al_ceps" value="Ceps" outcome="pg-ceps" />
 	</p:submenu>
 </ui:composition>

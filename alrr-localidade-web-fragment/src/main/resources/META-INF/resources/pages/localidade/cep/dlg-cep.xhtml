@@ -119,15 +119,15 @@
 
 	<!--   B O T Ã O:   F E C H A R   -->
 	<ui:define name="btn-esquerda">
-		<alcore:botao-fechar id="btnfechar" oncomplete="PF('dlg-cep').hide();"
-			immediate="true" process="@this" />
+		<alcore:botao-fechar id="btn-fechar"
+			oncomplete="PF('dlg-cep').hide();" immediate="true" process="@this" />
 	</ui:define>
 
 	<!--   B O T Ã O:   S A L V A R   -->
 	<ui:define name="btn-direita">
-		<alcore:botao-salvar id="btnsalvar" action="#{cepController.salvar()}"
-			validateClient="true" update="frm-cep frm-cep:msgs-dialog @(.result)"
-			process="@form" />
+		<alcore:botao-salvar id="btn-salvar"
+			action="#{cepController.salvar()}" validateClient="true"
+			update="frm-cep frm-cep:msgs-dialog @(.result)" process="@form" />
 	</ui:define>
 
 </ui:composition>

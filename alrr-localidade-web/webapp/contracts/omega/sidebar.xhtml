@@ -18,7 +18,7 @@
 						<a id="profile-button" href="#"> <span class="username">Ednil
 								Libanio</span> <i class="fa fa-fw fa-cog"></i>
 						</a>
-						<po:menu>
+						<!-- <po:menu>
 
 							<p:menuitem id="conta" value="Minha Conta"
 								icon="fa fa-fw fa-sliders"
@@ -29,43 +29,24 @@
 								action="#{logoutController.logout()}" />
 							<p:menuitem id="sair" value="Sair" icon="fa fa-fw fa-sign-out"
 								action="#{logoutController.logout()}" />
-						</po:menu>
+						</po:menu> -->
 					</div>
 
 					<div class="menu">
 						<po:menu>
-							<p:menuitem id="om_dashboard" value="Página Inicial"
-								icon="fa fa-home" outcome="pagina-inicial" />
+							<p:menuitem id="al_home" value="Página Inicial" icon="fa fa-home"
+								outcome="pagina-inicial" />
+
 							<ui:include src="/pages/localidade/menu.xhtml" />
-							<p:submenu label="Configurações" expanded="true"
+
+							<p:submenu id="al_config" label="Configurações"
 								styleClass="submenu">
-								<p:menuitem value="Indexar Base" icon="fa fa-map-marker"
-									outcome="pg-indexar" />
+								<p:menuitem id="al_idx" value="Indexar Base"
+									icon="fa fa-map-marker" outcome="pg-indexar" />
 							</p:submenu>
-							<p:menuitem id="om_doc" value="Manual do Sistema"
+
+							<p:menuitem id="al_manual" value="Manual do Sistema"
 								icon="fa fa-book" />
-							<!-- <p:menuitem id="om_dashboard" value="Página Inicial"
-								icon="fa fa-home" outcome="pagina-inicial" />
-							<p:submenu label="Localidade" expanded="true"
-								styleClass="submenu">
-								<p:menuitem value="Países" outcome="pg-paises"
-									icon="fa fa-map-marker" />
-								<p:menuitem value="Unidades Federativa" outcome="pg-ufs"
-									icon="fa fa-map-marker" />
-								<p:menuitem value="Municípios" outcome="pg-municipios"
-									icon="fa fa-map-marker" />
-								<p:menuitem value="Bairros" icon="fa fa-map-marker"
-									outcome="pg-bairros" />
-								<p:menuitem value="Ceps" outcome="pg-ceps"
-									icon="fa fa-map-marker" />
-							</p:submenu>
-							<p:submenu label="Configurações" expanded="true"
-								styleClass="submenu">
-								<p:menuitem value="Indexar Base" icon="fa fa-map-marker"
-									outcome="pg-indexar" />
-							</p:submenu>
-							<p:menuitem id="om_doc" value="Manual do Sistema"
-								icon="fa fa-book" /> -->
 						</po:menu>
 					</div>
 				</div>

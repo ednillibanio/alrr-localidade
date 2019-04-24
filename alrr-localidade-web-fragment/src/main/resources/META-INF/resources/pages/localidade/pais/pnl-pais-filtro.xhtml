@@ -49,7 +49,7 @@
 			<!--   F I L T R O:   S I T U A Ç Ã O   -->
 			<p:outputLabel value="Situação" for="sit" />
 			<p:selectOneMenu value="#{paisController.situacao}" id="sit"
-				converter="omnifaces.GenericEnumConverter" tabindex="3">
+				tabindex="3">
 				<f:selectItem noSelectionOption="true" itemLabel="[Selecione]"
 					itemValue="" />
 				<f:selectItems value="#{localidadeEnumFactory.statusType}"
@@ -62,7 +62,7 @@
 
 	<!--   B O T Ã O:   L I M P A R   -->
 	<ui:define name="btn-limpar">
-		<alcore:botao-limpar id="btnlimpar" tabindex="4"
+		<alcore:botao-limpar id="btn-limpar" tabindex="4"
 			action="#{paisController.limpar()}" process="@this" update="@form" />
 	</ui:define>
 

@@ -13,6 +13,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.lang.reflect.Type;
 import java.net.ConnectException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -23,6 +24,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Named;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -64,18 +66,24 @@ public class IbgeMunicipioWS implements IbgeMunicipioLocal, Serializable {
 				url = new URL(URL_IBGE_MUNICIPIOS);
 			}
 
-			Charset charset = Charset.forName("UTF8");
+			Charset charset = Charset.forName("UTF-8");
 			URLConnection urlConnection = url.openConnection();
 
 			InputStreamReader isr = new InputStreamReader(urlConnection.getInputStream(), charset);
-			br = new BufferedReader(isr);
 
-			StringBuilder jsonSb = new StringBuilder();
-			br.lines().forEach(l -> jsonSb.append(l.trim()));
+			String jString = IOUtils.toString(isr);
+
+			// br = new BufferedReader(isr);
+			// StringBuilder jsonSb = new StringBuilder();
+			// br.lines().forEach(l -> jsonSb.append(l.trim()));
 			Gson gson = new Gson();
 
-			List<IbgeMunicipio> municipios = gson.fromJson(jsonSb.toString(), new TypeToken<List<IbgeMunicipio>>() {
-			}.getType());
+			// List<IbgeMunicipio> municipios = gson.fromJson(jsonSb.toString(), new
+			// TypeToken<List<IbgeMunicipio>>() {
+			// }.getType());
+			Type type = new TypeToken<List<IbgeMunicipio>>() {
+			}.getType();
+			List<IbgeMunicipio> municipios = gson.fromJson(jString, type);
 
 			return municipios;
 

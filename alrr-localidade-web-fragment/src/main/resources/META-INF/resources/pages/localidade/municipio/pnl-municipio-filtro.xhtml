@@ -34,7 +34,7 @@
 
 
 		<!-- Esse componente deve vir sempre antes dos filtros para que a validação funcione. -->
-		<alcore:validateOneOrMore components="nome ufs sit" />
+		<alcore:validateOneOrMore components="nome ufs sit:sit" />
 
 
 		<p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank"
@@ -49,13 +49,9 @@
 
 			<!--   F I L T R O:   S I T U A Ç Ã O   -->
 			<p:outputLabel value="Situação" for="sit" />
-			<p:selectOneMenu value="#{municipioController.situacao}" id="sit"
-				converter="omnifaces.GenericEnumConverter" tabindex="3">
-				<f:selectItem noSelectionOption="true" itemLabel="[Selecione]"
-					itemValue="" />
-				<f:selectItems value="#{localidadeEnumFactory.statusType}"
-					var="_sit" itemValue="#{_sit}" itemLabel="#{_sit.label}" />
-			</p:selectOneMenu>
+			<al:selectSituacaoOneMenu value="#{municipioController.situacao}"
+				id="sit" tabindex="3" />
+
 		</p:panelGrid>
 
 		<p:panelGrid columns="2" layout="grid"

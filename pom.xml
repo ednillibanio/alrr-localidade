@@ -11,7 +11,7 @@
 	</properties>
 	<parent>
 		<groupId>br.leg.rr.al</groupId>
-		<artifactId>alrr-bibliotecas</artifactId>
+		<artifactId>alrr-parent</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<organization>

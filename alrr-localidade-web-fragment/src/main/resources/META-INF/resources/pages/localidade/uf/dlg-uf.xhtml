@@ -49,7 +49,7 @@
 	<!-- ####################################### -->
 	<ui:define name="dialog-content">
 
-		<o:importConstants type="br.leg.rr.al.core.domain.StatusType" />
+
 		<!--   C A M P O:   N O M E   -->
 		<al:campo value="Nome" for="nome">
 			<div class="ui-inputgroup">
@@ -103,13 +103,6 @@
 		<al:campo value="Situação" for="situacao">
 			<al:selectSituacaoOneButton id="situacao"
 				value="#{ufController.entity.situacao}" required="true" />
-			<!-- <p:selectOneButton id="situacao"
-				value="#{ufController.entity.situacao}" required="true">
-				<f:selectItem itemValue="#{StatusType.ATIVO}"
-					itemLabel="#{StatusType.ATIVO.label}" />
-				<f:selectItem itemLabel="#{StatusType.INATIVO.label}"
-					itemValue="#{StatusType.INATIVO}" />
-			</p:selectOneButton> -->
 		</al:campo>
 
 	</ui:define>
@@ -121,13 +114,13 @@
 
 	<!--   B O T Ã O:   F E C H A R   -->
 	<ui:define name="btn-esquerda">
-		<alcore:botao-fechar id="btnfechar" oncomplete="PF('dlg-uf').hide()"
+		<alcore:botao-fechar id="btn-fechar" oncomplete="PF('dlg-uf').hide()"
 			immediate="true" />
 	</ui:define>
 
 	<!--   B O T Ã O:   S A L V A R   -->
 	<ui:define name="btn-direita">
-		<alcore:botao-salvar id="btnsalvar" action="#{ufController.salvar()}"
+		<alcore:botao-salvar id="btn-salvar" action="#{ufController.salvar()}"
 			validateClient="true" update="frm-uf @(.result)" process="@form" />
 	</ui:define>
 
